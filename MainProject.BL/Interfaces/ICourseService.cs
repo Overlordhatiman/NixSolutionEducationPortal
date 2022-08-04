@@ -1,12 +1,15 @@
-﻿using MainProject.BL.DTO;
-
-namespace MainProject.BL.Interfaces
+﻿namespace MainProject.BL.Interfaces
 {
+    using MainProject.BL.DTO;
+
     public interface ICourseService
     {
         public CourseDTO AddCourse(CourseDTO course);
+
         public CourseDTO UpdateCourse(int id, CourseDTO course);
+
         public List<CourseDTO> GetAllCourse();
-        public bool DeleteCourse(CourseDTO course);
+
+        public bool DeleteCourse(int id);
     }
 }

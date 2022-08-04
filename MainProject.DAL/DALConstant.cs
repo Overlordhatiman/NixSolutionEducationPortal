@@ -14,6 +14,7 @@ namespace MainProject.DAL
         public const string SkillFilePath = "Files/skill.json";
         public const string UserFilePath = "Files/user.json";
         public const string VideoFilePath = "Files/video.json";
+        public const string MaterialsFilePath = "Files/materials.json";
 
     }
 }

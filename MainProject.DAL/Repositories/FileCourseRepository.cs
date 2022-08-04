@@ -1,17 +1,13 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileCourseRepository : ICourseRepository
     {
-        private List<Course> _courses;
+        private List<Course>? _courses;
+
         public FileCourseRepository()
         {
             string str = File.ReadAllText(DALConstant.CourseFilePath);
@@ -21,14 +17,14 @@ namespace MainProject.DAL.Repositories
 
         public Course AddCourse(Course course)
         {
-            _courses.Add(course);
+            _courses?.Add(course);
 
             return course;
         }
 
-        public bool DeleteCourse(Course course)
+        public bool DeleteCourse(int id)
         {
-            return _courses.Remove(course);
+            return _courses.Remove(_courses.Find(x=>x.Id==id));
         }
 
         public List<Course> GetAllCourse()

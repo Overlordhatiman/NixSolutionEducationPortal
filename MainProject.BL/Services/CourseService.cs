@@ -1,30 +1,30 @@
-﻿using MainProject.BL.DTO;
-using MainProject.BL.Extentions;
-using MainProject.BL.Interfaces;
-using MainProject.DAL.Interfaces;
-
-namespace MainProject.BL.Services
+﻿namespace MainProject.BL.Services
 {
+    using MainProject.BL.DTO;
+    using MainProject.BL.Extentions;
+    using MainProject.BL.Interfaces;
+    using MainProject.DAL.Interfaces;
+
     public class CourseService : ICourseService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         public CourseService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public CourseDTO AddCourse(CourseDTO course)
         {
-            _unitOfWork.CourseRepository.AddCourse(course.ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.CourseRepository.AddCourse(course.ToModel());
+            this.unitOfWork.Save();
 
             return course;
         }
 
-        public bool DeleteCourse(CourseDTO course)
+        public bool DeleteCourse(int id)
         {
-            bool result = _unitOfWork.CourseRepository.DeleteCourse(course.ToModel());
-            _unitOfWork.Save();
+            bool result = this.unitOfWork.CourseRepository.DeleteCourse(id);
+            this.unitOfWork.Save();
 
             return result;
         }
@@ -32,9 +32,9 @@ namespace MainProject.BL.Services
         public List<CourseDTO> GetAllCourse()
         {
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var item in _unitOfWork.CourseRepository.GetAllCourse())
+            foreach (var item in this.unitOfWork.CourseRepository.GetAllCourse())
             {
-                courses.Add((item).ToDTO());
+                courses.Add(item.ToDTO());
             }
 
             return courses;
@@ -42,8 +42,8 @@ namespace MainProject.BL.Services
 
         public CourseDTO UpdateCourse(int id, CourseDTO course)
         {
-            _unitOfWork.CourseRepository.UpdateCourse(id, (course).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.CourseRepository.UpdateCourse(id, course.ToModel());
+            this.unitOfWork.Save();
 
             return course;
         }

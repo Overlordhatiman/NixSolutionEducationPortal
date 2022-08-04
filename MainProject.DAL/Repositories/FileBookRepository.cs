@@ -1,17 +1,12 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileBookRepository : IBookRepository
     {
-        private List<BookMaterial> _books;
+        private List<BookMaterial>? _books;
 
         public FileBookRepository()
         {
@@ -22,14 +17,14 @@ namespace MainProject.DAL.Repositories
 
         public BookMaterial AddBook(BookMaterial bookMaterial)
         {
-            _books.Add(bookMaterial);
+            _books?.Add(bookMaterial);
 
             return bookMaterial;
         }
 
-        public bool DeleteBook(BookMaterial bookMaterial)
+        public bool DeleteBook(int id)
         {
-            return _books.Remove(bookMaterial);
+            return _books.Remove(_books.Find(x=>x.Id==id));
         }
 
         public List<BookMaterial> GetAllBook()

@@ -1,10 +1,28 @@
-﻿using MainProject.BL.DTO;
-using MainProject.src.Models;
-
-namespace MainProject.BL.Extentions
+﻿namespace MainProject.BL.Extentions
 {
+    using MainProject.BL.DTO;
+    using MainProject.src.Models;
+
     public static class MappingExtensions
     {
+        public static MaterialsDTO ToDTO(this Materials material)
+        {
+            return new MaterialsDTO
+            {
+                Id = material.Id,
+                Name = material.Name,
+            };
+        }
+
+        public static Materials ToModel(this MaterialsDTO material)
+        {
+            return new Materials
+            {
+                Id = material.Id,
+                Name = material.Name,
+            };
+        }
+
         public static ArticleDTO ToDTO(this ArticleMaterial articleMaterial)
         {
             return new ArticleDTO
@@ -12,7 +30,7 @@ namespace MainProject.BL.Extentions
                 Id = articleMaterial.Id,
                 Date = articleMaterial.Date,
                 Name = articleMaterial.Name,
-                Resource = articleMaterial.Resource
+                Resource = articleMaterial.Resource,
             };
         }
 
@@ -23,7 +41,7 @@ namespace MainProject.BL.Extentions
                 Id = article.Id,
                 Date = article.Date,
                 Name = article.Name,
-                Resource = article.Resource
+                Resource = article.Resource,
             };
         }
 
@@ -34,7 +52,7 @@ namespace MainProject.BL.Extentions
                 Id = videoMaterial.Id,
                 Name = videoMaterial.Name,
                 Quality = videoMaterial.Quality,
-                Time = videoMaterial.Time
+                Time = videoMaterial.Time,
             };
         }
 
@@ -45,7 +63,7 @@ namespace MainProject.BL.Extentions
                 Id = video.Id,
                 Name = video.Name,
                 Quality = video.Quality,
-                Time = video.Time
+                Time = video.Time,
             };
         }
 
@@ -58,7 +76,7 @@ namespace MainProject.BL.Extentions
                 Author = bookMaterial.Author,
                 Date = bookMaterial.Date,
                 Format = bookMaterial.Format,
-                NumberOfPages = bookMaterial.NumberOfPages
+                NumberOfPages = bookMaterial.NumberOfPages,
             };
         }
 
@@ -71,16 +89,16 @@ namespace MainProject.BL.Extentions
                 Author = book.Author,
                 Date = book.Date,
                 Format = book.Format,
-                NumberOfPages = book.NumberOfPages
+                NumberOfPages = book.NumberOfPages,
             };
         }
 
         public static SkillDTO ToDTO(this Skill skill)
         {
-            return new SkillDTO 
+            return new SkillDTO
             {
-                Id = skill.Id, 
-                Name = skill.Name 
+                Id = skill.Id,
+                Name = skill.Name,
             };
         }
 
@@ -89,7 +107,7 @@ namespace MainProject.BL.Extentions
             return new Skill
             {
                 Id = skill.Id,
-                Name = skill.Name
+                Name = skill.Name,
             };
         }
 
@@ -99,7 +117,7 @@ namespace MainProject.BL.Extentions
             {
                 Id = user.Id,
                 Mail = user.Mail,
-                Password = user.Password
+                Password = user.Password,
             };
         }
 
@@ -109,7 +127,7 @@ namespace MainProject.BL.Extentions
             {
                 Id = user.Id,
                 Mail = user.Mail,
-                Password = user.Password
+                Password = user.Password,
             };
         }
 
@@ -140,6 +158,11 @@ namespace MainProject.BL.Extentions
                 {
                     materials.Add(ToDTO((BookMaterial)item));
                 }
+
+                if (item is Materials)
+                {
+                    materials.Add(item.ToDTO());
+                }
             }
 
             return new CourseDTO
@@ -148,7 +171,7 @@ namespace MainProject.BL.Extentions
                 Description = course.Description,
                 Name = course.Name,
                 Skills = skills,
-                Materials = materials
+                Materials = materials,
             };
         }
 
@@ -179,6 +202,11 @@ namespace MainProject.BL.Extentions
                 {
                     materials.Add(ToModel((BookDTO)item));
                 }
+
+                if (item is MaterialsDTO)
+                {
+                    materials.Add(item.ToModel());
+                }
             }
 
             return new Course
@@ -187,7 +215,7 @@ namespace MainProject.BL.Extentions
                 Description = course.Description,
                 Name = course.Name,
                 Skills = skills,
-                Materials = materials
+                Materials = materials,
             };
         }
     }

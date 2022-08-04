@@ -1,36 +1,37 @@
-﻿using MainProject.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+
     public class FileUnitOfWork : IUnitOfWork
     {
-        private FileArticleRepository articleRepository;
+        private FileArticleRepository? articleRepository;
+
         public IArticleRepository ArticleRepository => articleRepository ??= new FileArticleRepository();
 
-        private FileBookRepository bookRepository;
+        private FileBookRepository? bookRepository;
 
         public IBookRepository BookRepository => bookRepository ??= new FileBookRepository();
 
-        private FileVideoRepository videoRepository;
+        private FileVideoRepository? videoRepository;
 
         public IVideoRepository VideoRepository => videoRepository ??= new FileVideoRepository();
 
-        private FileCourseRepository courseRepository;
+        private FileCourseRepository? courseRepository;
 
         public ICourseRepository CourseRepository => courseRepository ??= new FileCourseRepository();
 
-        private FileSkillRepository skillRepository;
+        private FileSkillRepository? skillRepository;
 
         public ISkillRepository SkillRepository => skillRepository ??= new FileSkillRepository();
 
-        private FileUserRepository userRepository;
+        private FileUserRepository? userRepository;
 
         public IUserRepository UserRepository => userRepository ??= new FileUserRepository();
+
+
+        private FileMaterialsRepository? materialsRepository;
+
+        public IMaterialsRepository MaterialsRepository => materialsRepository ??= new FileMaterialsRepository();
 
         public void Save()
         {
@@ -40,6 +41,7 @@ namespace MainProject.DAL.Repositories
             courseRepository?.Save();
             skillRepository?.Save();
             userRepository?.Save();
+            materialsRepository?.Save();
         }
     }
 }

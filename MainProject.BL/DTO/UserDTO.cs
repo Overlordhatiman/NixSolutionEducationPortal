@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.BL.DTO
+﻿namespace MainProject.BL.DTO
 {
     public class UserDTO
     {
-
         public int Id { get; set; }
-        public string Mail { get; set; }
-        public string Password { get; set; }
 
-        public UserDTO()
-        {
+        public string? Mail { get; set; }
 
-        }
+        public string? Password { get; set; }
     }
 }

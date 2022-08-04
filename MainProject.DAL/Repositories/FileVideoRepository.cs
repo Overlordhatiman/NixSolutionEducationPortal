@@ -1,12 +1,12 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileVideoRepository : IVideoRepository
     {
-        private List<VideoMaterial> _videos;
+        private List<VideoMaterial>? _videos;
 
         public FileVideoRepository()
         {
@@ -17,14 +17,14 @@ namespace MainProject.DAL.Repositories
 
         public VideoMaterial AddVideo(VideoMaterial videokMaterial)
         {
-            _videos.Add(videokMaterial);
+            _videos?.Add(videokMaterial);
 
             return videokMaterial;
         }
 
-        public bool DeleteVideo(VideoMaterial videokMaterial)
+        public bool DeleteVideo(int id)
         {
-            return _videos.Remove(videokMaterial);
+            return _videos.Remove(_videos.Find(x => x.Id==id));
         }
 
         public List<VideoMaterial> GetAllVideo()

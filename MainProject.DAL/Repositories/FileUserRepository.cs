@@ -1,17 +1,12 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileUserRepository : IUserRepository
     {
-        private List<User> _users;
+        private List<User>? _users;
 
         public FileUserRepository()
         {
@@ -19,6 +14,7 @@ namespace MainProject.DAL.Repositories
 
             _users = JsonConvert.DeserializeObject<List<User>>(str);
         }
+
         public User AddUser(User user)
         {
             _users.Add(user);
@@ -26,9 +22,9 @@ namespace MainProject.DAL.Repositories
             return user;
         }
 
-        public bool DeleteUser(User user)
+        public bool DeleteUser(int id)
         {
-            return _users.Remove(user);
+            return _users.Remove(_users.Find(x => x.Id==id));
         }
 
         public List<User> GetAllUser()
@@ -49,6 +45,7 @@ namespace MainProject.DAL.Repositories
 
             return user;
         }
+
         public void Save()
         {
             var str = JsonConvert.SerializeObject(_users, Formatting.Indented);

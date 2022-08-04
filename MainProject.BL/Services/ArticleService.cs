@@ -1,30 +1,31 @@
-﻿using MainProject.BL.DTO;
-using MainProject.BL.Interfaces;
-using MainProject.DAL.Interfaces;
-using MainProject.BL.Extentions;
-
-namespace MainProject.BL.Services
+﻿namespace MainProject.BL.Services
 {
+    using MainProject.BL.DTO;
+    using MainProject.BL.Extentions;
+    using MainProject.BL.Interfaces;
+    using MainProject.DAL.Interfaces;
+
     public class ArticleService : IArticleService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
+
         public ArticleService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public ArticleDTO AddArticle(ArticleDTO articleMaterial)
         {
-            _unitOfWork.ArticleRepository.AddArticle((articleMaterial).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.ArticleRepository.AddArticle(articleMaterial.ToModel());
+            this.unitOfWork.Save();
 
             return articleMaterial;
         }
 
-        public bool DeleteArticle(ArticleDTO articleMaterial)
+        public bool DeleteArticle(int id)
         {
-            bool result = _unitOfWork.ArticleRepository.DeleteArticle((articleMaterial).ToModel());
-            _unitOfWork.Save();
+            bool result = this.unitOfWork.ArticleRepository.DeleteArticle(id);
+            this.unitOfWork.Save();
 
             return result;
         }
@@ -32,7 +33,7 @@ namespace MainProject.BL.Services
         public List<ArticleDTO> GetAllArticle()
         {
             List<ArticleDTO> articles = new List<ArticleDTO>();
-            foreach (var item in _unitOfWork.ArticleRepository.GetAllArticle())
+            foreach (var item in this.unitOfWork.ArticleRepository.GetAllArticle())
             {
                 articles.Add(item.ToDTO());
             }
@@ -42,8 +43,8 @@ namespace MainProject.BL.Services
 
         public ArticleDTO UpdateArticle(int id, ArticleDTO articleMaterial)
         {
-            _unitOfWork.ArticleRepository.UpdateArticle(id, (articleMaterial).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.ArticleRepository.UpdateArticle(id, articleMaterial.ToModel());
+            this.unitOfWork.Save();
 
             return articleMaterial;
         }

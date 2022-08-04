@@ -1,35 +1,31 @@
-﻿using MainProject.BL.DTO;
-using MainProject.BL.Extentions;
-using MainProject.BL.Interfaces;
-using MainProject.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.BL.Services
+﻿namespace MainProject.BL.Services
 {
+    using MainProject.BL.DTO;
+    using MainProject.BL.Extentions;
+    using MainProject.BL.Interfaces;
+    using MainProject.DAL.Interfaces;
+
     public class SkillService : ISkillService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
+
         public SkillService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public SkillDTO AddSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.AddSkill(skill.ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.SkillRepository.AddSkill(skill.ToModel());
+            this.unitOfWork.Save();
 
             return skill;
         }
 
-        public bool DeleteSkill(SkillDTO skill)
+        public bool DeleteSkill(int id)
         {
-            bool result = _unitOfWork.SkillRepository.DeleteSkill((skill).ToModel());
-            _unitOfWork.Save();
+            bool result = this.unitOfWork.SkillRepository.DeleteSkill(id);
+            this.unitOfWork.Save();
 
             return result;
         }
@@ -37,9 +33,9 @@ namespace MainProject.BL.Services
         public List<SkillDTO> GetAllSkill()
         {
             List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var item in _unitOfWork.SkillRepository.GetAllSkill())
+            foreach (var item in this.unitOfWork.SkillRepository.GetAllSkill())
             {
-                skills.Add((item).ToDTO());
+                skills.Add(item.ToDTO());
             }
 
             return skills;
@@ -47,8 +43,8 @@ namespace MainProject.BL.Services
 
         public SkillDTO UpdateSkill(int id, SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.UpdateSkill(id, (skill).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.SkillRepository.UpdateSkill(id, skill.ToModel());
+            this.unitOfWork.Save();
 
             return skill;
         }

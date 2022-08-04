@@ -1,17 +1,12 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileSkillRepository : ISkillRepository
     {
-        private List<Skill> _skills;
+        private List<Skill>? _skills;
 
         public FileSkillRepository()
         {
@@ -19,16 +14,17 @@ namespace MainProject.DAL.Repositories
 
             _skills = JsonConvert.DeserializeObject<List<Skill>>(str);
         }
+
         public Skill AddSkill(Skill skill)
         {
-            _skills.Add(skill);
+            _skills?.Add(skill);
 
             return skill;
         }
 
-        public bool DeleteSkill(Skill skill)
+        public bool DeleteSkill(int id)
         {
-            return _skills.Remove(skill);
+            return _skills.Remove(_skills.Find(x=>x.Id==id));
         }
 
         public List<Skill> GetAllSkill()

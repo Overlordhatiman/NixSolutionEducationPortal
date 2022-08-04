@@ -1,36 +1,31 @@
-﻿using MainProject.BL.DTO;
-using MainProject.BL.Extentions;
-using MainProject.BL.Interfaces;
-using MainProject.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.BL.Services
+﻿namespace MainProject.BL.Services
 {
+    using MainProject.BL.DTO;
+    using MainProject.BL.Extentions;
+    using MainProject.BL.Interfaces;
+    using MainProject.DAL.Interfaces;
+
     public class VideoService : IVideoService
     {
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         public VideoService(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public VideoDTO AddVideo(VideoDTO videoMaterial)
         {
-            _unitOfWork.VideoRepository.AddVideo((videoMaterial).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
+            this.unitOfWork.Save();
 
             return videoMaterial;
         }
 
-        public bool DeleteVideo(VideoDTO videoMaterial)
+        public bool DeleteVideo(int id)
         {
-            bool result = _unitOfWork.VideoRepository.DeleteVideo((videoMaterial).ToModel());
-            _unitOfWork.Save();
+            bool result = this.unitOfWork.VideoRepository.DeleteVideo(id);
+            this.unitOfWork.Save();
 
             return result;
         }
@@ -38,9 +33,9 @@ namespace MainProject.BL.Services
         public List<VideoDTO> GetAllVideo()
         {
             List<VideoDTO> videos = new List<VideoDTO>();
-            foreach (var item in _unitOfWork.VideoRepository.GetAllVideo())
+            foreach (var item in this.unitOfWork.VideoRepository.GetAllVideo())
             {
-                videos.Add((item).ToDTO());
+                videos.Add(item.ToDTO());
             }
 
             return videos;
@@ -48,8 +43,8 @@ namespace MainProject.BL.Services
 
         public VideoDTO UpdateVideo(int id, VideoDTO videokMaterial)
         {
-            _unitOfWork.VideoRepository.UpdateVideo(id, (videokMaterial).ToModel());
-            _unitOfWork.Save();
+            this.unitOfWork.VideoRepository.UpdateVideo(id, videokMaterial.ToModel());
+            this.unitOfWork.Save();
 
             return videokMaterial;
         }

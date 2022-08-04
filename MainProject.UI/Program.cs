@@ -1,15 +1,9 @@
-﻿using MainProject.BL.DTO;
-using MainProject.BL.Extentions;
-using MainProject.BL.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.UI
+﻿namespace MainProject.UI
 {
+    using MainProject.BL.Extentions;
+    using MainProject.UI.Managed;
+    using Microsoft.Extensions.DependencyInjection;
+
     public static class Program
     {
         static void Main(string[] args)
@@ -19,12 +13,12 @@ namespace MainProject.UI
 
             var services = temp.BuildServiceProvider();
 
-            services.GetRequiredService<IUserService>().AddUser(new UserDTO
+            MainMenu mainMenu = new MainMenu(services);
+
+            if (mainMenu.IsValidUser())
             {
-                Id = 0,
-                Mail = "mail",
-                Password = "pass"
-            });
+                mainMenu.ShowMainMenu();
+            }
         }
     }
 }

@@ -1,12 +1,15 @@
-﻿using MainProject.BL.DTO;
-
-namespace MainProject.BL.Interfaces
+﻿namespace MainProject.BL.Interfaces
 {
+    using MainProject.BL.DTO;
+
     public interface IVideoService
     {
         public VideoDTO AddVideo(VideoDTO videoMaterial);
+
         public VideoDTO UpdateVideo(int id, VideoDTO videoMaterial);
+
         public List<VideoDTO> GetAllVideo();
-        public bool DeleteVideo(VideoDTO videoMaterial);
+
+        public bool DeleteVideo(int id);
     }
 }

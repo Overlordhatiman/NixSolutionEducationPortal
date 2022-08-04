@@ -1,17 +1,13 @@
-﻿using MainProject.DAL.Interfaces;
-using MainProject.src.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories
 {
+    using MainProject.DAL.Interfaces;
+    using MainProject.src.Models;
+    using Newtonsoft.Json;
+
     public class FileArticleRepository : IArticleRepository
     {
-        private List<ArticleMaterial> _articles;
+        private List<ArticleMaterial>? _articles;
+
         public FileArticleRepository()
         {
             string str = File.ReadAllText(DALConstant.ArticleFilePath);
@@ -21,14 +17,14 @@ namespace MainProject.DAL.Repositories
 
         public ArticleMaterial AddArticle(ArticleMaterial articleMaterial)
         {
-            _articles.Add(articleMaterial);
+            _articles?.Add(articleMaterial);
 
             return articleMaterial;
         }
 
-        public bool DeleteArticle(ArticleMaterial articleMaterial)
+        public bool DeleteArticle(int id)
         {
-            return _articles.Remove(articleMaterial);
+            return _articles.Remove(_articles.Find(x=>x.Id==id));
         }
 
         public List<ArticleMaterial> GetAllArticle()
