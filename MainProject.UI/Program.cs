@@ -8,12 +8,19 @@
     {
         static void Main(string[] args)
         {
-            var temp = new ServiceCollection();
-            temp.AddServices();
+            var services = new ServiceCollection();
+            services.AddScoped<SkillCRUD>();
+            services.AddScoped<CourseCRUD>();
+            services.AddScoped<UserCRUD>();
+            services.AddScoped<MaterialsCRUD>();
+            services.AddScoped<MainMenu>();
 
-            var services = temp.BuildServiceProvider();
+            services.AddServices();
 
-            MainMenu mainMenu = new MainMenu(services);
+            var provider = services.BuildServiceProvider();
+
+
+            MainMenu mainMenu = provider.GetRequiredService<MainMenu>();
 
             if (mainMenu.IsValidUser())
             {

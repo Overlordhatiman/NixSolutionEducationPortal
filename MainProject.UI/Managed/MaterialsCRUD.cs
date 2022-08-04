@@ -8,12 +8,13 @@
 
     public class MaterialsCRUD
     {
-        private ServiceProvider _service;
+        private IMaterialsService _materialsService;
+
         private static MaterialValidation _materialValidation;
 
-        public MaterialsCRUD(ServiceProvider service)
+        public MaterialsCRUD(IMaterialsService materialsService)
         {
-            this._service = service;
+            _materialsService = materialsService;
             _materialValidation = new MaterialValidation();
         }
 
@@ -35,7 +36,7 @@
         public void OutputMaterials()
         {
             Console.WriteLine("Materials");
-            var collection = _service.GetRequiredService<IMaterialsService>().GetAllMaterial();
+            var collection = _materialsService.GetAllMaterial();
 
             foreach (var item in collection)
             {
@@ -97,7 +98,7 @@
             {
                 return;
             }
-            _service.GetRequiredService<IMaterialsService>().AddMaterial(materialsDTO);
+            _materialsService.AddMaterial(materialsDTO);
         }
 
         private void UpdateMaterial(MaterialsDTO materialsDTO)
@@ -106,12 +107,12 @@
             {
                 return;
             }
-            _service.GetRequiredService<IMaterialsService>().UpdateMaterial(materialsDTO.Id, materialsDTO);
+            _materialsService.UpdateMaterial(materialsDTO.Id, materialsDTO);
         }
 
         private void DeleteMaterial(int id)
         {
-            _service.GetRequiredService<IMaterialsService>().DeleteMaterial(id);
+            _materialsService.DeleteMaterial(id);
         }
     }
 }

@@ -5,19 +5,25 @@
     public class MainMenu
     {
         private List<MenuItem> _mainMenu;
+
         private List<MenuItem> _courseMenu;
+
         private List<MenuItem> _materialsMenu;
+
         private MaterialsCRUD _materialsCRUD;
+
         private CourseCRUD _courseCRUD;
+
         private SkillCRUD _skillCRUD;
+
         private UserCRUD _userCRUD;
 
-        public MainMenu(ServiceProvider service)
+        public MainMenu(MaterialsCRUD materialsCRUD, CourseCRUD courseCRUD, SkillCRUD skillCRUD, UserCRUD userCRUD)
         {
-            _materialsCRUD = new MaterialsCRUD(service);
-            _courseCRUD = new CourseCRUD(service);
-            _skillCRUD = new SkillCRUD(service);
-            _userCRUD = new UserCRUD(service);
+            _materialsCRUD = materialsCRUD;
+            _courseCRUD = courseCRUD;
+            _skillCRUD = skillCRUD;
+            _userCRUD = userCRUD;
 
             _mainMenu = new List<MenuItem>
             {

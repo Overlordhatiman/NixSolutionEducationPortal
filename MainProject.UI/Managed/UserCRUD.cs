@@ -9,12 +9,13 @@
     public class UserCRUD
     {
 
-        private ServiceProvider _service;
+        private IUserService _userService;
+
         private static UserValidation _userValidation;
 
-        public UserCRUD(ServiceProvider service)
+        public UserCRUD(IUserService service)
         {
-            this._service = service;
+            _userService = service;
             _userValidation = new UserValidation();
         }
 
@@ -35,7 +36,7 @@
 
         public bool IsValid()
         {
-            var collection = _service.GetRequiredService<IUserService>().GetAllUser();
+            var collection = _userService.GetAllUser();
 
             Console.WriteLine("Input mail");
             string mail = Console.ReadLine();
@@ -51,7 +52,7 @@
         public void OutputMaterials()
         {
             Console.WriteLine("Users");
-            var collection = _service.GetRequiredService<IUserService>().GetAllUser();
+            var collection = _userService.GetAllUser();
 
             foreach (var item in collection)
             {
@@ -117,7 +118,7 @@
             {
                 return;
             }
-            _service.GetRequiredService<IUserService>().AddUser(user);
+            _userService.AddUser(user);
         }
 
         private void UpdateUser(UserDTO user)
@@ -126,12 +127,12 @@
             {
                 return;
             }
-            _service.GetRequiredService<IUserService>().UpdateUser(user.Id, user);
+            _userService.UpdateUser(user.Id, user);
         }
 
         private void DeleteUser(int id)
         {
-            _service.GetRequiredService<IUserService>().DeleteUser(id);
+            _userService.DeleteUser(id);
         }
     }
 }

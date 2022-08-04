@@ -13,12 +13,13 @@ namespace MainProject.UI.Managed
 {
     public class SkillCRUD
     {
-        private static ServiceProvider _service;
+        private static ISkillService _skillService;
+
         private static SkillValidation _skillValidation;
 
-        public SkillCRUD(ServiceProvider service)
+        public SkillCRUD(ISkillService service)
         {
-            _service = service;
+            _skillService = service;
             _skillValidation = new SkillValidation();
         }
 
@@ -40,7 +41,7 @@ namespace MainProject.UI.Managed
         public void OutputMaterials()
         {
             Console.WriteLine("Skills");
-            var collection = _service.GetRequiredService<ISkillService>().GetAllSkill();
+            var collection = _skillService.GetAllSkill();
 
             foreach (var item in collection)
             {
@@ -79,7 +80,7 @@ namespace MainProject.UI.Managed
 
         public static SkillDTO GetSkillById(int id)
         {
-            var collection = _service.GetRequiredService<ISkillService>().GetAllSkill();
+            var collection = _skillService.GetAllSkill();
 
             return collection.Find(x => x.Id == id);
         }
@@ -109,7 +110,7 @@ namespace MainProject.UI.Managed
             {
                 return;
             }
-            _service.GetRequiredService<ISkillService>().AddSkill(skill);
+            _skillService.AddSkill(skill);
         }
 
         private void UpdateSkill(SkillDTO skill)
@@ -118,12 +119,12 @@ namespace MainProject.UI.Managed
             {
                 return;
             }
-            _service.GetRequiredService<ISkillService>().UpdateSkill(skill.Id, skill);
+            _skillService.UpdateSkill(skill.Id, skill);
         }
 
         private void DeleteSkill(int id)
         {
-            _service.GetRequiredService<IMaterialsService>().DeleteMaterial(id);
+            _skillService.DeleteSkill(id);
         }
     }
 }

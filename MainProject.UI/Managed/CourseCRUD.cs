@@ -8,12 +8,13 @@
 
     public class CourseCRUD
     {
-        private ServiceProvider _service;
+        private ICourseService _courseService;
+
         private CourseValidation _courseValidation;
 
-        public CourseCRUD(ServiceProvider service)
+        public CourseCRUD(ICourseService service)
         {
-            this._service = service;
+            _courseService = service;
             _courseValidation = new CourseValidation();
         }
 
@@ -35,7 +36,7 @@
         public void OutputCourse()
         {
             Console.WriteLine("Course");
-            var collection = _service.GetRequiredService<ICourseService>().GetAllCourse();
+            var collection = _courseService.GetAllCourse();
 
             foreach (var item in collection)
             {
@@ -147,7 +148,7 @@
             {
                 return;
             }
-            _service.GetRequiredService<ICourseService>().AddCourse(course);
+            _courseService.AddCourse(course);
         }
 
         private void UpdateCourse(CourseDTO course)
@@ -156,12 +157,12 @@
             {
                 return;
             }
-            _service.GetRequiredService<ICourseService>().UpdateCourse(course.Id, course);
+            _courseService.UpdateCourse(course.Id, course);
         }
 
         private void DeleteCourse(int id)
         {
-            _service.GetRequiredService<IMaterialsService>().DeleteMaterial(id);
+            _courseService.DeleteCourse(id);
         }
     }
 }
