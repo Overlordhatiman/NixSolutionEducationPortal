@@ -11,5 +11,7 @@
         public List<UserDTO> GetAllUser();
 
         public bool DeleteUser(int id);
+
+        public bool IsValidUser(string mail, string password);
     }
 }

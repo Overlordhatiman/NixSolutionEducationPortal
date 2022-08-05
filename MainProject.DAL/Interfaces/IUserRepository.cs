@@ -11,5 +11,7 @@
         public List<User> GetAllUser();
 
         public bool DeleteUser(int id);
+
+        public bool IsValidUser(string mail, string password);
     }
 }

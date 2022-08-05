@@ -47,5 +47,10 @@
 
             return user;
         }
+
+        public bool IsValidUser(string mail, string password)
+        {
+            return this.unitOfWork.UserRepository.IsValidUser(mail, password);
+        }
     }
 }

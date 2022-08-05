@@ -44,9 +44,7 @@
             Console.WriteLine("Input password");
             string password = Console.ReadLine();
 
-            UserDTO user = collection.Find(x => x.Mail == mail && x.Password == password);
-
-            return user != null;
+            return _userService.IsValidUser(mail, password);
         }
 
         public void OutputMaterials()

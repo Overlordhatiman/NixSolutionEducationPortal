@@ -46,6 +46,12 @@
             return user;
         }
 
+        public bool IsValidUser(string mail, string password)
+        {
+            User user = _users.Find(x => x.Mail == mail && x.Password == password);
+            return user != null;
+        }
+
         public void Save()
         {
             var str = JsonConvert.SerializeObject(_users, Formatting.Indented);
