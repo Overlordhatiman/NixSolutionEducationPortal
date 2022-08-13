@@ -14,18 +14,18 @@
             _unitOfWork = unitOfWork;
         }
 
-        public BookDTO AddBook(BookDTO bookMaterial)
+        public async Task<BookDTO> AddBook(BookDTO bookMaterial)
         {
             _unitOfWork.BookRepository.AddBook(bookMaterial.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return bookMaterial;
         }
 
-        public bool DeleteBook(int id)
+        public async Task<bool> DeleteBook(int id)
         {
-            bool result = _unitOfWork.BookRepository.DeleteBook(id);
-            _unitOfWork.Save();
+            var result = _unitOfWork.BookRepository.DeleteBook(id);
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -41,10 +41,10 @@
             return books;
         }
 
-        public BookDTO UpdateBook(int id, BookDTO bookMaterial)
+        public async Task<BookDTO> UpdateBook(int id, BookDTO bookMaterial)
         {
             _unitOfWork.BookRepository.UpdateBook(id, bookMaterial.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return bookMaterial;
         }

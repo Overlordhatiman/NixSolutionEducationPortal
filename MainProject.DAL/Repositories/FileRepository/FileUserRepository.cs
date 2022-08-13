@@ -52,11 +52,11 @@
             return user != null;
         }
 
-        public void Save()
+        public async Task Save()
         {
             var str = JsonConvert.SerializeObject(_users, Formatting.Indented);
 
-            File.WriteAllText(DALConstant.UserFilePath, str);
+            await File.WriteAllTextAsync(DALConstant.UserFilePath, str);
         }
     }
 }

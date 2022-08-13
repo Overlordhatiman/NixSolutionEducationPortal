@@ -14,18 +14,20 @@
             _unitOfWork = unitOfWork;
         }
 
-        public MaterialsDTO AddMaterial(MaterialsDTO material)
+        public async Task<MaterialsDTO> AddMaterial(MaterialsDTO material)
         {
             _unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return material;
         }
 
-        public bool DeleteMaterial(int id)
+        public async Task<bool> DeleteMaterial(int id)
         {
-            return _unitOfWork.MaterialsRepository.DeleteMaterial(id);
-            _unitOfWork.Save();
+            var result = _unitOfWork.MaterialsRepository.DeleteMaterial(id);
+            await _unitOfWork.Save();
+
+            return result;
         }
 
         public List<MaterialsDTO> GetAllMaterial()
@@ -39,10 +41,10 @@
             return materials;
         }
 
-        public MaterialsDTO UpdateMaterial(int id, MaterialsDTO material)
+        public async Task<MaterialsDTO> UpdateMaterial(int id, MaterialsDTO material)
         {
             _unitOfWork.MaterialsRepository.UpdateMaterial(id, material.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return material;
         }

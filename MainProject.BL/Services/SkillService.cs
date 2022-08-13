@@ -14,18 +14,18 @@
             _unitOfWork = unitOfWork;
         }
 
-        public SkillDTO AddSkill(SkillDTO skill)
+        public async Task<SkillDTO> AddSkill(SkillDTO skill)
         {
             _unitOfWork.SkillRepository.AddSkill(skill.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return skill;
         }
 
-        public bool DeleteSkill(int id)
+        public async Task<bool> DeleteSkill(int id)
         {
-            bool result = _unitOfWork.SkillRepository.DeleteSkill(id);
-            _unitOfWork.Save();
+            var result = _unitOfWork.SkillRepository.DeleteSkill(id);
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -41,10 +41,10 @@
             return skills;
         }
 
-        public SkillDTO UpdateSkill(int id, SkillDTO skill)
+        public async Task<SkillDTO> UpdateSkill(int id, SkillDTO skill)
         {
             _unitOfWork.SkillRepository.UpdateSkill(id, skill.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return skill;
         }

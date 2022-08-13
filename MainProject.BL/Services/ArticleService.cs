@@ -14,18 +14,18 @@
             _unitOfWork = unitOfWork;
         }
 
-        public ArticleDTO AddArticle(ArticleDTO articleMaterial)
+        public async Task<ArticleDTO> AddArticle(ArticleDTO articleMaterial)
         {
             _unitOfWork.ArticleRepository.AddArticle(articleMaterial.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return articleMaterial;
         }
 
-        public bool DeleteArticle(int id)
+        public async Task<bool> DeleteArticle(int id)
         {
-            bool result = _unitOfWork.ArticleRepository.DeleteArticle(id);
-            _unitOfWork.Save();
+            var result = _unitOfWork.ArticleRepository.DeleteArticle(id);
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -42,10 +42,10 @@
             return articles;
         }
 
-        public ArticleDTO UpdateArticle(int id, ArticleDTO articleMaterial)
+        public async Task<ArticleDTO> UpdateArticle(int id, ArticleDTO articleMaterial)
         {
             _unitOfWork.ArticleRepository.UpdateArticle(id, articleMaterial.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return articleMaterial;
         }

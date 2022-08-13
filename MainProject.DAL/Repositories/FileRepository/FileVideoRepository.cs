@@ -46,11 +46,11 @@
             return videokMaterial;
         }
 
-        public void Save()
+        public async Task Save()
         {
             var str = JsonConvert.SerializeObject(_videos, Formatting.Indented);
 
-            File.WriteAllText(DALConstant.VideoFilePath, str);
+            await File.WriteAllTextAsync(DALConstant.VideoFilePath, str);
         }
     }
 }

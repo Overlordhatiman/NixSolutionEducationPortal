@@ -46,11 +46,11 @@
             return skill;
         }
 
-        public void Save()
+        public async Task Save()
         {
             var str = JsonConvert.SerializeObject(_skills, Formatting.Indented);
 
-            File.WriteAllText(DALConstant.SkillFilePath, str);
+            await File.WriteAllTextAsync(DALConstant.SkillFilePath, str);
         }
     }
 }

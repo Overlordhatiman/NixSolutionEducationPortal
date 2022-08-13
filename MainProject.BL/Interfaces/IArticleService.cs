@@ -4,12 +4,12 @@
 
     public interface IArticleService
     {
-        public ArticleDTO AddArticle(ArticleDTO articleMaterial);
+        public Task<ArticleDTO> AddArticle(ArticleDTO articleMaterial);
 
-        public ArticleDTO UpdateArticle(int id, ArticleDTO articleMaterial);
+        public Task<ArticleDTO> UpdateArticle(int id, ArticleDTO articleMaterial);
 
         public List<ArticleDTO> GetAllArticle();
 
-        public bool DeleteArticle(int id);
+        public Task<bool> DeleteArticle(int id);
     }
 }

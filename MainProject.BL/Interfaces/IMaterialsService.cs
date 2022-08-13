@@ -4,12 +4,12 @@
 
     public interface IMaterialsService
     {
-        public MaterialsDTO AddMaterial(MaterialsDTO material);
+        public Task<MaterialsDTO> AddMaterial(MaterialsDTO material);
 
-        public MaterialsDTO UpdateMaterial(int id, MaterialsDTO material);
+        public Task<MaterialsDTO> UpdateMaterial(int id, MaterialsDTO material);
 
         public List<MaterialsDTO> GetAllMaterial();
 
-        public bool DeleteMaterial(int id);
+        public Task<bool> DeleteMaterial(int id);
     }
 }

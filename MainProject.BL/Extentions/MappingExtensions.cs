@@ -200,9 +200,12 @@
 
             List<SkillDTO> skills = new List<SkillDTO>();
 
-            foreach (var item in course.Skills)
+            foreach (var skill in course.Skills)
             {
-                skills.Add(ToDTO(item));
+                if (skill != null)
+                {
+                    skills.Add(ToDTO(skill));
+                }
             }
 
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
@@ -249,9 +252,12 @@
 
             List<Skill> skills = new List<Skill>();
 
-            foreach (var item in course.Skills)
+            foreach (var skill in course.Skills)
             {
-                skills.Add(ToModel(item));
+                if (skill != null)
+                {
+                    skills.Add(ToModel(skill));
+                }
             }
 
             List<Materials> materials = new List<Materials>();

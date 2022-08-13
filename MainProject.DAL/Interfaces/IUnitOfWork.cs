@@ -16,6 +16,6 @@
 
         public IMaterialsRepository MaterialsRepository { get; }
 
-        public void Save();
+        public Task Save();
     }
 }

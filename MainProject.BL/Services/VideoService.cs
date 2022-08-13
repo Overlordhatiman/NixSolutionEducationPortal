@@ -14,7 +14,7 @@
             _unitOfWork = unitOfWork;
         }
 
-        public VideoDTO AddVideo(VideoDTO videoMaterial)
+        public async Task<VideoDTO> AddVideo(VideoDTO videoMaterial)
         {
             _unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
             _unitOfWork.Save();
@@ -22,10 +22,10 @@
             return videoMaterial;
         }
 
-        public bool DeleteVideo(int id)
+        public async Task<bool> DeleteVideo(int id)
         {
             bool result = _unitOfWork.VideoRepository.DeleteVideo(id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -41,10 +41,10 @@
             return videos;
         }
 
-        public VideoDTO UpdateVideo(int id, VideoDTO videokMaterial)
+        public async Task<VideoDTO> UpdateVideo(int id, VideoDTO videokMaterial)
         {
             _unitOfWork.VideoRepository.UpdateVideo(id, videokMaterial.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return videokMaterial;
         }

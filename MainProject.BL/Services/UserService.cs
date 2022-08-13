@@ -14,18 +14,18 @@
             _unitOfWork = unitOfWork;
         }
 
-        public UserDTO AddUser(UserDTO user)
+        public async Task<UserDTO> AddUser(UserDTO user)
         {
             _unitOfWork.UserRepository.AddUser(user.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             bool result = _unitOfWork.UserRepository.DeleteUser(id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -41,10 +41,10 @@
             return users;
         }
 
-        public UserDTO UpdateUser(int id, UserDTO user)
+        public async Task<UserDTO> UpdateUser(int id, UserDTO user)
         {
             _unitOfWork.UserRepository.UpdateUser(id, user.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return user;
         }

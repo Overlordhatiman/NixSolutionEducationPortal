@@ -46,11 +46,11 @@
             return articleMaterial;
         }
 
-        public void Save()
+        public async Task Save()
         {
             var str = JsonConvert.SerializeObject(_articles, Formatting.Indented);
 
-            File.WriteAllText(DALConstant.ArticleFilePath, str);
+            await File.WriteAllTextAsync(DALConstant.ArticleFilePath, str);
         }
     }
 }

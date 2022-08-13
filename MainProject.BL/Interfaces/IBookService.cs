@@ -4,12 +4,12 @@
 
     public interface IBookService
     {
-        public BookDTO AddBook(BookDTO bookMaterial);
+        public Task<BookDTO> AddBook(BookDTO bookMaterial);
 
-        public BookDTO UpdateBook(int id, BookDTO bookMaterial);
+        public Task<BookDTO> UpdateBook(int id, BookDTO bookMaterial);
 
         public List<BookDTO> GetAllBook();
 
-        public bool DeleteBook(int id);
+        public Task<bool> DeleteBook(int id);
     }
 }

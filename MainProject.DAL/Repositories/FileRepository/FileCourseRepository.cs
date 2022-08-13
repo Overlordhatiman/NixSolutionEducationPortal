@@ -46,11 +46,11 @@
             return course;
         }
 
-        public void Save()
+        public async Task Save()
         {
             var str = JsonConvert.SerializeObject(_courses, Formatting.Indented);
 
-            File.WriteAllText(DALConstant.CourseFilePath, str);
+            await File.WriteAllTextAsync(DALConstant.CourseFilePath, str);
         }
     }
 }

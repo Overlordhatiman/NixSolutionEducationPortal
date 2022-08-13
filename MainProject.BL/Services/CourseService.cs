@@ -14,7 +14,7 @@
             _unitOfWork = unitOfWork;
         }
 
-        public CourseDTO AddCourse(CourseDTO course)
+        public async Task<CourseDTO> AddCourse(CourseDTO course)
         {
             _unitOfWork.CourseRepository.AddCourse(course.ToModel());
             _unitOfWork.Save();
@@ -22,10 +22,10 @@
             return course;
         }
 
-        public bool DeleteCourse(int id)
+        public async Task<bool> DeleteCourse(int id)
         {
             bool result = _unitOfWork.CourseRepository.DeleteCourse(id);
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return result;
         }
@@ -41,10 +41,10 @@
             return courses;
         }
 
-        public CourseDTO UpdateCourse(int id, CourseDTO course)
+        public async Task<CourseDTO> UpdateCourse(int id, CourseDTO course)
         {
             _unitOfWork.CourseRepository.UpdateCourse(id, course.ToModel());
-            _unitOfWork.Save();
+            await _unitOfWork.Save();
 
             return course;
         }

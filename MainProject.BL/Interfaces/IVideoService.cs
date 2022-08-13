@@ -4,12 +4,12 @@
 
     public interface IVideoService
     {
-        public VideoDTO AddVideo(VideoDTO videoMaterial);
+        public Task<VideoDTO> AddVideo(VideoDTO videoMaterial);
 
-        public VideoDTO UpdateVideo(int id, VideoDTO videoMaterial);
+        public Task<VideoDTO> UpdateVideo(int id, VideoDTO videoMaterial);
 
         public List<VideoDTO> GetAllVideo();
 
-        public bool DeleteVideo(int id);
+        public Task<bool> DeleteVideo(int id);
     }
 }

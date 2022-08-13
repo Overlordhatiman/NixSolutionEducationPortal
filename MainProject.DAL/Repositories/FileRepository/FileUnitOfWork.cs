@@ -32,15 +32,15 @@
 
         public IArticleRepository ArticleRepository => _articleRepository ??= new FileArticleRepository();
 
-        public void Save()
+        public async Task Save()
         {
-            _articleRepository?.Save();
-            _bookRepository?.Save();
-            _videoRepository?.Save();
-            _courseRepository?.Save();
-            _skillRepository?.Save();
-            _userRepository?.Save();
-            _materialsRepository?.Save();
+            await _articleRepository?.Save();
+            await _bookRepository?.Save();
+            await _videoRepository?.Save();
+            await _courseRepository?.Save();
+            await _skillRepository?.Save();
+            await _userRepository?.Save();
+            await _materialsRepository?.Save();
         }
     }
 }
