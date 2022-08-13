@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileVideoRepository : IVideoRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteVideo(int id)
         {
-            return _videos.Remove(_videos.Find(x => x.Id==id));
+            return _videos.Remove(_videos.Find(x => x.Id == id));
         }
 
-        public List<VideoMaterial> GetAllVideo()
+        public IEnumerable<VideoMaterial> GetAllVideo()
         {
             return _videos;
         }

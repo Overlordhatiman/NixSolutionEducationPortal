@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.DAL
+﻿namespace MainProject.DAL
 {
     public static class DALConstant
     {
@@ -15,6 +9,5 @@ namespace MainProject.DAL
         public const string UserFilePath = "Files/user.json";
         public const string VideoFilePath = "Files/video.json";
         public const string MaterialsFilePath = "Files/materials.json";
-
     }
 }

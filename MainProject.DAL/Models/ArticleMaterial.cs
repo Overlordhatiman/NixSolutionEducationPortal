@@ -1,4 +1,4 @@
-﻿namespace MainProject.src.Models
+﻿namespace MainProject.DAL.Models
 {
     public class ArticleMaterial : Materials
     {

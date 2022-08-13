@@ -1,16 +1,10 @@
-﻿using FluentValidation.Results;
-using MainProject.BL.DTO;
-using MainProject.BL.Interfaces;
-using MainProject.UI.Validation;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MainProject.UI.Managed
+﻿namespace MainProject.UI.Managed
 {
+    using FluentValidation.Results;
+    using MainProject.BL.DTO;
+    using MainProject.BL.Interfaces;
+    using MainProject.UI.Validation;
+
     public class SkillCRUD
     {
         private static ISkillService _skillService;
@@ -23,9 +17,39 @@ namespace MainProject.UI.Managed
             _skillValidation = new SkillValidation();
         }
 
+        public static SkillDTO GetSkill()
+        {
+            Console.WriteLine("Input Name");
+            string s = Console.ReadLine();
+
+            SkillDTO skill = new SkillDTO
+            {
+                Name = s,
+            };
+
+            return ValidateMaterial(skill);
+        }
+
+        public static SkillDTO GetSkillById(int id)
+        {
+            var collection = _skillService.GetAllSkill();
+
+            return collection.Find(x => x.Id == id);
+        }
+
         public void CreateSkill()
         {
             CreateSkill(GetSkill());
+        }
+
+        public void SaveSkills(SkillDTO skill)
+        {
+            if (skill == null)
+            {
+                return;
+            }
+
+            _skillService.AddSkill(skill);
         }
 
         public void UpdateSkill()
@@ -38,51 +62,17 @@ namespace MainProject.UI.Managed
             DeleteSkill(GetId());
         }
 
-        public void OutputMaterials()
+        public void OutputSkills()
         {
             Console.WriteLine("Skills");
-            var collection = _skillService.GetAllSkill();
+            var skills = _skillService.GetAllSkill();
 
-            foreach (var item in collection)
+            foreach (var skill in skills)
             {
-                Console.WriteLine(item.Id + "\t" + item.Name);
+                Console.WriteLine(skill);
             }
 
             Console.ReadKey();
-        }
-
-
-        private int GetId()
-        {
-            Console.WriteLine("Input ID");
-            int id;
-            Int32.TryParse(Console.ReadLine(), out id);
-
-            return id;
-        }
-        public static SkillDTO GetSkill()
-        {
-            Console.WriteLine("Input ID");
-            int id;
-            Int32.TryParse(Console.ReadLine(), out id);
-
-            Console.WriteLine("Input Name");
-            string s = Console.ReadLine();
-
-            SkillDTO skill = new SkillDTO
-            {
-                Id = id,
-                Name = s,
-            };
-
-            return ValidateMaterial(skill);
-        }
-
-        public static SkillDTO GetSkillById(int id)
-        {
-            var collection = _skillService.GetAllSkill();
-
-            return collection.Find(x => x.Id == id);
         }
 
         private static SkillDTO ValidateMaterial(SkillDTO skill)
@@ -104,12 +94,22 @@ namespace MainProject.UI.Managed
             return null;
         }
 
+        private int GetId()
+        {
+            Console.WriteLine("Input ID");
+            int id;
+            int.TryParse(Console.ReadLine(), out id);
+
+            return id;
+        }
+
         private void CreateSkill(SkillDTO skill)
         {
             if (skill == null)
             {
                 return;
             }
+
             _skillService.AddSkill(skill);
         }
 
@@ -119,6 +119,7 @@ namespace MainProject.UI.Managed
             {
                 return;
             }
+
             _skillService.UpdateSkill(skill.Id, skill);
         }
 

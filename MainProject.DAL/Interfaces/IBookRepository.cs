@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface IBookRepository
     {
@@ -8,7 +8,7 @@
 
         public BookMaterial UpdateBook(int id, BookMaterial bookMaterial);
 
-        public List<BookMaterial> GetAllBook();
+        public IEnumerable<BookMaterial> GetAllBook();
 
         public bool DeleteBook(int id);
     }

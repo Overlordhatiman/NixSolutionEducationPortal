@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileSkillRepository : ISkillRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteSkill(int id)
         {
-            return _skills.Remove(_skills.Find(x=>x.Id==id));
+            return _skills.Remove(_skills.Find(x => x.Id == id));
         }
 
-        public List<Skill> GetAllSkill()
+        public IEnumerable<Skill> GetAllSkill()
         {
             return _skills;
         }

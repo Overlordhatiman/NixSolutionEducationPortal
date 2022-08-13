@@ -1,12 +1,17 @@
 ﻿namespace MainProject.BL.Extentions
 {
     using MainProject.BL.DTO;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public static class MappingExtensions
     {
         public static MaterialsDTO ToDTO(this Materials material)
         {
+            if (material == null)
+            {
+                return new MaterialsDTO();
+            }
+
             return new MaterialsDTO
             {
                 Id = material.Id,
@@ -16,6 +21,11 @@
 
         public static Materials ToModel(this MaterialsDTO material)
         {
+            if (material == null)
+            {
+                return new Materials();
+            }
+
             return new Materials
             {
                 Id = material.Id,
@@ -25,6 +35,11 @@
 
         public static ArticleDTO ToDTO(this ArticleMaterial articleMaterial)
         {
+            if (articleMaterial == null)
+            {
+                return new ArticleDTO();
+            }
+
             return new ArticleDTO
             {
                 Id = articleMaterial.Id,
@@ -36,6 +51,11 @@
 
         public static ArticleMaterial ToModel(this ArticleDTO article)
         {
+            if (article == null)
+            {
+                return new ArticleMaterial();
+            }
+
             return new ArticleMaterial
             {
                 Id = article.Id,
@@ -47,6 +67,11 @@
 
         public static VideoDTO ToDTO(this VideoMaterial videoMaterial)
         {
+            if (videoMaterial == null)
+            {
+                return new VideoDTO();
+            }
+
             return new VideoDTO
             {
                 Id = videoMaterial.Id,
@@ -58,6 +83,11 @@
 
         public static VideoMaterial ToModel(this VideoDTO video)
         {
+            if (video == null)
+            {
+                return new VideoMaterial();
+            }
+
             return new VideoMaterial
             {
                 Id = video.Id,
@@ -69,6 +99,11 @@
 
         public static BookDTO ToDTO(this BookMaterial bookMaterial)
         {
+            if (bookMaterial == null)
+            {
+                return new BookDTO();
+            }
+
             return new BookDTO
             {
                 Id = bookMaterial.Id,
@@ -82,6 +117,11 @@
 
         public static BookMaterial ToModel(this BookDTO book)
         {
+            if (book == null)
+            {
+                return new BookMaterial();
+            }
+
             return new BookMaterial
             {
                 Id = book.Id,
@@ -95,6 +135,11 @@
 
         public static SkillDTO ToDTO(this Skill skill)
         {
+            if (skill == null)
+            {
+                return new SkillDTO();
+            }
+
             return new SkillDTO
             {
                 Id = skill.Id,
@@ -104,6 +149,11 @@
 
         public static Skill ToModel(this SkillDTO skill)
         {
+            if (skill == null)
+            {
+                return new Skill();
+            }
+
             return new Skill
             {
                 Id = skill.Id,
@@ -113,6 +163,11 @@
 
         public static UserDTO ToDTO(this User user)
         {
+            if (user == null)
+            {
+                return new UserDTO();
+            }
+
             return new UserDTO
             {
                 Id = user.Id,
@@ -123,6 +178,11 @@
 
         public static User ToModel(this UserDTO user)
         {
+            if (user == null)
+            {
+                return new User();
+            }
+
             return new User
             {
                 Id = user.Id,
@@ -133,6 +193,11 @@
 
         public static CourseDTO ToDTO(this Course course)
         {
+            if (course == null)
+            {
+                return new CourseDTO();
+            }
+
             List<SkillDTO> skills = new List<SkillDTO>();
 
             foreach (var item in course.Skills)
@@ -142,26 +207,26 @@
 
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
 
-            foreach (var item in course.Materials)
+            foreach (var material in course.Materials)
             {
-                if (item is ArticleMaterial)
+                if (material is ArticleMaterial article)
                 {
-                    materials.Add(ToDTO((ArticleMaterial)item));
+                    materials.Add(ToDTO(article));
                 }
 
-                if (item is VideoMaterial)
+                if (material is VideoMaterial video)
                 {
-                    materials.Add(ToDTO((VideoMaterial)item));
+                    materials.Add(ToDTO(video));
                 }
 
-                if (item is BookMaterial)
+                if (material is BookMaterial book)
                 {
-                    materials.Add(ToDTO((BookMaterial)item));
+                    materials.Add(ToDTO(book));
                 }
 
-                if (item is Materials)
+                if (material is Materials)
                 {
-                    materials.Add(item.ToDTO());
+                    materials.Add(material.ToDTO());
                 }
             }
 
@@ -177,6 +242,11 @@
 
         public static Course ToModel(this CourseDTO course)
         {
+            if (course == null)
+            {
+                return new Course();
+            }
+
             List<Skill> skills = new List<Skill>();
 
             foreach (var item in course.Skills)
@@ -186,26 +256,26 @@
 
             List<Materials> materials = new List<Materials>();
 
-            foreach (var item in course.Materials)
+            foreach (var material in course.Materials)
             {
-                if (item is ArticleDTO)
+                if (material is ArticleDTO article)
                 {
-                    materials.Add(ToModel((ArticleDTO)item));
+                    materials.Add(ToModel(article));
                 }
 
-                if (item is VideoDTO)
+                if (material is VideoDTO video)
                 {
-                    materials.Add(ToModel((VideoDTO)item));
+                    materials.Add(ToModel(video));
                 }
 
-                if (item is BookDTO)
+                if (material is BookDTO book)
                 {
-                    materials.Add(ToModel((BookDTO)item));
+                    materials.Add(ToModel(book));
                 }
 
-                if (item is MaterialsDTO)
+                if (material is MaterialsDTO)
                 {
-                    materials.Add(item.ToModel());
+                    materials.Add(material.ToModel());
                 }
             }
 

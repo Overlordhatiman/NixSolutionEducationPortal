@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface IMaterialsRepository
     {
@@ -8,7 +8,7 @@
 
         public Materials UpdateMaterial(int id, Materials material);
 
-        public List<Materials> GetAllMaterial();
+        public IEnumerable<Materials> GetAllMaterial();
 
         public bool DeleteMaterial(int id);
     }

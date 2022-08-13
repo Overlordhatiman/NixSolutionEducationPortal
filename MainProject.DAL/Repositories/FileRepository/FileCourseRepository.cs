@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileCourseRepository : ICourseRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteCourse(int id)
         {
-            return _courses.Remove(_courses.Find(x=>x.Id==id));
+            return _courses.Remove(_courses.Find(x => x.Id == id));
         }
 
-        public List<Course> GetAllCourse()
+        public IEnumerable<Course> GetAllCourse()
         {
             return _courses;
         }

@@ -8,15 +8,31 @@
 
     public class UserCRUD
     {
+        private static UserValidation? _userValidation;
 
         private IUserService _userService;
-
-        private static UserValidation _userValidation;
 
         public UserCRUD(IUserService service)
         {
             _userService = service;
             _userValidation = new UserValidation();
+        }
+
+        public static UserDTO GetUser()
+        {
+            Console.WriteLine("Input Mail");
+            string? mail = Console.ReadLine();
+
+            Console.WriteLine("Input password");
+            string? password = Console.ReadLine();
+
+            UserDTO user = new UserDTO
+            {
+                Mail = mail,
+                Password = password,
+            };
+
+            return ValidateMaterial(user);
         }
 
         public void CreateUser()
@@ -36,18 +52,16 @@
 
         public bool IsValid()
         {
-            var collection = _userService.GetAllUser();
-
             Console.WriteLine("Input mail");
-            string mail = Console.ReadLine();
+            string? mail = Console.ReadLine();
 
             Console.WriteLine("Input password");
-            string password = Console.ReadLine();
+            string? password = Console.ReadLine();
 
             return _userService.IsValidUser(mail, password);
         }
 
-        public void OutputMaterials()
+        public void OutputUser()
         {
             Console.WriteLine("Users");
             var collection = _userService.GetAllUser();
@@ -60,44 +74,13 @@
             Console.ReadKey();
         }
 
-        private int GetId()
-        {
-            Console.WriteLine("Input ID");
-            int id;
-            Int32.TryParse(Console.ReadLine(), out id);
-
-            return id;
-        }
-
-        public static UserDTO GetUser()
-        {
-            Console.WriteLine("Input ID");
-            int id;
-            Int32.TryParse(Console.ReadLine(), out id);
-
-            Console.WriteLine("Input Name");
-            string s = Console.ReadLine();
-
-            Console.WriteLine("Input password");
-            string password = Console.ReadLine();
-
-            UserDTO user = new UserDTO
-            {
-                Id = id,
-                Mail = s,
-                Password = password,
-            };
-
-            return ValidateMaterial(user);
-        }
-
         private static UserDTO ValidateMaterial(UserDTO user)
         {
             ValidationResult validationResult = _userValidation.Validate(user);
 
-            foreach (var item in validationResult.Errors)
+            foreach (var error in validationResult.Errors)
             {
-                Console.WriteLine(item.ErrorMessage);
+                Console.WriteLine(error.ErrorMessage);
             }
 
             Console.ReadKey();
@@ -110,12 +93,22 @@
             return null;
         }
 
+        private int GetId()
+        {
+            Console.WriteLine("Input ID");
+            int id;
+            int.TryParse(Console.ReadLine(), out id);
+
+            return id;
+        }
+
         private void CreateUser(UserDTO user)
         {
             if (user == null)
             {
                 return;
             }
+
             _userService.AddUser(user);
         }
 
@@ -125,6 +118,7 @@
             {
                 return;
             }
+
             _userService.UpdateUser(user.Id, user);
         }
 

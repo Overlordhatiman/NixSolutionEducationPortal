@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileUserRepository : IUserRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteUser(int id)
         {
-            return _users.Remove(_users.Find(x => x.Id==id));
+            return _users.Remove(_users.Find(x => x.Id == id));
         }
 
-        public List<User> GetAllUser()
+        public IEnumerable<User> GetAllUser()
         {
             return _users;
         }

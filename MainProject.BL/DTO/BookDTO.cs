@@ -9,5 +9,10 @@
         public string? Format { get; set; }
 
         public DateTime Date { get; set; }
+
+        public override string? ToString()
+        {
+            return Date.ToString() + "\t" + Author + "\t" + NumberOfPages + "\t" + Format;
+        }
     }
 }

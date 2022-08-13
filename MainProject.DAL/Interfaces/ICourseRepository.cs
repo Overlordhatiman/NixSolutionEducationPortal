@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface ICourseRepository
     {
@@ -8,7 +8,7 @@
 
         public Course UpdateCourse(int id, Course course);
 
-        public List<Course> GetAllCourse();
+        public IEnumerable<Course> GetAllCourse();
 
         public bool DeleteCourse(int id);
     }

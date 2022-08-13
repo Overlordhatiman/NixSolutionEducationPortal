@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace MainProject.src.Models
+﻿namespace MainProject.DAL.Models
 {
     public class Skill
     {

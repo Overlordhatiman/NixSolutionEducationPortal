@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface IVideoRepository
     {
@@ -8,7 +8,7 @@
 
         public VideoMaterial UpdateVideo(int id, VideoMaterial videokMaterial);
 
-        public List<VideoMaterial> GetAllVideo();
+        public IEnumerable<VideoMaterial> GetAllVideo();
 
         public bool DeleteVideo(int id);
     }

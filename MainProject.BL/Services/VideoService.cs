@@ -7,25 +7,25 @@
 
     public class VideoService : IVideoService
     {
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IUnitOfWork unitOfWork;
         public VideoService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public VideoDTO AddVideo(VideoDTO videoMaterial)
         {
-            this.unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
+            _unitOfWork.Save();
 
             return videoMaterial;
         }
 
         public bool DeleteVideo(int id)
         {
-            bool result = this.unitOfWork.VideoRepository.DeleteVideo(id);
-            this.unitOfWork.Save();
+            bool result = _unitOfWork.VideoRepository.DeleteVideo(id);
+            _unitOfWork.Save();
 
             return result;
         }
@@ -33,7 +33,7 @@
         public List<VideoDTO> GetAllVideo()
         {
             List<VideoDTO> videos = new List<VideoDTO>();
-            foreach (var item in this.unitOfWork.VideoRepository.GetAllVideo())
+            foreach (var item in _unitOfWork.VideoRepository.GetAllVideo())
             {
                 videos.Add(item.ToDTO());
             }
@@ -43,8 +43,8 @@
 
         public VideoDTO UpdateVideo(int id, VideoDTO videokMaterial)
         {
-            this.unitOfWork.VideoRepository.UpdateVideo(id, videokMaterial.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.VideoRepository.UpdateVideo(id, videokMaterial.ToModel());
+            _unitOfWork.Save();
 
             return videokMaterial;
         }

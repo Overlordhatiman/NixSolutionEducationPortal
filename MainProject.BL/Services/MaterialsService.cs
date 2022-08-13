@@ -5,34 +5,33 @@
     using MainProject.BL.Interfaces;
     using MainProject.DAL.Interfaces;
 
-
     public class MaterialsService : IMaterialsService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public MaterialsService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public MaterialsDTO AddMaterial(MaterialsDTO material)
         {
-            this.unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
+            _unitOfWork.Save();
 
             return material;
         }
 
         public bool DeleteMaterial(int id)
         {
-            return this.unitOfWork.MaterialsRepository.DeleteMaterial(id);
-            this.unitOfWork.Save();
+            return _unitOfWork.MaterialsRepository.DeleteMaterial(id);
+            _unitOfWork.Save();
         }
 
         public List<MaterialsDTO> GetAllMaterial()
         {
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
-            foreach (var item in this.unitOfWork.MaterialsRepository.GetAllMaterial())
+            foreach (var item in _unitOfWork.MaterialsRepository.GetAllMaterial())
             {
                 materials.Add(item.ToDTO());
             }
@@ -42,8 +41,8 @@
 
         public MaterialsDTO UpdateMaterial(int id, MaterialsDTO material)
         {
-            this.unitOfWork.MaterialsRepository.UpdateMaterial(id, material.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.MaterialsRepository.UpdateMaterial(id, material.ToModel());
+            _unitOfWork.Save();
 
             return material;
         }

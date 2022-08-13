@@ -7,24 +7,25 @@
 
     public class CourseService : ICourseService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+
         public CourseService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public CourseDTO AddCourse(CourseDTO course)
         {
-            this.unitOfWork.CourseRepository.AddCourse(course.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.CourseRepository.AddCourse(course.ToModel());
+            _unitOfWork.Save();
 
             return course;
         }
 
         public bool DeleteCourse(int id)
         {
-            bool result = this.unitOfWork.CourseRepository.DeleteCourse(id);
-            this.unitOfWork.Save();
+            bool result = _unitOfWork.CourseRepository.DeleteCourse(id);
+            _unitOfWork.Save();
 
             return result;
         }
@@ -32,7 +33,7 @@
         public List<CourseDTO> GetAllCourse()
         {
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var item in this.unitOfWork.CourseRepository.GetAllCourse())
+            foreach (var item in _unitOfWork.CourseRepository.GetAllCourse())
             {
                 courses.Add(item.ToDTO());
             }
@@ -42,8 +43,8 @@
 
         public CourseDTO UpdateCourse(int id, CourseDTO course)
         {
-            this.unitOfWork.CourseRepository.UpdateCourse(id, course.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.CourseRepository.UpdateCourse(id, course.ToModel());
+            _unitOfWork.Save();
 
             return course;
         }

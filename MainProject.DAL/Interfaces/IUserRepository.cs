@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface IUserRepository
     {
@@ -8,7 +8,7 @@
 
         public User UpdateUser(int id, User user);
 
-        public List<User> GetAllUser();
+        public IEnumerable<User> GetAllUser();
 
         public bool DeleteUser(int id);
 

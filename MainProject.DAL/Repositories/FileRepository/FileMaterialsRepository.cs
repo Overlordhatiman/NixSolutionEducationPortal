@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileMaterialsRepository : IMaterialsRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteMaterial(int id)
         {
-            return _materials.Remove(_materials.Find(x=>x.Id==id));
+            return _materials.Remove(_materials.Find(x => x.Id == id));
         }
 
-        public List<Materials> GetAllMaterial()
+        public IEnumerable<Materials> GetAllMaterial()
         {
             return _materials;
         }

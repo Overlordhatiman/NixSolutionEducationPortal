@@ -7,25 +7,25 @@
 
     public class SkillService : ISkillService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SkillService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public SkillDTO AddSkill(SkillDTO skill)
         {
-            this.unitOfWork.SkillRepository.AddSkill(skill.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.SkillRepository.AddSkill(skill.ToModel());
+            _unitOfWork.Save();
 
             return skill;
         }
 
         public bool DeleteSkill(int id)
         {
-            bool result = this.unitOfWork.SkillRepository.DeleteSkill(id);
-            this.unitOfWork.Save();
+            bool result = _unitOfWork.SkillRepository.DeleteSkill(id);
+            _unitOfWork.Save();
 
             return result;
         }
@@ -33,7 +33,7 @@
         public List<SkillDTO> GetAllSkill()
         {
             List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var item in this.unitOfWork.SkillRepository.GetAllSkill())
+            foreach (var item in _unitOfWork.SkillRepository.GetAllSkill())
             {
                 skills.Add(item.ToDTO());
             }
@@ -43,8 +43,8 @@
 
         public SkillDTO UpdateSkill(int id, SkillDTO skill)
         {
-            this.unitOfWork.SkillRepository.UpdateSkill(id, skill.ToModel());
-            this.unitOfWork.Save();
+            _unitOfWork.SkillRepository.UpdateSkill(id, skill.ToModel());
+            _unitOfWork.Save();
 
             return skill;
         }

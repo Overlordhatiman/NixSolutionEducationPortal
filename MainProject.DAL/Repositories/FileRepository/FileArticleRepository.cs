@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileArticleRepository : IArticleRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteArticle(int id)
         {
-            return _articles.Remove(_articles.Find(x=>x.Id==id));
+            return _articles.Remove(_articles.Find(x => x.Id == id));
         }
 
-        public List<ArticleMaterial> GetAllArticle()
+        public IEnumerable<ArticleMaterial> GetAllArticle()
         {
             return _articles;
         }

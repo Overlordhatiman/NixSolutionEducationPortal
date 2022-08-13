@@ -1,6 +1,6 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
 
     public interface ISkillRepository
     {
@@ -8,7 +8,7 @@
 
         public Skill UpdateSkill(int id, Skill skill);
 
-        public List<Skill> GetAllSkill();
+        public IEnumerable<Skill> GetAllSkill();
 
         public bool DeleteSkill(int id);
     }

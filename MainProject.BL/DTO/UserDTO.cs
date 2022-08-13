@@ -2,7 +2,7 @@
 {
     public class UserDTO
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
 
         public string? Mail { get; set; }
 

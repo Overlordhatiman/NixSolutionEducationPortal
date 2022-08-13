@@ -1,7 +1,7 @@
-﻿namespace MainProject.DAL.Repositories
+﻿namespace MainProject.DAL.Repositories.FileRepository
 {
     using MainProject.DAL.Interfaces;
-    using MainProject.src.Models;
+    using MainProject.DAL.Models;
     using Newtonsoft.Json;
 
     public class FileBookRepository : IBookRepository
@@ -24,10 +24,10 @@
 
         public bool DeleteBook(int id)
         {
-            return _books.Remove(_books.Find(x=>x.Id==id));
+            return _books.Remove(_books.Find(x => x.Id == id));
         }
 
-        public List<BookMaterial> GetAllBook()
+        public IEnumerable<BookMaterial> GetAllBook()
         {
             return _books;
         }
