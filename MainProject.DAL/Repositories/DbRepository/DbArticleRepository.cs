@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbArticleRepository : IArticleRepository
     {
@@ -19,25 +20,45 @@
             return articleMaterial;
         }
 
-        public bool DeleteArticle(int id)
+        public async Task<bool> DeleteArticle(int id)
         {
-            var obj = _context.Articles.Remove(_context.Articles.SingleOrDefault(e => e.Id == id));
+           var entityToDelete = await _context.Articles.SingleOrDefaultAsync(e => e.Id == id);
+           var obj = _context.Articles.Remove(entityToDelete);
 
-            return obj != null;
+           return obj != null;
         }
 
-        public IEnumerable<ArticleMaterial> GetAllArticle()
+        public async Task<IEnumerable<ArticleMaterial>> GetAllArticle()
         {
-            return _context.Articles;
+            var articles = await _context.Articles.ToListAsync();
+
+            return articles;
         }
 
-        public ArticleMaterial UpdateArticle(int id, ArticleMaterial articleMaterial)
+        public async Task<ArticleMaterial> UpdateArticle(ArticleMaterial articleMaterial)
         {
-            var article = _context.Articles.SingleOrDefault(x => x.Id == id);
+            if (articleMaterial == null)
+            {
+                return null;
+            }
 
-            article = articleMaterial;
+            var article = await _context.Articles.FirstOrDefaultAsync(x => x.Id == articleMaterial.Id);
 
-            return articleMaterial;
+            if (article != null)
+            {
+                article.Resource = articleMaterial.Resource;
+                article.Name = articleMaterial.Name;
+                article.Date = articleMaterial.Date;
+            }
+
+            _context.Entry(article).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            return article;
+        }
+
+        public Task<ArticleMaterial> GetArticleMaterial(int id)
+        {
+            return _context.Articles.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -6,10 +6,12 @@
     {
         public Task<ArticleDTO> AddArticle(ArticleDTO articleMaterial);
 
-        public Task<ArticleDTO> UpdateArticle(int id, ArticleDTO articleMaterial);
+        public Task<ArticleDTO> UpdateArticle(ArticleDTO articleMaterial);
 
-        public List<ArticleDTO> GetAllArticle();
+        public Task<List<ArticleDTO>> GetAllArticle();
 
         public Task<bool> DeleteArticle(int id);
+
+        public Task<ArticleDTO> GetArticleMaterial(int id);
     }
 }

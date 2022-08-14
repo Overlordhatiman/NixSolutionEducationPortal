@@ -199,6 +199,7 @@
             }
 
             List<SkillDTO> skills = new List<SkillDTO>();
+            course.Skills = new List<Skill>();
 
             foreach (var skill in course.Skills)
             {
@@ -209,6 +210,7 @@
             }
 
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
+            course.Materials = new List<Materials>();
 
             foreach (var material in course.Materials)
             {
@@ -251,6 +253,7 @@
             }
 
             List<Skill> skills = new List<Skill>();
+            course.Skills = new List<SkillDTO>();
 
             foreach (var skill in course.Skills)
             {
@@ -261,6 +264,7 @@
             }
 
             List<Materials> materials = new List<Materials>();
+            course.Materials = new List<MaterialsDTO>();
 
             foreach (var material in course.Materials)
             {

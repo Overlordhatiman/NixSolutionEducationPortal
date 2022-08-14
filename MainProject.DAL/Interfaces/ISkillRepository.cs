@@ -6,10 +6,12 @@
     {
         public Skill AddSkill(Skill skill);
 
-        public Skill UpdateSkill(int id, Skill skill);
+        public Task<Skill> UpdateSkill(Skill skill);
 
-        public IEnumerable<Skill> GetAllSkill();
+        public Task<IEnumerable<Skill>> GetAllSkill();
 
-        public bool DeleteSkill(int id);
+        public Task<bool> DeleteSkill(int id);
+
+        public Task<Skill> GetSkill(int id);
     }
 }

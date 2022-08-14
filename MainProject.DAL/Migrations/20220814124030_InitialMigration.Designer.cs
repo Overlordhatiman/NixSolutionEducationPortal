@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainProject.DAL.Migrations
 {
     [DbContext(typeof(EducationPortalContext))]
-    [Migration("20220813104459_InitialMigration")]
+    [Migration("20220814124030_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace MainProject.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MainProject.src.Models.Course", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace MainProject.DAL.Migrations
                     b.ToTable("Course", (string)null);
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.Materials", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Materials", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace MainProject.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
@@ -70,7 +70,7 @@ namespace MainProject.DAL.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Materials");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.Skill", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace MainProject.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -91,7 +91,7 @@ namespace MainProject.DAL.Migrations
                     b.ToTable("Skill", (string)null);
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.User", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,9 +110,9 @@ namespace MainProject.DAL.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.ArticleMaterial", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.ArticleMaterial", b =>
                 {
-                    b.HasBaseType("MainProject.src.Models.Materials");
+                    b.HasBaseType("MainProject.DAL.Models.Materials");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2")
@@ -124,9 +124,9 @@ namespace MainProject.DAL.Migrations
                     b.HasDiscriminator().HasValue("ArticleMaterial");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.BookMaterial", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.BookMaterial", b =>
                 {
-                    b.HasBaseType("MainProject.src.Models.Materials");
+                    b.HasBaseType("MainProject.DAL.Models.Materials");
 
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
@@ -143,9 +143,9 @@ namespace MainProject.DAL.Migrations
                     b.HasDiscriminator().HasValue("BookMaterial");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.VideoMaterial", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.VideoMaterial", b =>
                 {
-                    b.HasBaseType("MainProject.src.Models.Materials");
+                    b.HasBaseType("MainProject.DAL.Models.Materials");
 
                     b.Property<string>("Quality")
                         .HasColumnType("nvarchar(max)");
@@ -156,21 +156,29 @@ namespace MainProject.DAL.Migrations
                     b.HasDiscriminator().HasValue("VideoMaterial");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.Materials", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Materials", b =>
                 {
-                    b.HasOne("MainProject.src.Models.Course", null)
+                    b.HasOne("MainProject.DAL.Models.Course", "Course")
                         .WithMany("Materials")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.Skill", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Skill", b =>
                 {
-                    b.HasOne("MainProject.src.Models.Course", null)
+                    b.HasOne("MainProject.DAL.Models.Course", "Course")
                         .WithMany("Skills")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("MainProject.src.Models.Course", b =>
+            modelBuilder.Entity("MainProject.DAL.Models.Course", b =>
                 {
                     b.Navigation("Materials");
 

@@ -2,9 +2,14 @@
 {
     using MainProject.DAL.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
 
     public class EducationPortalContext : DbContext
     {
+        public EducationPortalContext()
+        {
+        }
+
         public EducationPortalContext(DbContextOptions<EducationPortalContext> options) : base(options)
         {
         }
@@ -22,6 +27,20 @@
         public DbSet<BookMaterial>? Books { get; set; }
 
         public DbSet<ArticleMaterial>? Articles { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (optionsBuilder == null)
+            {
+                return;
+            }
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                "Server=(localdb)\\MSSQLLocalDB;Database=EducationPortal;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

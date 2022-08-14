@@ -6,10 +6,12 @@
     {
         public Course AddCourse(Course course);
 
-        public Course UpdateCourse(int id, Course course);
+        public Task<Course> UpdateCourse(Course course);
 
-        public IEnumerable<Course> GetAllCourse();
+        public Task<IEnumerable<Course>> GetAllCourse();
 
-        public bool DeleteCourse(int id);
+        public Task<bool> DeleteCourse(int id);
+
+        public Task<Course> GetCourse(int id);
     }
 }

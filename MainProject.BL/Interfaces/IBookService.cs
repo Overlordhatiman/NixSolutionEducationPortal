@@ -6,10 +6,12 @@
     {
         public Task<BookDTO> AddBook(BookDTO bookMaterial);
 
-        public Task<BookDTO> UpdateBook(int id, BookDTO bookMaterial);
+        public Task<BookDTO> UpdateBook(BookDTO bookMaterial);
 
-        public List<BookDTO> GetAllBook();
+        public Task<List<BookDTO>> GetAllBook();
 
         public Task<bool> DeleteBook(int id);
+
+        public Task<BookDTO> GetBookMaterial(int id);
     }
 }

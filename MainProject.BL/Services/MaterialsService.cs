@@ -24,29 +24,36 @@
 
         public async Task<bool> DeleteMaterial(int id)
         {
-            var result = _unitOfWork.MaterialsRepository.DeleteMaterial(id);
+            var result = await _unitOfWork.MaterialsRepository.DeleteMaterial(id);
             await _unitOfWork.Save();
 
-            return result;
+            return result != null;
         }
 
-        public List<MaterialsDTO> GetAllMaterial()
+        public async Task<List<MaterialsDTO>> GetAllMaterial()
         {
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
-            foreach (var item in _unitOfWork.MaterialsRepository.GetAllMaterial())
+            foreach (var material in await _unitOfWork.MaterialsRepository.GetAllMaterial())
             {
-                materials.Add(item.ToDTO());
+                materials.Add(material.ToDTO());
             }
 
             return materials;
         }
 
-        public async Task<MaterialsDTO> UpdateMaterial(int id, MaterialsDTO material)
+        public async Task<MaterialsDTO> UpdateMaterial(MaterialsDTO material)
         {
-            _unitOfWork.MaterialsRepository.UpdateMaterial(id, material.ToModel());
+            await _unitOfWork.MaterialsRepository.UpdateMaterial(material.ToModel());
             await _unitOfWork.Save();
 
             return material;
+        }
+
+        public async Task<MaterialsDTO> GetMaterials(int id)
+        {
+            var materials = await _unitOfWork.MaterialsRepository.GetMaterials(id);
+
+            return materials.ToDTO();
         }
     }
 }

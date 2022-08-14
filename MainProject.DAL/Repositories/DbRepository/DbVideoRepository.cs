@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbVideoRepository : IVideoRepository
     {
@@ -19,25 +20,44 @@
             return videokMaterial;
         }
 
-        public bool DeleteVideo(int id)
+        public async Task<bool> DeleteVideo(int id)
         {
-            var obj = _context.Videos.Remove(_context.Videos.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Videos.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Videos.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<VideoMaterial> GetAllVideo()
+        public async Task<IEnumerable<VideoMaterial>> GetAllVideo()
         {
-            return _context.Videos;
+            var videos = await _context.Videos.ToListAsync();
+
+            return videos;
         }
 
-        public VideoMaterial UpdateVideo(int id, VideoMaterial videokMaterial)
+        public async Task<VideoMaterial> UpdateVideo(VideoMaterial videokMaterial)
         {
-            var video = _context.Videos.SingleOrDefault(x => x.Id == id);
+            if (videokMaterial == null)
+            {
+                return null;
+            }
 
-            video = videokMaterial;
+            var video = await _context.Videos.FirstOrDefaultAsync(x => x.Id == videokMaterial.Id);
+            if (video != null)
+            {
+                video.Name = videokMaterial.Name;
+                video.Time = videokMaterial.Time;
+                video.Quality = videokMaterial.Quality;
+            }
+
+            _context.Entry(video).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             return videokMaterial;
+        }
+
+        public Task<VideoMaterial> GetVideoMaterial(int id)
+        {
+            return _context.Videos.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

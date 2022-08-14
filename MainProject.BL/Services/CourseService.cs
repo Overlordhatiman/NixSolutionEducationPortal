@@ -24,29 +24,36 @@
 
         public async Task<bool> DeleteCourse(int id)
         {
-            bool result = _unitOfWork.CourseRepository.DeleteCourse(id);
+            var result = await _unitOfWork.CourseRepository.DeleteCourse(id);
             await _unitOfWork.Save();
 
-            return result;
+            return result != null;
         }
 
-        public List<CourseDTO> GetAllCourse()
+        public async Task<List<CourseDTO>> GetAllCourse()
         {
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var item in _unitOfWork.CourseRepository.GetAllCourse())
+            foreach (var course in await _unitOfWork.CourseRepository.GetAllCourse())
             {
-                courses.Add(item.ToDTO());
+                courses.Add(course.ToDTO());
             }
 
             return courses;
         }
 
-        public async Task<CourseDTO> UpdateCourse(int id, CourseDTO course)
+        public async Task<CourseDTO> UpdateCourse(CourseDTO course)
         {
-            _unitOfWork.CourseRepository.UpdateCourse(id, course.ToModel());
+            await _unitOfWork.CourseRepository.UpdateCourse(course.ToModel());
             await _unitOfWork.Save();
 
             return course;
+        }
+
+        public async Task<CourseDTO> GetCourse(int id)
+        {
+            var course = await _unitOfWork.CourseRepository.GetCourse(id);
+
+            return course.ToDTO();
         }
     }
 }

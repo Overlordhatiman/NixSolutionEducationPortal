@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbBookRepository : IBookRepository
     {
@@ -19,25 +20,46 @@
             return bookMaterial;
         }
 
-        public bool DeleteBook(int id)
+        public async Task<bool> DeleteBook(int id)
         {
-            var obj = _context.Books.Remove(_context.Books.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Books.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Books.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<BookMaterial> GetAllBook()
+        public async Task<IEnumerable<BookMaterial>> GetAllBook()
         {
-            return _context.Books;
+            var books = await _context.Books.ToListAsync();
+
+            return books;
         }
 
-        public BookMaterial UpdateBook(int id, BookMaterial bookMaterial)
+        public async Task<BookMaterial> UpdateBook(BookMaterial bookMaterial)
         {
-            var book = _context.Books.SingleOrDefault(x => x.Id == id);
+            if (bookMaterial == null)
+            {
+                return null;
+            }
 
-            book = bookMaterial;
+            var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == bookMaterial.Id);
 
-            return bookMaterial;
+            if (book != null)
+            {
+                book.Author = bookMaterial.Author;
+                book.Date = bookMaterial.Date;
+                book.Format = bookMaterial.Format;
+                book.NumberOfPages = bookMaterial.NumberOfPages;
+            }
+
+            _context.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            return book;
+        }
+
+        public Task<BookMaterial> GetBookMaterial(int id)
+        {
+            return _context.Books.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

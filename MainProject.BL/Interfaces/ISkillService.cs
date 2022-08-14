@@ -6,10 +6,12 @@
     {
         public Task<SkillDTO> AddSkill(SkillDTO skill);
 
-        public Task<SkillDTO> UpdateSkill(int id, SkillDTO skill);
+        public Task<SkillDTO> UpdateSkill(SkillDTO skill);
 
-        public List<SkillDTO> GetAllSkill();
+        public Task<List<SkillDTO>> GetAllSkill();
 
         public Task<bool> DeleteSkill(int id);
+
+        public Task<SkillDTO> GetSkill(int id);
     }
 }

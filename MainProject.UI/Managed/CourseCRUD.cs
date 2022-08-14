@@ -27,7 +27,11 @@
 
         public void UpdateCourse()
         {
-            UpdateCourse(GetCourse());
+            Console.WriteLine("Intput ID that you want to change");
+            int id;
+            int.TryParse(Console.ReadLine(), out id);
+
+            UpdateCourse(GetCourse(), id);
         }
 
         public void DeleteCourse()
@@ -40,7 +44,7 @@
             Console.WriteLine("Course");
             var collection = _courseService.GetAllCourse();
 
-            foreach (var course in collection)
+            foreach (var course in collection.Result)
             {
                 Console.WriteLine(course);
             }
@@ -60,35 +64,34 @@
         private CourseDTO GetCourse()
         {
             Console.WriteLine("Input Name");
-            string s = Console.ReadLine();
+            string name = Console.ReadLine();
 
             Console.WriteLine("Input Description");
-            string des = Console.ReadLine();
+            string description = Console.ReadLine();
 
             CourseDTO course = new CourseDTO
             {
-                Name = s,
-                Description = des
+                Name = name,
+                Description = description
             };
 
             Console.WriteLine("Input number of materials");
             int number;
             int.TryParse(Console.ReadLine(), out number);
 
-            List<MaterialsDTO> materials = new List<MaterialsDTO>();
+            course.Materials = new List<MaterialsDTO>();
             for (int i = 0; i < number; i++)
             {
-                materials.Add(MaterialsCRUD.GetMaterials());
+                MaterialsDTO material = MaterialsCRUD.GetMaterials();
+                course.Materials.Add(material);
             }
-
-            course.Materials = materials;
 
             Console.WriteLine("Input number of skills");
             int.TryParse(Console.ReadLine(), out number);
             int select;
             int idOfSkill;
 
-            List<SkillDTO> skills = new List<SkillDTO>();
+            course.Skills = new List<SkillDTO>();
             for (int i = 0; i < number; i++)
             {
                 Console.WriteLine("(1)Create or (2)Select");
@@ -96,26 +99,25 @@
 
                 if (select == 1)
                 {
-                    SkillDTO skill = SkillCRUD.GetSkill();
-                    skills.Add(skill);
+                    SkillDTO skill = SkillCRUD.GetSkillFromConsole();
+                    course.Skills.Add(skill);
                     SaveSkills(skill);
                 }
 
                 if (select == 2)
                 {
-                    Console.WriteLine("input id of skill");
+                    _skillCRUD.OutputSkills();
+                    Console.WriteLine("Input id of skill");
                     int.TryParse(Console.ReadLine(), out idOfSkill);
 
-                    skills.Add(SkillCRUD.GetSkillById(idOfSkill));
+                    course.Skills.Add(SkillCRUD.GetSkillById(idOfSkill));
                 }
             }
 
-            course.Skills = skills;
-
-            return ValidateCourse(course);
+            return Validate(course);
         }
 
-        private CourseDTO ValidateCourse(CourseDTO course)
+        private CourseDTO Validate(CourseDTO course)
         {
             ValidationResult validationResult = _courseValidation.Validate(course);
 
@@ -134,33 +136,30 @@
             return null;
         }
 
-        private void CreateCourse(CourseDTO course)
+        private async Task CreateCourse(CourseDTO course)
         {
             if (course == null)
             {
                 return;
             }
 
-            _courseService.AddCourse(course);
+            await _courseService.AddCourse(course);
         }
 
-        private void UpdateCourse(CourseDTO course)
+        private async Task UpdateCourse(CourseDTO course, int id)
         {
-            Console.WriteLine("Intput ID that you want to change");
-            int id;
-            int.TryParse(Console.ReadLine(), out id);
-
             if (course == null)
             {
                 return;
             }
 
-            _courseService.UpdateCourse(id, course);
+            course.Id = id;
+            await _courseService.UpdateCourse(course);
         }
 
-        private void DeleteCourse(int id)
+        private async Task DeleteCourse(int id)
         {
-            _courseService.DeleteCourse(id);
+            await _courseService.DeleteCourse(id);
         }
 
         private void SaveSkills(SkillDTO skill)

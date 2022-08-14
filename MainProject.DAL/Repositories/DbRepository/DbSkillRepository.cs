@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbSkillRepository : ISkillRepository
     {
@@ -19,25 +20,42 @@
             return skill;
         }
 
-        public bool DeleteSkill(int id)
+        public async Task<bool> DeleteSkill(int id)
         {
-            var obj = _context.Skills.Remove(_context.Skills.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Skills.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Skills.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<Skill> GetAllSkill()
+        public async Task<IEnumerable<Skill>> GetAllSkill()
         {
-            return _context.Skills;
+            var skills = await _context.Skills.ToListAsync();
+
+            return skills;
         }
 
-        public Skill UpdateSkill(int id, Skill skill)
+        public async Task<Skill> UpdateSkill(Skill skill)
         {
-            var skillObj = _context.Skills.SingleOrDefault(x => x.Id == id);
+            if (skill == null)
+            {
+                return null;
+            }
 
-            skillObj = skill;
+            var skillObj = await _context.Skills.FirstOrDefaultAsync(x => x.Id == skill.Id);
+            if (skillObj != null)
+            {
+                skillObj.Name = skill.Name;
+            }
 
-            return skill;
+            _context.Entry(skillObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            return skillObj;
+        }
+
+        public Task<Skill> GetSkill(int id)
+        {
+            return _context.Skills.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

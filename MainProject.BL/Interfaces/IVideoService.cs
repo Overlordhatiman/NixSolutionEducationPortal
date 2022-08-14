@@ -6,10 +6,12 @@
     {
         public Task<VideoDTO> AddVideo(VideoDTO videoMaterial);
 
-        public Task<VideoDTO> UpdateVideo(int id, VideoDTO videoMaterial);
+        public Task<VideoDTO> UpdateVideo(VideoDTO videoMaterial);
 
-        public List<VideoDTO> GetAllVideo();
+        public Task<List<VideoDTO>> GetAllVideo();
 
         public Task<bool> DeleteVideo(int id);
+
+        public Task<VideoDTO> GetVideoMaterial(int id);
     }
 }

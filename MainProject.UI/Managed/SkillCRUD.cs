@@ -17,7 +17,7 @@
             _skillValidation = new SkillValidation();
         }
 
-        public static SkillDTO GetSkill()
+        public static SkillDTO GetSkillFromConsole()
         {
             Console.WriteLine("Input Name");
             string s = Console.ReadLine();
@@ -27,19 +27,19 @@
                 Name = s,
             };
 
-            return ValidateMaterial(skill);
+            return Validate(skill);
         }
 
         public static SkillDTO GetSkillById(int id)
         {
-            var collection = _skillService.GetAllSkill();
+            var skills = _skillService.GetAllSkill();
 
-            return collection.Find(x => x.Id == id);
+            return skills.Result.Find(x => x.Id == id);
         }
 
         public void CreateSkill()
         {
-            CreateSkill(GetSkill());
+            CreateSkill(GetSkillFromConsole());
         }
 
         public void SaveSkills(SkillDTO skill)
@@ -54,7 +54,11 @@
 
         public void UpdateSkill()
         {
-            UpdateSkill(GetSkill());
+            int id = GetId();
+            Console.WriteLine("Current object");
+            Console.WriteLine(_skillService.GetSkill(id).Result);
+
+            UpdateSkill(GetSkillFromConsole(), id).Wait();
         }
 
         public void DeleteSkill()
@@ -67,7 +71,7 @@
             Console.WriteLine("Skills");
             var skills = _skillService.GetAllSkill();
 
-            foreach (var skill in skills)
+            foreach (var skill in skills.Result)
             {
                 Console.WriteLine(skill);
             }
@@ -75,13 +79,13 @@
             Console.ReadKey();
         }
 
-        private static SkillDTO ValidateMaterial(SkillDTO skill)
+        private static SkillDTO Validate(SkillDTO skill)
         {
             ValidationResult validationResult = _skillValidation.Validate(skill);
 
-            foreach (var item in validationResult.Errors)
+            foreach (var error in validationResult.Errors)
             {
-                Console.WriteLine(item.ErrorMessage);
+                Console.WriteLine(error.ErrorMessage);
             }
 
             Console.ReadKey();
@@ -103,29 +107,30 @@
             return id;
         }
 
-        private void CreateSkill(SkillDTO skill)
+        private async Task CreateSkill(SkillDTO skill)
         {
             if (skill == null)
             {
                 return;
             }
 
-            _skillService.AddSkill(skill);
+            await _skillService.AddSkill(skill);
         }
 
-        private void UpdateSkill(SkillDTO skill)
+        private async Task UpdateSkill(SkillDTO skill, int id)
         {
             if (skill == null)
             {
                 return;
             }
 
-            _skillService.UpdateSkill(skill.Id, skill);
+            skill.Id = id;
+            await _skillService.UpdateSkill(skill);
         }
 
-        private void DeleteSkill(int id)
+        private async Task DeleteSkill(int id)
         {
-            _skillService.DeleteSkill(id);
+            await _skillService.DeleteSkill(id);
         }
     }
 }

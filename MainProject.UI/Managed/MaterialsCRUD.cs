@@ -22,12 +22,12 @@
             Console.WriteLine("Input Name");
             string s = Console.ReadLine();
 
-            MaterialsDTO mat = new MaterialsDTO
+            MaterialsDTO maerialt = new MaterialsDTO
             {
                 Name = s,
             };
 
-            return ValidateMaterial(mat);
+            return Validate(maerialt);
         }
 
         public void CreateMaterial()
@@ -37,7 +37,11 @@
 
         public void UpdateMaterial()
         {
-            UpdateMaterial(GetMaterials());
+            int id = GetId();
+            Console.WriteLine("Current object");
+            Console.WriteLine(_materialsService.GetMaterials(id).Result);
+
+            UpdateMaterial(GetMaterials(), id).Wait();
         }
 
         public void DeleteMaterial()
@@ -50,7 +54,7 @@
             Console.WriteLine("Materials");
             var materials = _materialsService.GetAllMaterial();
 
-            foreach (var material in materials)
+            foreach (var material in materials.Result)
             {
                 Console.WriteLine(material);
             }
@@ -58,20 +62,20 @@
             Console.ReadKey();
         }
 
-        private static MaterialsDTO ValidateMaterial(MaterialsDTO mat)
+        private static MaterialsDTO Validate(MaterialsDTO material)
         {
-            ValidationResult validationResult = _materialValidation.Validate(mat);
+            ValidationResult validationResult = _materialValidation.Validate(material);
 
-            foreach (var item in validationResult.Errors)
+            foreach (var error in validationResult.Errors)
             {
-                Console.WriteLine(item.ErrorMessage);
+                Console.WriteLine(error.ErrorMessage);
             }
 
             Console.ReadKey();
 
             if (validationResult.IsValid)
             {
-                return mat;
+                return material;
             }
 
             return null;
@@ -96,14 +100,15 @@
             _materialsService.AddMaterial(materialsDTO);
         }
 
-        private void UpdateMaterial(MaterialsDTO materialsDTO)
+        private async Task UpdateMaterial(MaterialsDTO materialsDTO, int id)
         {
             if (materialsDTO == null)
             {
                 return;
             }
 
-            _materialsService.UpdateMaterial(materialsDTO.Id, materialsDTO);
+            materialsDTO.Id = id;
+            await _materialsService.UpdateMaterial(materialsDTO);
         }
 
         private void DeleteMaterial(int id)

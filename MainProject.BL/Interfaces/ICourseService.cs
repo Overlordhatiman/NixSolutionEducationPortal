@@ -6,10 +6,12 @@
     {
         public Task<CourseDTO> AddCourse(CourseDTO course);
 
-        public Task<CourseDTO> UpdateCourse(int id, CourseDTO course);
+        public Task<CourseDTO> UpdateCourse(CourseDTO course);
 
-        public List<CourseDTO> GetAllCourse();
+        public Task<List<CourseDTO>> GetAllCourse();
 
         public Task<bool> DeleteCourse(int id);
+
+        public Task<CourseDTO> GetCourse(int id);
     }
 }

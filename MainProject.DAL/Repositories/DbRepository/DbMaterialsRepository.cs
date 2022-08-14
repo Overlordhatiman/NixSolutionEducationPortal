@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbMaterialsRepository : IMaterialsRepository
     {
@@ -19,25 +20,43 @@
             return material;
         }
 
-        public bool DeleteMaterial(int id)
+        public async Task<bool> DeleteMaterial(int id)
         {
-            var obj = _context.Materials.Remove(_context.Materials.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Materials.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Materials.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<Materials> GetAllMaterial()
+        public async Task<IEnumerable<Materials>> GetAllMaterial()
         {
-            return _context.Materials;
+            var materials = await _context.Materials.ToListAsync();
+
+            return materials;
         }
 
-        public Materials UpdateMaterial(int id, Materials material)
+        public async Task<Materials> UpdateMaterial(Materials material)
         {
-            var materialObj = _context.Materials.SingleOrDefault(x => x.Id == id);
+            if (material == null)
+            {
+                return null;
+            }
 
-            materialObj = material;
+            var materialObj = await _context.Materials.FirstOrDefaultAsync(x => x.Id == material.Id);
+
+            if (materialObj != null)
+            {
+                materialObj.Name = material.Name;
+            }
+
+            _context.Entry(materialObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             return material;
+        }
+
+        public Task<Materials> GetMaterials(int id)
+        {
+            return _context.Materials.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

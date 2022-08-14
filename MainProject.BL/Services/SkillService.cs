@@ -24,29 +24,36 @@
 
         public async Task<bool> DeleteSkill(int id)
         {
-            var result = _unitOfWork.SkillRepository.DeleteSkill(id);
+            var result = await _unitOfWork.SkillRepository.DeleteSkill(id);
             await _unitOfWork.Save();
 
             return result;
         }
 
-        public List<SkillDTO> GetAllSkill()
+        public async Task<List<SkillDTO>> GetAllSkill()
         {
             List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var item in _unitOfWork.SkillRepository.GetAllSkill())
+            foreach (var skill in await _unitOfWork.SkillRepository.GetAllSkill())
             {
-                skills.Add(item.ToDTO());
+                skills.Add(skill.ToDTO());
             }
 
             return skills;
         }
 
-        public async Task<SkillDTO> UpdateSkill(int id, SkillDTO skill)
+        public async Task<SkillDTO> UpdateSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.UpdateSkill(id, skill.ToModel());
+            await _unitOfWork.SkillRepository.UpdateSkill(skill.ToModel());
             await _unitOfWork.Save();
 
             return skill;
+        }
+
+        public async Task<SkillDTO> GetSkill(int id)
+        {
+            var skill = await _unitOfWork.SkillRepository.GetSkill(id);
+
+            return skill.ToDTO();
         }
     }
 }

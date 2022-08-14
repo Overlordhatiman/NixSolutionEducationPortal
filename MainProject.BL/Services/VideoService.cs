@@ -24,16 +24,16 @@
 
         public async Task<bool> DeleteVideo(int id)
         {
-            bool result = _unitOfWork.VideoRepository.DeleteVideo(id);
+            var result = await _unitOfWork.VideoRepository.DeleteVideo(id);
             await _unitOfWork.Save();
 
-            return result;
+            return result != null;
         }
 
-        public List<VideoDTO> GetAllVideo()
+        public async Task<List<VideoDTO>> GetAllVideo()
         {
             List<VideoDTO> videos = new List<VideoDTO>();
-            foreach (var item in _unitOfWork.VideoRepository.GetAllVideo())
+            foreach (var item in await _unitOfWork.VideoRepository.GetAllVideo())
             {
                 videos.Add(item.ToDTO());
             }
@@ -41,12 +41,19 @@
             return videos;
         }
 
-        public async Task<VideoDTO> UpdateVideo(int id, VideoDTO videokMaterial)
+        public async Task<VideoDTO> UpdateVideo(VideoDTO videokMaterial)
         {
-            _unitOfWork.VideoRepository.UpdateVideo(id, videokMaterial.ToModel());
+            await _unitOfWork.VideoRepository.UpdateVideo(videokMaterial.ToModel());
             await _unitOfWork.Save();
 
             return videokMaterial;
+        }
+
+        public async Task<VideoDTO> GetVideoMaterial(int id)
+        {
+            var videoMaterial = await _unitOfWork.VideoRepository.GetVideoMaterial(id);
+
+            return videoMaterial.ToDTO();
         }
     }
 }

@@ -39,9 +39,9 @@
 
         public IMaterialsRepository MaterialsRepository => _materialsRepository ??= new DbMaterialsRepository(_context);
 
-        public async Task Save()
+        public Task Save()
         {
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
     }
 }

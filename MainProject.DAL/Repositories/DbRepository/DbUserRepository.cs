@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbUserRepository : IUserRepository
     {
@@ -19,32 +20,50 @@
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
-            var obj = _context.Users.Remove(_context.Users.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Users.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Users.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<User> GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            return _context.Users;
+            var users = await _context.Users.ToListAsync();
+
+            return users;
         }
 
-        public bool IsValidUser(string mail, string password)
+        public async Task<bool> IsValidUser(string mail, string password)
         {
-            User user = _context.Users.FirstOrDefault(x => x.Mail == mail && x.Password == password);
+            var user = _context.Users.FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
 
             return user != null;
         }
 
-        public User UpdateUser(int id, User user)
+        public async Task<User> UpdateUser(User user)
         {
-            var userObj = _context.Users.SingleOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return null;
+            }
 
-            userObj = user;
+            var userObj = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+            if (userObj != null)
+            {
+                userObj.Mail = user.Mail;
+                userObj.Password = user.Password;
+            }
 
-            return user;
+            _context.Entry(userObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            return userObj;
+        }
+
+        public Task<User> GetUser(int id)
+        {
+            return _context.Users.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

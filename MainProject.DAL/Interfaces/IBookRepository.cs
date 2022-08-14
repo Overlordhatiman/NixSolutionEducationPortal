@@ -6,10 +6,12 @@
     {
         public BookMaterial AddBook(BookMaterial bookMaterial);
 
-        public BookMaterial UpdateBook(int id, BookMaterial bookMaterial);
+        public Task<BookMaterial> UpdateBook(BookMaterial bookMaterial);
 
-        public IEnumerable<BookMaterial> GetAllBook();
+        public Task<IEnumerable<BookMaterial>> GetAllBook();
 
-        public bool DeleteBook(int id);
+        public Task<bool> DeleteBook(int id);
+
+        public Task<BookMaterial> GetBookMaterial(int id);
     }
 }

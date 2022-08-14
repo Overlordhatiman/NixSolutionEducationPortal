@@ -2,6 +2,8 @@
 {
     public class MainMenu
     {
+        private static bool isValidUser;
+
         private List<MenuItem> _mainMenu;
 
         private List<MenuItem> _courseMenu;
@@ -31,7 +33,7 @@
             {
                 new MenuItem { Description = "Course", Execute = ShowCourseMenu },
                 new MenuItem { Description = "Materials", Execute = ShowMaterialsMenu },
-                new MenuItem { Description = "Skils", Execute = ShowSkillMenu },
+                new MenuItem { Description = "Skills", Execute = ShowSkillMenu },
                 new MenuItem { Description = "Log out", Execute = LogOut },
             };
 
@@ -108,7 +110,8 @@
 
         private void LogIn()
         {
-            if (IsValidUser())
+            IsValidUser();
+            if (isValidUser)
             {
                 ShowMainMenu();
             }
@@ -123,9 +126,10 @@
             ShowRegisterMenu();
         }
 
-        private bool IsValidUser()
+        private async Task IsValidUser()
         {
-            return _userCRUD.IsValid();
+            var isValid = await _userCRUD.IsValid();
+            isValidUser = isValid;
         }
 
         private void Menu(List<MenuItem> menuItems, string message)

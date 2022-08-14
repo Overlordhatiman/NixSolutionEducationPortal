@@ -6,10 +6,12 @@
     {
         public Task<MaterialsDTO> AddMaterial(MaterialsDTO material);
 
-        public Task<MaterialsDTO> UpdateMaterial(int id, MaterialsDTO material);
+        public Task<MaterialsDTO> UpdateMaterial(MaterialsDTO material);
 
-        public List<MaterialsDTO> GetAllMaterial();
+        public Task<List<MaterialsDTO>> GetAllMaterial();
 
         public Task<bool> DeleteMaterial(int id);
+
+        public Task<MaterialsDTO> GetMaterials(int id);
     }
 }

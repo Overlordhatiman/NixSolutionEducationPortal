@@ -2,6 +2,7 @@
 {
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbCourseRepository : ICourseRepository
     {
@@ -19,25 +20,46 @@
             return course;
         }
 
-        public bool DeleteCourse(int id)
+        public async Task<bool> DeleteCourse(int id)
         {
-            var obj = _context.Courses.Remove(_context.Courses.SingleOrDefault(e => e.Id == id));
+            var entityToDelete = await _context.Courses.SingleOrDefaultAsync(e => e.Id == id);
+            var obj = _context.Courses.Remove(entityToDelete);
 
             return obj != null;
         }
 
-        public IEnumerable<Course> GetAllCourse()
+        public async Task<IEnumerable<Course>> GetAllCourse()
         {
-            return _context.Courses;
+            var courses = await _context.Courses.ToListAsync();
+
+            return courses;
         }
 
-        public Course UpdateCourse(int id, Course course)
+        public async Task<Course> UpdateCourse(Course course)
         {
-            var courseObj = _context.Courses.SingleOrDefault(x => x.Id == id);
+            if (course == null)
+            {
+                return null;
+            }
 
-            courseObj = course;
+            var courseObj = await _context.Courses.FirstOrDefaultAsync(x => x.Id == course.Id);
+            if (courseObj != null)
+            {
+                courseObj.Name = course.Name;
+                courseObj.Description = course.Description;
+                courseObj.Materials = course.Materials;
+                courseObj.Skills = course.Skills;
+            }
 
-            return course;
+            _context.Entry(courseObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return courseObj;
+        }
+
+        public Task<Course> GetCourse(int id)
+        {
+            return _context.Courses.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -6,10 +6,12 @@
     {
         public VideoMaterial AddVideo(VideoMaterial videokMaterial);
 
-        public VideoMaterial UpdateVideo(int id, VideoMaterial videokMaterial);
+        public Task<VideoMaterial> UpdateVideo(VideoMaterial videokMaterial);
 
-        public IEnumerable<VideoMaterial> GetAllVideo();
+        public Task<IEnumerable<VideoMaterial>> GetAllVideo();
 
-        public bool DeleteVideo(int id);
+        public Task<bool> DeleteVideo(int id);
+
+        public Task<VideoMaterial> GetVideoMaterial(int id);
     }
 }

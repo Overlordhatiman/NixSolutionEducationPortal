@@ -18,7 +18,7 @@
             _userValidation = new UserValidation();
         }
 
-        public static UserDTO GetUser()
+        public static UserDTO GetUserFromConsole()
         {
             Console.WriteLine("Input Mail");
             string? mail = Console.ReadLine();
@@ -32,17 +32,21 @@
                 Password = password,
             };
 
-            return ValidateMaterial(user);
+            return Validate(user);
         }
 
         public void CreateUser()
         {
-            CreateUser(GetUser());
+            CreateUser(GetUserFromConsole());
         }
 
         public void UpdateUser()
         {
-            UpdateUser(GetUser());
+            int id = GetId();
+            Console.WriteLine("Current object");
+            Console.WriteLine(_userService.GetUser(id).Result);
+
+            UpdateUser(GetUserFromConsole(), id).Wait();
         }
 
         public void DeleteUser()
@@ -50,7 +54,7 @@
             DeleteUser(GetId());
         }
 
-        public bool IsValid()
+        public async Task<bool> IsValid()
         {
             Console.WriteLine("Input mail");
             string? mail = Console.ReadLine();
@@ -58,23 +62,23 @@
             Console.WriteLine("Input password");
             string? password = Console.ReadLine();
 
-            return _userService.IsValidUser(mail, password);
+            return await _userService.IsValidUser(mail, password);
         }
 
         public void OutputUser()
         {
             Console.WriteLine("Users");
-            var collection = _userService.GetAllUser();
+            var users = _userService.GetAllUser();
 
-            foreach (var item in collection)
+            foreach (var user in users.Result)
             {
-                Console.WriteLine(item.Id + "\t" + item.Mail + "\t" + item.Password);
+                Console.WriteLine(user);
             }
 
             Console.ReadKey();
         }
 
-        private static UserDTO ValidateMaterial(UserDTO user)
+        private static UserDTO Validate(UserDTO user)
         {
             ValidationResult validationResult = _userValidation.Validate(user);
 
@@ -102,29 +106,30 @@
             return id;
         }
 
-        private void CreateUser(UserDTO user)
+        private async Task CreateUser(UserDTO user)
         {
             if (user == null)
             {
                 return;
             }
 
-            _userService.AddUser(user);
+            await _userService.AddUser(user);
         }
 
-        private void UpdateUser(UserDTO user)
+        private async Task UpdateUser(UserDTO user, int id)
         {
             if (user == null)
             {
                 return;
             }
 
-            _userService.UpdateUser(user.Id, user);
+            user.Id = id;
+            await _userService.UpdateUser(user);
         }
 
-        private void DeleteUser(int id)
+        private async Task DeleteUser(int id)
         {
-            _userService.DeleteUser(id);
+            await _userService.DeleteUser(id);
         }
     }
 }
