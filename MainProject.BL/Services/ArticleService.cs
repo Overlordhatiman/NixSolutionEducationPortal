@@ -14,27 +14,25 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ArticleDTO> AddArticle(ArticleDTO articleMaterial)
+        public ArticleDTO AddArticle(ArticleDTO articleMaterial)
         {
             _unitOfWork.ArticleRepository.AddArticle(articleMaterial.ToModel());
-            await _unitOfWork.Save();
 
             return articleMaterial;
         }
 
-        public async Task<bool> DeleteArticle(int id)
+        public bool DeleteArticle(int id)
         {
-            var result = await _unitOfWork.ArticleRepository.DeleteArticle(id);
-            await _unitOfWork.Save();
+            var result = _unitOfWork.ArticleRepository.DeleteArticle(id);
 
             return result != null;
         }
 
-        public async Task<List<ArticleDTO>> GetAllArticle()
+        public List<ArticleDTO> GetAllArticle()
         {
             List<ArticleDTO> articles = new List<ArticleDTO>();
 
-            foreach (var article in await _unitOfWork.ArticleRepository.GetAllArticle())
+            foreach (var article in _unitOfWork.ArticleRepository.GetAllArticle())
             {
                 articles.Add(article.ToDTO());
             }
@@ -42,19 +40,16 @@
             return articles;
         }
 
-        public async Task<ArticleDTO> UpdateArticle(ArticleDTO articleMaterial)
+        public ArticleDTO UpdateArticle(ArticleDTO articleMaterial)
         {
-            await _unitOfWork.ArticleRepository.UpdateArticle(articleMaterial.ToModel());
-            await _unitOfWork.Save();
+            _unitOfWork.ArticleRepository.UpdateArticle(articleMaterial.ToModel());
 
             return articleMaterial;
         }
 
-        public async Task<ArticleDTO> GetArticleMaterial(int id)
+        public ArticleDTO GetArticleMaterial(int id)
         {
-            var article = await _unitOfWork.ArticleRepository.GetArticleMaterial(id);
-
-            return article.ToDTO();
+            return _unitOfWork.ArticleRepository.GetArticleMaterial(id).ToDTO();
         }
     }
 }

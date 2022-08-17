@@ -8,10 +8,9 @@
 
     public static class Registrator
     {
-        public static void Register(IServiceCollection services, IConfiguration configuration)
+        public static void Register(IServiceCollection services)
         {
-            services.AddDbContext<EducationPortalContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EducationPortalContext>();
 
             services.AddScoped<IUnitOfWork, DbUnitOfWork>();
         }

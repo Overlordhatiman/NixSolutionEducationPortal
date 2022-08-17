@@ -16,50 +16,41 @@
         public BookMaterial AddBook(BookMaterial bookMaterial)
         {
             _context.Books.Add(bookMaterial);
+            _context.SaveChanges();
 
             return bookMaterial;
         }
 
-        public async Task<bool> DeleteBook(int id)
+        public bool DeleteBook(int id)
         {
-            var entityToDelete = await _context.Books.SingleOrDefaultAsync(e => e.Id == id);
+            var entityToDelete = _context.Books.SingleOrDefault(e => e.Id == id);
             var obj = _context.Books.Remove(entityToDelete);
+            _context.SaveChanges();
 
             return obj != null;
         }
 
-        public async Task<IEnumerable<BookMaterial>> GetAllBook()
+        public IEnumerable<BookMaterial> GetAllBook()
         {
-            var books = await _context.Books.ToListAsync();
-
-            return books;
+            return _context.Books.ToList();
         }
 
-        public async Task<BookMaterial> UpdateBook(BookMaterial bookMaterial)
+        public BookMaterial UpdateBook(BookMaterial bookMaterial)
         {
             if (bookMaterial == null)
             {
                 return null;
             }
 
-            var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == bookMaterial.Id);
+            _context.Entry(bookMaterial).State = EntityState.Modified;
+            _context.SaveChanges();
 
-            if (book != null)
-            {
-                book.Author = bookMaterial.Author;
-                book.Date = bookMaterial.Date;
-                book.Format = bookMaterial.Format;
-                book.NumberOfPages = bookMaterial.NumberOfPages;
-            }
-
-            _context.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            return book;
+            return bookMaterial;
         }
 
-        public Task<BookMaterial> GetBookMaterial(int id)
+        public BookMaterial GetBookMaterial(int id)
         {
-            return _context.Books.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Books.SingleOrDefault(x => x.Id == id);
         }
     }
 }

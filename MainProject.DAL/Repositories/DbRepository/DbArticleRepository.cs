@@ -16,49 +16,41 @@
         public ArticleMaterial AddArticle(ArticleMaterial articleMaterial)
         {
             _context.Articles.Add(articleMaterial);
+            _context.SaveChanges();
 
             return articleMaterial;
         }
 
-        public async Task<bool> DeleteArticle(int id)
+        public bool DeleteArticle(int id)
         {
-           var entityToDelete = await _context.Articles.SingleOrDefaultAsync(e => e.Id == id);
+           var entityToDelete = _context.Articles.SingleOrDefault(e => e.Id == id);
            var obj = _context.Articles.Remove(entityToDelete);
+           _context.SaveChanges();
 
            return obj != null;
         }
 
-        public async Task<IEnumerable<ArticleMaterial>> GetAllArticle()
+        public IEnumerable<ArticleMaterial> GetAllArticle()
         {
-            var articles = await _context.Articles.ToListAsync();
-
-            return articles;
+           return _context.Articles.ToList();
         }
 
-        public async Task<ArticleMaterial> UpdateArticle(ArticleMaterial articleMaterial)
+        public ArticleMaterial UpdateArticle(ArticleMaterial articleMaterial)
         {
             if (articleMaterial == null)
             {
                 return null;
             }
 
-            var article = await _context.Articles.FirstOrDefaultAsync(x => x.Id == articleMaterial.Id);
+            _context.Entry(articleMaterial).State = EntityState.Modified;
+            _context.SaveChanges();
 
-            if (article != null)
-            {
-                article.Resource = articleMaterial.Resource;
-                article.Name = articleMaterial.Name;
-                article.Date = articleMaterial.Date;
-            }
-
-            _context.Entry(article).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            return article;
+            return articleMaterial;
         }
 
-        public Task<ArticleMaterial> GetArticleMaterial(int id)
+        public ArticleMaterial GetArticleMaterial(int id)
         {
-            return _context.Articles.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Articles.SingleOrDefault(x => x.Id == id);
         }
     }
 }

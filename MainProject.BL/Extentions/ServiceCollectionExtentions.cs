@@ -7,7 +7,7 @@
 
     public static class ServiceCollectionExtentions
     {
-        public static void AddServices(this ServiceCollection services, IConfiguration configuration)
+        public static void AddServices(this ServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
@@ -17,7 +17,7 @@
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IMaterialsService, MaterialsService>();
 
-            MainProject.DAL.Repositories.Registrator.Register(services, configuration);
+            MainProject.DAL.Repositories.Registrator.Register(services);
         }
     }
 }

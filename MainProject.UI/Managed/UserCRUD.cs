@@ -44,9 +44,9 @@
         {
             int id = GetId();
             Console.WriteLine("Current object");
-            Console.WriteLine(_userService.GetUser(id).Result);
+            Console.WriteLine(_userService.GetUser(id));
 
-            UpdateUser(GetUserFromConsole(), id).Wait();
+            UpdateUser(GetUserFromConsole(), id);
         }
 
         public void DeleteUser()
@@ -54,7 +54,7 @@
             DeleteUser(GetId());
         }
 
-        public async Task<bool> IsValid()
+        public bool IsValid()
         {
             Console.WriteLine("Input mail");
             string? mail = Console.ReadLine();
@@ -62,7 +62,7 @@
             Console.WriteLine("Input password");
             string? password = Console.ReadLine();
 
-            return await _userService.IsValidUser(mail, password);
+            return _userService.IsValidUser(mail, password);
         }
 
         public void OutputUser()
@@ -70,7 +70,7 @@
             Console.WriteLine("Users");
             var users = _userService.GetAllUser();
 
-            foreach (var user in users.Result)
+            foreach (var user in users)
             {
                 Console.WriteLine(user);
             }
@@ -106,17 +106,17 @@
             return id;
         }
 
-        private async Task CreateUser(UserDTO user)
+        private void CreateUser(UserDTO user)
         {
             if (user == null)
             {
                 return;
             }
 
-            await _userService.AddUser(user);
+            _userService.AddUser(user);
         }
 
-        private async Task UpdateUser(UserDTO user, int id)
+        private void UpdateUser(UserDTO user, int id)
         {
             if (user == null)
             {
@@ -124,12 +124,12 @@
             }
 
             user.Id = id;
-            await _userService.UpdateUser(user);
+            _userService.UpdateUser(user);
         }
 
-        private async Task DeleteUser(int id)
+        private void DeleteUser(int id)
         {
-            await _userService.DeleteUser(id);
+            _userService.DeleteUser(id);
         }
     }
 }

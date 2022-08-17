@@ -17,7 +17,6 @@
         public async Task<CourseDTO> AddCourse(CourseDTO course)
         {
             _unitOfWork.CourseRepository.AddCourse(course.ToModel());
-            _unitOfWork.Save();
 
             return course;
         }
@@ -25,7 +24,6 @@
         public async Task<bool> DeleteCourse(int id)
         {
             var result = await _unitOfWork.CourseRepository.DeleteCourse(id);
-            await _unitOfWork.Save();
 
             return result != null;
         }
@@ -44,7 +42,6 @@
         public async Task<CourseDTO> UpdateCourse(CourseDTO course)
         {
             await _unitOfWork.CourseRepository.UpdateCourse(course.ToModel());
-            await _unitOfWork.Save();
 
             return course;
         }

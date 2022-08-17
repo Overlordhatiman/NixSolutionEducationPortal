@@ -4,14 +4,14 @@
 
     public interface ISkillService
     {
-        public Task<SkillDTO> AddSkill(SkillDTO skill);
+        public SkillDTO AddSkill(SkillDTO skill);
 
-        public Task<SkillDTO> UpdateSkill(SkillDTO skill);
+        public SkillDTO UpdateSkill(SkillDTO skill);
 
-        public Task<List<SkillDTO>> GetAllSkill();
+        public List<SkillDTO> GetAllSkill();
 
-        public Task<bool> DeleteSkill(int id);
+        public bool DeleteSkill(int id);
 
-        public Task<SkillDTO> GetSkill(int id);
+        public SkillDTO GetSkill(int id);
     }
 }

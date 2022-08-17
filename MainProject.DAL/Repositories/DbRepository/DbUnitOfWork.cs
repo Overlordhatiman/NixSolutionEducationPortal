@@ -38,10 +38,5 @@
         public IUserRepository UserRepository => _userRepository ??= new DbUserRepository(_context);
 
         public IMaterialsRepository MaterialsRepository => _materialsRepository ??= new DbMaterialsRepository(_context);
-
-        public Task Save()
-        {
-            return _context.SaveChangesAsync();
-        }
     }
 }

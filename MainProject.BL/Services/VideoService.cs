@@ -17,7 +17,6 @@
         public async Task<VideoDTO> AddVideo(VideoDTO videoMaterial)
         {
             _unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
-            _unitOfWork.Save();
 
             return videoMaterial;
         }
@@ -25,7 +24,6 @@
         public async Task<bool> DeleteVideo(int id)
         {
             var result = await _unitOfWork.VideoRepository.DeleteVideo(id);
-            await _unitOfWork.Save();
 
             return result != null;
         }
@@ -44,7 +42,6 @@
         public async Task<VideoDTO> UpdateVideo(VideoDTO videokMaterial)
         {
             await _unitOfWork.VideoRepository.UpdateVideo(videokMaterial.ToModel());
-            await _unitOfWork.Save();
 
             return videokMaterial;
         }

@@ -4,16 +4,16 @@
 
     public interface IUserService
     {
-        public Task<UserDTO> AddUser(UserDTO user);
+        public UserDTO AddUser(UserDTO user);
 
-        public Task<UserDTO> UpdateUser(UserDTO user);
+        public UserDTO UpdateUser(UserDTO user);
 
-        public Task<List<UserDTO>> GetAllUser();
+        public List<UserDTO> GetAllUser();
 
-        public Task<bool> DeleteUser(int id);
+        public bool DeleteUser(int id);
 
-        public Task<bool> IsValidUser(string mail, string password);
+        public bool IsValidUser(string mail, string password);
 
-        public Task<UserDTO> GetUser(int id);
+        public UserDTO GetUser(int id);
     }
 }

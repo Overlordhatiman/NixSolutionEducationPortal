@@ -16,46 +16,41 @@
         public Skill AddSkill(Skill skill)
         {
             _context.Skills.Add(skill);
+            _context.SaveChanges();
 
             return skill;
         }
 
-        public async Task<bool> DeleteSkill(int id)
+        public bool DeleteSkill(int id)
         {
-            var entityToDelete = await _context.Skills.SingleOrDefaultAsync(e => e.Id == id);
+            var entityToDelete = _context.Skills.SingleOrDefault(e => e.Id == id);
             var obj = _context.Skills.Remove(entityToDelete);
+            _context.SaveChanges();
 
             return obj != null;
         }
 
-        public async Task<IEnumerable<Skill>> GetAllSkill()
+        public IEnumerable<Skill> GetAllSkill()
         {
-            var skills = await _context.Skills.ToListAsync();
-
-            return skills;
+            return _context.Skills.ToList();
         }
 
-        public async Task<Skill> UpdateSkill(Skill skill)
+        public Skill UpdateSkill(Skill skill)
         {
             if (skill == null)
             {
                 return null;
             }
 
-            var skillObj = await _context.Skills.FirstOrDefaultAsync(x => x.Id == skill.Id);
-            if (skillObj != null)
-            {
-                skillObj.Name = skill.Name;
-            }
+            _context.Entry(skill).State = EntityState.Modified;
+            _context.SaveChanges();
 
-            _context.Entry(skillObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            return skillObj;
+            return skill;
         }
 
-        public Task<Skill> GetSkill(int id)
+        public Skill GetSkill(int id)
         {
-            return _context.Skills.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Skills.SingleOrDefault(x => x.Id == id);
         }
     }
 }

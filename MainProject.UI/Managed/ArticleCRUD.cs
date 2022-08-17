@@ -34,9 +34,9 @@ namespace MainProject.UI.Managed
             return Validate(article);
         }
 
-        public static async Task<ArticleDTO> GetArticleById(int id)
+        public static ArticleDTO GetArticleById(int id)
         {
-            return await _articleService.GetArticleMaterial(id);
+            return _articleService.GetArticleMaterial(id);
         }
 
         public void CreateArticle()
@@ -63,7 +63,7 @@ namespace MainProject.UI.Managed
             Console.WriteLine("Skills");
             var articles = _articleService.GetAllArticle();
 
-            foreach (var article in articles.Result)
+            foreach (var article in articles)
             {
                 Console.WriteLine(article);
             }
@@ -99,17 +99,17 @@ namespace MainProject.UI.Managed
             return id;
         }
 
-        private async Task CreateArticle(ArticleDTO article)
+        private void CreateArticle(ArticleDTO article)
         {
             if (article == null)
             {
                 return;
             }
 
-            await _articleService.AddArticle(article);
+            _articleService.AddArticle(article);
         }
 
-        private async Task UpdateArticle(ArticleDTO article, int id)
+        private void UpdateArticle(ArticleDTO article, int id)
         {
             if (article == null)
             {
@@ -117,12 +117,12 @@ namespace MainProject.UI.Managed
             }
 
             article.Id = id;
-            await _articleService.UpdateArticle(article);
+            _articleService.UpdateArticle(article);
         }
 
-        private async Task DeleteArticle(int id)
+        private void DeleteArticle(int id)
         {
-            await _articleService.DeleteArticle(id);
+            _articleService.DeleteArticle(id);
         }
     }
 }

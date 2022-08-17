@@ -14,26 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserDTO> AddUser(UserDTO user)
+        public UserDTO AddUser(UserDTO user)
         {
             _unitOfWork.UserRepository.AddUser(user.ToModel());
-            await _unitOfWork.Save();
 
             return user;
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
-            var result = await _unitOfWork.UserRepository.DeleteUser(id);
-            await _unitOfWork.Save();
+            var result = _unitOfWork.UserRepository.DeleteUser(id);
 
             return result != null;
         }
 
-        public async Task<List<UserDTO>> GetAllUser()
+        public List<UserDTO> GetAllUser()
         {
             List<UserDTO> users = new List<UserDTO>();
-            foreach (var user in await _unitOfWork.UserRepository.GetAllUser())
+            foreach (var user in _unitOfWork.UserRepository.GetAllUser())
             {
                 users.Add(user.ToDTO());
             }
@@ -41,24 +39,21 @@
             return users;
         }
 
-        public async Task<UserDTO> UpdateUser(UserDTO user)
+        public UserDTO UpdateUser(UserDTO user)
         {
-            await _unitOfWork.UserRepository.UpdateUser(user.ToModel());
-            await _unitOfWork.Save();
+            _unitOfWork.UserRepository.UpdateUser(user.ToModel());
 
             return user;
         }
 
-        public async Task<bool> IsValidUser(string mail, string password)
+        public bool IsValidUser(string mail, string password)
         {
-            return await _unitOfWork.UserRepository.IsValidUser(mail, password);
+            return _unitOfWork.UserRepository.IsValidUser(mail, password);
         }
 
-        public async Task<UserDTO> GetUser(int id)
+        public UserDTO GetUser(int id)
         {
-            var skill = await _unitOfWork.UserRepository.GetUser(id);
-
-            return skill.ToDTO();
+            return _unitOfWork.UserRepository.GetUser(id).ToDTO();
         }
     }
 }

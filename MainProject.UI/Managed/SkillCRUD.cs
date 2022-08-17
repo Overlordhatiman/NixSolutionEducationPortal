@@ -34,7 +34,7 @@
         {
             var skills = _skillService.GetAllSkill();
 
-            return skills.Result.Find(x => x.Id == id);
+            return skills.Find(x => x.Id == id);
         }
 
         public void CreateSkill()
@@ -56,9 +56,9 @@
         {
             int id = GetId();
             Console.WriteLine("Current object");
-            Console.WriteLine(_skillService.GetSkill(id).Result);
+            Console.WriteLine(_skillService.GetSkill(id));
 
-            UpdateSkill(GetSkillFromConsole(), id).Wait();
+            UpdateSkill(GetSkillFromConsole(), id);
         }
 
         public void DeleteSkill()
@@ -71,7 +71,7 @@
             Console.WriteLine("Skills");
             var skills = _skillService.GetAllSkill();
 
-            foreach (var skill in skills.Result)
+            foreach (var skill in skills)
             {
                 Console.WriteLine(skill);
             }
@@ -107,17 +107,17 @@
             return id;
         }
 
-        private async Task CreateSkill(SkillDTO skill)
+        private void CreateSkill(SkillDTO skill)
         {
             if (skill == null)
             {
                 return;
             }
 
-            await _skillService.AddSkill(skill);
+            _skillService.AddSkill(skill);
         }
 
-        private async Task UpdateSkill(SkillDTO skill, int id)
+        private void UpdateSkill(SkillDTO skill, int id)
         {
             if (skill == null)
             {
@@ -125,12 +125,12 @@
             }
 
             skill.Id = id;
-            await _skillService.UpdateSkill(skill);
+            _skillService.UpdateSkill(skill);
         }
 
-        private async Task DeleteSkill(int id)
+        private void DeleteSkill(int id)
         {
-            await _skillService.DeleteSkill(id);
+            _skillService.DeleteSkill(id);
         }
     }
 }

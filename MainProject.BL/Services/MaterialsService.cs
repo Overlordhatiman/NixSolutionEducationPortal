@@ -17,7 +17,6 @@
         public async Task<MaterialsDTO> AddMaterial(MaterialsDTO material)
         {
             _unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
-            await _unitOfWork.Save();
 
             return material;
         }
@@ -25,7 +24,6 @@
         public async Task<bool> DeleteMaterial(int id)
         {
             var result = await _unitOfWork.MaterialsRepository.DeleteMaterial(id);
-            await _unitOfWork.Save();
 
             return result != null;
         }
@@ -44,7 +42,6 @@
         public async Task<MaterialsDTO> UpdateMaterial(MaterialsDTO material)
         {
             await _unitOfWork.MaterialsRepository.UpdateMaterial(material.ToModel());
-            await _unitOfWork.Save();
 
             return material;
         }

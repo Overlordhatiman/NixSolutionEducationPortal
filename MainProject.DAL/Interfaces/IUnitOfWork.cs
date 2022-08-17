@@ -15,7 +15,5 @@
         public IUserRepository UserRepository { get; }
 
         public IMaterialsRepository MaterialsRepository { get; }
-
-        public Task Save();
     }
 }

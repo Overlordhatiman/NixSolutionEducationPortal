@@ -6,14 +6,6 @@
 
     public class EducationPortalContext : DbContext
     {
-        public EducationPortalContext()
-        {
-        }
-
-        public EducationPortalContext(DbContextOptions<EducationPortalContext> options) : base(options)
-        {
-        }
-
         public DbSet<Materials>? Materials { get; set; }
 
         public DbSet<Skill>? Skills { get; set; }
@@ -37,8 +29,12 @@
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
-                "Server=(localdb)\\MSSQLLocalDB;Database=EducationPortal;Trusted_Connection=True;");
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false);
+                IConfiguration config = builder.Build();
+
+                optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             }
         }
 

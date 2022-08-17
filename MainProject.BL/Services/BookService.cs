@@ -14,26 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<BookDTO> AddBook(BookDTO bookMaterial)
+        public BookDTO AddBook(BookDTO bookMaterial)
         {
             _unitOfWork.BookRepository.AddBook(bookMaterial.ToModel());
-            await _unitOfWork.Save();
 
             return bookMaterial;
         }
 
-        public async Task<bool> DeleteBook(int id)
+        public bool DeleteBook(int id)
         {
-            var result = await _unitOfWork.BookRepository.DeleteBook(id);
-            await _unitOfWork.Save();
+            var result = _unitOfWork.BookRepository.DeleteBook(id);
 
             return result != null;
         }
 
-        public async Task<List<BookDTO>> GetAllBook()
+        public List<BookDTO> GetAllBook()
         {
             List<BookDTO> books = new List<BookDTO>();
-            foreach (var book in await _unitOfWork.BookRepository.GetAllBook())
+            foreach (var book in _unitOfWork.BookRepository.GetAllBook())
             {
                 books.Add(book.ToDTO());
             }
@@ -41,19 +39,16 @@
             return books;
         }
 
-        public async Task<BookDTO> UpdateBook(BookDTO bookMaterial)
+        public BookDTO UpdateBook(BookDTO bookMaterial)
         {
-            await _unitOfWork.BookRepository.UpdateBook(bookMaterial.ToModel());
-            await _unitOfWork.Save();
+            _unitOfWork.BookRepository.UpdateBook(bookMaterial.ToModel());
 
             return bookMaterial;
         }
 
-        public async Task<BookDTO> GetBookMaterial(int id)
+        public BookDTO GetBookMaterial(int id)
         {
-            var book = await _unitOfWork.BookRepository.GetBookMaterial(id);
-
-            return book.ToDTO();
+           return _unitOfWork.BookRepository.GetBookMaterial(id).ToDTO();
         }
     }
 }
