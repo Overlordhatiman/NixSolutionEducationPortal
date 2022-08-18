@@ -16,50 +16,45 @@
         public Course AddCourse(Course course)
         {
             _context.Courses.Add(course);
+            _context.SaveChanges();
 
             return course;
         }
 
-        public async Task<bool> DeleteCourse(int id)
+        public bool DeleteCourse(int id)
         {
-            var entityToDelete = await _context.Courses.SingleOrDefaultAsync(e => e.Id == id);
+            var entityToDelete = _context.Courses.SingleOrDefault(e => e.Id == id);
             var obj = _context.Courses.Remove(entityToDelete);
+            _context.SaveChanges();
 
             return obj != null;
         }
 
-        public async Task<IEnumerable<Course>> GetAllCourse()
+        public IEnumerable<Course> GetAllCourse()
         {
-            var courses = await _context.Courses.ToListAsync();
-
-            return courses;
+           return _context.Courses
+                .Include(material => material.Materials)
+                .Include(skill => skill.Skills)
+                .AsNoTracking()
+                .ToList();
         }
 
-        public async Task<Course> UpdateCourse(Course course)
+        public Course UpdateCourse(Course course)
         {
             if (course == null)
             {
                 return null;
             }
 
-            var courseObj = await _context.Courses.FirstOrDefaultAsync(x => x.Id == course.Id);
-            if (courseObj != null)
-            {
-                courseObj.Name = course.Name;
-                courseObj.Description = course.Description;
-                courseObj.Materials = course.Materials;
-                courseObj.Skills = course.Skills;
-            }
+            _context.Courses.Update(course);
+            _context.SaveChanges();
 
-            _context.Entry(courseObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return courseObj;
+            return course;
         }
 
-        public Task<Course> GetCourse(int id)
+        public Course GetCourse(int id)
         {
-            return _context.Courses.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Courses.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

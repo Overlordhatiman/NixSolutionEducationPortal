@@ -39,9 +39,9 @@
         {
             int id = GetId();
             Console.WriteLine("Current object");
-            Console.WriteLine(_materialsService.GetMaterials(id).Result);
+            Console.WriteLine(_materialsService.GetMaterials(id));
 
-            UpdateMaterial(GetMaterials(), id).Wait();
+            UpdateMaterial(GetMaterials(), id);
         }
 
         public void DeleteMaterial()
@@ -54,7 +54,7 @@
             Console.WriteLine("Materials");
             var materials = _materialsService.GetAllMaterial();
 
-            foreach (var material in materials.Result)
+            foreach (var material in materials)
             {
                 Console.WriteLine(material);
             }
@@ -100,7 +100,7 @@
             _materialsService.AddMaterial(materialsDTO);
         }
 
-        private async Task UpdateMaterial(MaterialsDTO materialsDTO, int id)
+        private void UpdateMaterial(MaterialsDTO materialsDTO, int id)
         {
             if (materialsDTO == null)
             {
@@ -108,7 +108,7 @@
             }
 
             materialsDTO.Id = id;
-            await _materialsService.UpdateMaterial(materialsDTO);
+            _materialsService.UpdateMaterial(materialsDTO);
         }
 
         private void DeleteMaterial(int id)

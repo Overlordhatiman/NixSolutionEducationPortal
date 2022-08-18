@@ -44,7 +44,7 @@
             Console.WriteLine("Course");
             var collection = _courseService.GetAllCourse();
 
-            foreach (var course in collection.Result)
+            foreach (var course in collection)
             {
                 Console.WriteLine(course);
             }
@@ -110,7 +110,10 @@
                     Console.WriteLine("Input id of skill");
                     int.TryParse(Console.ReadLine(), out idOfSkill);
 
-                    course.Skills.Add(SkillCRUD.GetSkillById(idOfSkill));
+                    SkillDTO skill = SkillCRUD.GetSkillById(idOfSkill);
+                    skill.Id = course.Id;
+
+                    course.Skills.Add(skill);
                 }
             }
 
@@ -136,17 +139,17 @@
             return null;
         }
 
-        private async Task CreateCourse(CourseDTO course)
+        private void CreateCourse(CourseDTO course)
         {
             if (course == null)
             {
                 return;
             }
 
-            await _courseService.AddCourse(course);
+            _courseService.AddCourse(course);
         }
 
-        private async Task UpdateCourse(CourseDTO course, int id)
+        private void UpdateCourse(CourseDTO course, int id)
         {
             if (course == null)
             {
@@ -154,12 +157,12 @@
             }
 
             course.Id = id;
-            await _courseService.UpdateCourse(course);
+            _courseService.UpdateCourse(course);
         }
 
-        private async Task DeleteCourse(int id)
+        private void DeleteCourse(int id)
         {
-            await _courseService.DeleteCourse(id);
+            _courseService.DeleteCourse(id);
         }
 
         private void SaveSkills(SkillDTO skill)

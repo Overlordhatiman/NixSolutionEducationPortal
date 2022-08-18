@@ -32,7 +32,7 @@
 
         public IEnumerable<Skill> GetAllSkill()
         {
-            return _context.Skills.ToList();
+            return _context.Skills.AsNoTracking().ToList();
         }
 
         public Skill UpdateSkill(Skill skill)
@@ -42,7 +42,7 @@
                 return null;
             }
 
-            _context.Entry(skill).State = EntityState.Modified;
+            _context.Skills.Update(skill);
             _context.SaveChanges();
 
             return skill;
@@ -50,7 +50,7 @@
 
         public Skill GetSkill(int id)
         {
-            return _context.Skills.SingleOrDefault(x => x.Id == id);
+            return _context.Skills.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

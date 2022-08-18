@@ -4,14 +4,14 @@
 
     public interface IVideoRepository
     {
-        public VideoMaterial AddVideo(VideoMaterial videokMaterial);
+        public VideoMaterial AddVideo(VideoMaterial videoMaterial);
 
-        public Task<VideoMaterial> UpdateVideo(VideoMaterial videokMaterial);
+        public VideoMaterial UpdateVideo(VideoMaterial videoMaterial);
 
-        public Task<IEnumerable<VideoMaterial>> GetAllVideo();
+        public IEnumerable<VideoMaterial> GetAllVideo();
 
-        public Task<bool> DeleteVideo(int id);
+        public bool DeleteVideo(int id);
 
-        public Task<VideoMaterial> GetVideoMaterial(int id);
+        public VideoMaterial GetVideoMaterial(int id);
     }
 }

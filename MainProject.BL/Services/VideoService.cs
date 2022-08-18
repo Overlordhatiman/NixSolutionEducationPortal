@@ -14,24 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<VideoDTO> AddVideo(VideoDTO videoMaterial)
+        public VideoDTO AddVideo(VideoDTO videoMaterial)
         {
             _unitOfWork.VideoRepository.AddVideo(videoMaterial.ToModel());
 
             return videoMaterial;
         }
 
-        public async Task<bool> DeleteVideo(int id)
+        public bool DeleteVideo(int id)
         {
-            var result = await _unitOfWork.VideoRepository.DeleteVideo(id);
+            var result = _unitOfWork.VideoRepository.DeleteVideo(id);
 
             return result != null;
         }
 
-        public async Task<List<VideoDTO>> GetAllVideo()
+        public List<VideoDTO> GetAllVideo()
         {
             List<VideoDTO> videos = new List<VideoDTO>();
-            foreach (var item in await _unitOfWork.VideoRepository.GetAllVideo())
+            foreach (var item in _unitOfWork.VideoRepository.GetAllVideo())
             {
                 videos.Add(item.ToDTO());
             }
@@ -39,18 +39,16 @@
             return videos;
         }
 
-        public async Task<VideoDTO> UpdateVideo(VideoDTO videokMaterial)
+        public VideoDTO UpdateVideo(VideoDTO videokMaterial)
         {
-            await _unitOfWork.VideoRepository.UpdateVideo(videokMaterial.ToModel());
+            _unitOfWork.VideoRepository.UpdateVideo(videokMaterial.ToModel());
 
             return videokMaterial;
         }
 
-        public async Task<VideoDTO> GetVideoMaterial(int id)
+        public VideoDTO GetVideoMaterial(int id)
         {
-            var videoMaterial = await _unitOfWork.VideoRepository.GetVideoMaterial(id);
-
-            return videoMaterial.ToDTO();
+           return _unitOfWork.VideoRepository.GetVideoMaterial(id).ToDTO();
         }
     }
 }

@@ -14,24 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<MaterialsDTO> AddMaterial(MaterialsDTO material)
+        public MaterialsDTO AddMaterial(MaterialsDTO material)
         {
             _unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
 
             return material;
         }
 
-        public async Task<bool> DeleteMaterial(int id)
+        public bool DeleteMaterial(int id)
         {
-            var result = await _unitOfWork.MaterialsRepository.DeleteMaterial(id);
+            var result = _unitOfWork.MaterialsRepository.DeleteMaterial(id);
 
             return result != null;
         }
 
-        public async Task<List<MaterialsDTO>> GetAllMaterial()
+        public List<MaterialsDTO> GetAllMaterial()
         {
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
-            foreach (var material in await _unitOfWork.MaterialsRepository.GetAllMaterial())
+            foreach (var material in _unitOfWork.MaterialsRepository.GetAllMaterial())
             {
                 materials.Add(material.ToDTO());
             }
@@ -39,16 +39,16 @@
             return materials;
         }
 
-        public async Task<MaterialsDTO> UpdateMaterial(MaterialsDTO material)
+        public MaterialsDTO UpdateMaterial(MaterialsDTO material)
         {
-            await _unitOfWork.MaterialsRepository.UpdateMaterial(material.ToModel());
+            _unitOfWork.MaterialsRepository.UpdateMaterial(material.ToModel());
 
             return material;
         }
 
-        public async Task<MaterialsDTO> GetMaterials(int id)
+        public MaterialsDTO GetMaterials(int id)
         {
-            var materials = await _unitOfWork.MaterialsRepository.GetMaterials(id);
+            var materials = _unitOfWork.MaterialsRepository.GetMaterials(id);
 
             return materials.ToDTO();
         }

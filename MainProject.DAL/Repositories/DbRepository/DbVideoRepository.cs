@@ -13,51 +13,44 @@
             _context = context;
         }
 
-        public VideoMaterial AddVideo(VideoMaterial videokMaterial)
+        public VideoMaterial AddVideo(VideoMaterial videoMaterial)
         {
-            _context.Videos.Add(videokMaterial);
+            _context.Videos.Add(videoMaterial);
+            _context.SaveChanges();
 
-            return videokMaterial;
+            return videoMaterial;
         }
 
-        public async Task<bool> DeleteVideo(int id)
+        public bool DeleteVideo(int id)
         {
-            var entityToDelete = await _context.Videos.SingleOrDefaultAsync(e => e.Id == id);
+            var entityToDelete = _context.Videos.SingleOrDefault(e => e.Id == id);
             var obj = _context.Videos.Remove(entityToDelete);
+            _context.SaveChanges();
 
             return obj != null;
         }
 
-        public async Task<IEnumerable<VideoMaterial>> GetAllVideo()
+        public IEnumerable<VideoMaterial> GetAllVideo()
         {
-            var videos = await _context.Videos.ToListAsync();
-
-            return videos;
+            return _context.Videos.ToList();
         }
 
-        public async Task<VideoMaterial> UpdateVideo(VideoMaterial videokMaterial)
+        public VideoMaterial UpdateVideo(VideoMaterial videoMaterial)
         {
-            if (videokMaterial == null)
+            if (videoMaterial == null)
             {
                 return null;
             }
 
-            var video = await _context.Videos.FirstOrDefaultAsync(x => x.Id == videokMaterial.Id);
-            if (video != null)
-            {
-                video.Name = videokMaterial.Name;
-                video.Time = videokMaterial.Time;
-                video.Quality = videokMaterial.Quality;
-            }
+            _context.Entry(videoMaterial).State = EntityState.Modified;
+            _context.SaveChanges();
 
-            _context.Entry(video).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            return videokMaterial;
+            return videoMaterial;
         }
 
-        public Task<VideoMaterial> GetVideoMaterial(int id)
+        public VideoMaterial GetVideoMaterial(int id)
         {
-            return _context.Videos.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Videos.SingleOrDefault(x => x.Id == id);
         }
     }
 }

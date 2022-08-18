@@ -57,8 +57,10 @@
             int id = GetId();
             Console.WriteLine("Current object");
             Console.WriteLine(_skillService.GetSkill(id));
+            SkillDTO skill = GetSkillFromConsole();
+            skill.Id = id;
 
-            UpdateSkill(GetSkillFromConsole(), id);
+            UpdateSkill(skill);
         }
 
         public void DeleteSkill()
@@ -117,14 +119,13 @@
             _skillService.AddSkill(skill);
         }
 
-        private void UpdateSkill(SkillDTO skill, int id)
+        private void UpdateSkill(SkillDTO skill)
         {
             if (skill == null)
             {
                 return;
             }
 
-            skill.Id = id;
             _skillService.UpdateSkill(skill);
         }
 

@@ -6,12 +6,12 @@
     {
         public Materials AddMaterial(Materials material);
 
-        public Task<Materials> UpdateMaterial(Materials material);
+        public Materials UpdateMaterial(Materials material);
 
-        public Task<IEnumerable<Materials>> GetAllMaterial();
+        public IEnumerable<Materials> GetAllMaterial();
 
-        public Task<bool> DeleteMaterial(int id);
+        public bool DeleteMaterial(int id);
 
-        public Task<Materials> GetMaterials(int id);
+        public Materials GetMaterials(int id);
     }
 }

@@ -16,47 +16,41 @@
         public Materials AddMaterial(Materials material)
         {
             _context.Materials.Add(material);
+            _context.SaveChanges();
 
             return material;
         }
 
-        public async Task<bool> DeleteMaterial(int id)
+        public bool DeleteMaterial(int id)
         {
-            var entityToDelete = await _context.Materials.SingleOrDefaultAsync(e => e.Id == id);
+            var entityToDelete = _context.Materials.SingleOrDefault(e => e.Id == id);
             var obj = _context.Materials.Remove(entityToDelete);
+            _context.SaveChanges();
 
             return obj != null;
         }
 
-        public async Task<IEnumerable<Materials>> GetAllMaterial()
+        public IEnumerable<Materials> GetAllMaterial()
         {
-            var materials = await _context.Materials.ToListAsync();
-
-            return materials;
+            return _context.Materials.ToList();
         }
 
-        public async Task<Materials> UpdateMaterial(Materials material)
+        public Materials UpdateMaterial(Materials material)
         {
             if (material == null)
             {
                 return null;
             }
 
-            var materialObj = await _context.Materials.FirstOrDefaultAsync(x => x.Id == material.Id);
-
-            if (materialObj != null)
-            {
-                materialObj.Name = material.Name;
-            }
-
-            _context.Entry(materialObj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(material).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return material;
         }
 
-        public Task<Materials> GetMaterials(int id)
+        public Materials GetMaterials(int id)
         {
-            return _context.Materials.SingleOrDefaultAsync(x => x.Id == id);
+            return _context.Materials.SingleOrDefault(x => x.Id == id);
         }
     }
 }
