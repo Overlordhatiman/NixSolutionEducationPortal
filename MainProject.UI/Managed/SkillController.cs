@@ -5,19 +5,19 @@
     using MainProject.BL.Interfaces;
     using MainProject.UI.Validation;
 
-    public class SkillCRUD
+    public class SkillController
     {
-        private static ISkillService _skillService;
+        private ISkillService _skillService;
 
-        private static SkillValidation _skillValidation;
+        private SkillValidation _skillValidation;
 
-        public SkillCRUD(ISkillService service)
+        public SkillController(ISkillService service)
         {
             _skillService = service;
             _skillValidation = new SkillValidation();
         }
 
-        public static SkillDTO GetSkillFromConsole()
+        public SkillDTO GetSkillFromConsole()
         {
             Console.WriteLine("Input Name");
             string s = Console.ReadLine();
@@ -30,11 +30,9 @@
             return Validate(skill);
         }
 
-        public static SkillDTO GetSkillById(int id)
+        public SkillDTO GetSkillById(int id)
         {
-            var skills = _skillService.GetAllSkill();
-
-            return skills.Find(x => x.Id == id);
+            return _skillService.GetSkill(id);
         }
 
         public void CreateSkill()
@@ -63,6 +61,11 @@
             UpdateSkill(skill);
         }
 
+        public void SaveSkillAfterUpdate(SkillDTO skill)
+        {
+            UpdateSkill(skill);
+        }
+
         public void DeleteSkill()
         {
             DeleteSkill(GetId());
@@ -81,7 +84,7 @@
             Console.ReadKey();
         }
 
-        private static SkillDTO Validate(SkillDTO skill)
+        private SkillDTO Validate(SkillDTO skill)
         {
             ValidationResult validationResult = _skillValidation.Validate(skill);
 

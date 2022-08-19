@@ -32,7 +32,7 @@
 
         public IEnumerable<Materials> GetAllMaterial()
         {
-            return _context.Materials.ToList();
+            return _context.Materials.AsNoTracking().ToList();
         }
 
         public Materials UpdateMaterial(Materials material)
@@ -50,7 +50,7 @@
 
         public Materials GetMaterials(int id)
         {
-            return _context.Materials.SingleOrDefault(x => x.Id == id);
+            return _context.Materials.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

@@ -11,10 +11,10 @@
         {
             var services = new ServiceCollection();
 
-            services.AddScoped<SkillCRUD>();
-            services.AddScoped<CourseCRUD>();
-            services.AddScoped<UserCRUD>();
-            services.AddScoped<MaterialsCRUD>();
+            services.AddScoped<SkillController>();
+            services.AddScoped<CourseController>();
+            services.AddScoped<UserController>();
+            services.AddScoped<MaterialsController>();
             services.AddScoped<MainMenu>();
 
             services.AddServices();

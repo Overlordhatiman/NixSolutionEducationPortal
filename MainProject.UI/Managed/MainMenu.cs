@@ -12,15 +12,15 @@
 
         private List<MenuItem> _skillMenu;
 
-        private MaterialsCRUD _materialsCRUD;
+        private MaterialsController _materialsCRUD;
 
-        private CourseCRUD _courseCRUD;
+        private CourseController _courseCRUD;
 
-        private SkillCRUD _skillCRUD;
+        private SkillController _skillCRUD;
 
-        private UserCRUD _userCRUD;
+        private UserController _userCRUD;
 
-        public MainMenu(MaterialsCRUD materialsCRUD, CourseCRUD courseCRUD, SkillCRUD skillCRUD, UserCRUD userCRUD)
+        public MainMenu(MaterialsController materialsCRUD, CourseController courseCRUD, SkillController skillCRUD, UserController userCRUD)
         {
             _materialsCRUD = materialsCRUD;
             _courseCRUD = courseCRUD;

@@ -6,19 +6,19 @@
     using MainProject.UI.Validation;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class UserCRUD
+    public class UserController
     {
-        private static UserValidation? _userValidation;
+        private UserValidation? _userValidation;
 
         private IUserService _userService;
 
-        public UserCRUD(IUserService service)
+        public UserController(IUserService service)
         {
             _userService = service;
             _userValidation = new UserValidation();
         }
 
-        public static UserDTO GetUserFromConsole()
+        public UserDTO GetUserFromConsole()
         {
             Console.WriteLine("Input Mail");
             string? mail = Console.ReadLine();
@@ -78,7 +78,7 @@
             Console.ReadKey();
         }
 
-        private static UserDTO Validate(UserDTO user)
+        private UserDTO Validate(UserDTO user)
         {
             ValidationResult validationResult = _userValidation.Validate(user);
 

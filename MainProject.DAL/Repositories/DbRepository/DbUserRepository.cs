@@ -32,7 +32,7 @@
 
         public IEnumerable<User> GetAllUser()
         {
-           return _context.Users.ToList();
+           return _context.Users.AsNoTracking().ToList();
         }
 
         public bool IsValidUser(string mail, string password)
@@ -49,7 +49,7 @@
                 return null;
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Update(user);
             _context.SaveChanges();
 
             return user;
@@ -57,7 +57,7 @@
 
         public User GetUser(int id)
         {
-            return _context.Users.SingleOrDefault(x => x.Id == id);
+            return _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

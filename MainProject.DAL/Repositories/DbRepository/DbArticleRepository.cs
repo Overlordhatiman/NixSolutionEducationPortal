@@ -32,7 +32,7 @@
 
         public IEnumerable<ArticleMaterial> GetAllArticle()
         {
-           return _context.Articles.ToList();
+           return _context.Articles.AsNoTracking().ToList();
         }
 
         public ArticleMaterial UpdateArticle(ArticleMaterial articleMaterial)
@@ -42,7 +42,7 @@
                 return null;
             }
 
-            _context.Entry(articleMaterial).State = EntityState.Modified;
+            _context.Update(articleMaterial);
             _context.SaveChanges();
 
             return articleMaterial;
@@ -50,7 +50,7 @@
 
         public ArticleMaterial GetArticleMaterial(int id)
         {
-            return _context.Articles.SingleOrDefault(x => x.Id == id);
+            return _context.Articles.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

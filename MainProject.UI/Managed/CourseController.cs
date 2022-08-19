@@ -5,19 +5,22 @@
     using MainProject.BL.Interfaces;
     using MainProject.UI.Validation;
 
-    public class CourseCRUD
+    public class CourseController
     {
         private ICourseService _courseService;
 
         private CourseValidation _courseValidation;
 
-        private SkillCRUD _skillCRUD;
+        private SkillController _skillCRUD;
 
-        public CourseCRUD(ICourseService service, SkillCRUD skill)
+        private MaterialsController _materialCRUD;
+
+        public CourseController(ICourseService service, SkillController skill, MaterialsController materialCRUD)
         {
             _courseService = service;
             _courseValidation = new CourseValidation();
             _skillCRUD = skill;
+            _materialCRUD = materialCRUD;
         }
 
         public void CreateCourse()
@@ -77,19 +80,42 @@
 
             Console.WriteLine("Input number of materials");
             int number;
+            int select;
+            int idOfSkillOrMaterial;
             int.TryParse(Console.ReadLine(), out number);
 
             course.Materials = new List<MaterialsDTO>();
             for (int i = 0; i < number; i++)
             {
-                MaterialsDTO material = MaterialsCRUD.GetMaterials();
+                MaterialsDTO material = _materialCRUD.GetMaterials();
                 course.Materials.Add(material);
+
+                Console.WriteLine("(1)Create or (2)Select");
+                int.TryParse(Console.ReadLine(), out select);
+
+                if (select == 1)
+                {
+                    MaterialsDTO materials = _materialCRUD.GetMaterials();
+                    course.Materials.Add(materials);
+                    SaveMaterials(materials);
+                }
+
+                if (select == 2)
+                {
+                    _materialCRUD.OutputMaterials();
+                    Console.WriteLine("Input id of material");
+                    int.TryParse(Console.ReadLine(), out idOfSkillOrMaterial);
+
+                    MaterialsDTO materials = _materialCRUD.GetMaterialById(idOfSkillOrMaterial);
+                    materials.Id = course.Id;
+
+                    course.Materials.Add(materials);
+                    _materialCRUD.SaveMaterialAfterUpdate(materials);
+                }
             }
 
             Console.WriteLine("Input number of skills");
             int.TryParse(Console.ReadLine(), out number);
-            int select;
-            int idOfSkill;
 
             course.Skills = new List<SkillDTO>();
             for (int i = 0; i < number; i++)
@@ -99,7 +125,7 @@
 
                 if (select == 1)
                 {
-                    SkillDTO skill = SkillCRUD.GetSkillFromConsole();
+                    SkillDTO skill = _skillCRUD.GetSkillFromConsole();
                     course.Skills.Add(skill);
                     SaveSkills(skill);
                 }
@@ -108,12 +134,13 @@
                 {
                     _skillCRUD.OutputSkills();
                     Console.WriteLine("Input id of skill");
-                    int.TryParse(Console.ReadLine(), out idOfSkill);
+                    int.TryParse(Console.ReadLine(), out idOfSkillOrMaterial);
 
-                    SkillDTO skill = SkillCRUD.GetSkillById(idOfSkill);
+                    SkillDTO skill = _skillCRUD.GetSkillById(idOfSkillOrMaterial);
                     skill.Id = course.Id;
 
                     course.Skills.Add(skill);
+                    _skillCRUD.SaveSkillAfterUpdate(skill);
                 }
             }
 
@@ -173,6 +200,16 @@
             }
 
             _skillCRUD.SaveSkills(skill);
+        }
+
+        private void SaveMaterials(MaterialsDTO materials)
+        {
+            if (materials == null)
+            {
+                return;
+            }
+
+            _materialCRUD.SaveMaterials(materials);
         }
     }
 }

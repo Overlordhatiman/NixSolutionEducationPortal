@@ -32,7 +32,7 @@
 
         public IEnumerable<BookMaterial> GetAllBook()
         {
-            return _context.Books.ToList();
+            return _context.Books.AsNoTracking().ToList();
         }
 
         public BookMaterial UpdateBook(BookMaterial bookMaterial)
@@ -42,7 +42,7 @@
                 return null;
             }
 
-            _context.Entry(bookMaterial).State = EntityState.Modified;
+            _context.Update(bookMaterial);
             _context.SaveChanges();
 
             return bookMaterial;
@@ -50,7 +50,7 @@
 
         public BookMaterial GetBookMaterial(int id)
         {
-            return _context.Books.SingleOrDefault(x => x.Id == id);
+            return _context.Books.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

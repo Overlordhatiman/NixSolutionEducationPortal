@@ -5,19 +5,19 @@ using MainProject.UI.Validation;
 
 namespace MainProject.UI.Managed
 {
-    public class ArticleCRUD
+    public class ArticleController
     {
-        private static IArticleService _articleService;
+        private IArticleService _articleService;
 
-        private static ArticleValidation _articleValidation;
+        private ArticleValidation _articleValidation;
 
-        public ArticleCRUD(IArticleService service)
+        public ArticleController(IArticleService service)
         {
             _articleService = service;
             _articleValidation = new ArticleValidation();
         }
 
-        public static ArticleDTO GetArticleFromConsole()
+        public ArticleDTO GetArticleFromConsole()
         {
             Console.WriteLine("Input Name");
             string name = Console.ReadLine();
@@ -34,7 +34,7 @@ namespace MainProject.UI.Managed
             return Validate(article);
         }
 
-        public static ArticleDTO GetArticleById(int id)
+        public ArticleDTO GetArticleById(int id)
         {
             return _articleService.GetArticleMaterial(id);
         }
@@ -71,7 +71,7 @@ namespace MainProject.UI.Managed
             Console.ReadKey();
         }
 
-        private static ArticleDTO Validate(ArticleDTO article)
+        private ArticleDTO Validate(ArticleDTO article)
         {
             ValidationResult validationResult = _articleValidation.Validate(article);
 

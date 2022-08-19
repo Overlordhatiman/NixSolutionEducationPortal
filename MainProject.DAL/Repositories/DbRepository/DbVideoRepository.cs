@@ -32,7 +32,7 @@
 
         public IEnumerable<VideoMaterial> GetAllVideo()
         {
-            return _context.Videos.ToList();
+            return _context.Videos.AsNoTracking().ToList();
         }
 
         public VideoMaterial UpdateVideo(VideoMaterial videoMaterial)
@@ -42,7 +42,7 @@
                 return null;
             }
 
-            _context.Entry(videoMaterial).State = EntityState.Modified;
+            _context.Update(videoMaterial);
             _context.SaveChanges();
 
             return videoMaterial;
@@ -50,7 +50,7 @@
 
         public VideoMaterial GetVideoMaterial(int id)
         {
-            return _context.Videos.SingleOrDefault(x => x.Id == id);
+            return _context.Videos.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }
