@@ -4,6 +4,7 @@
     using MainProject.BL.Extentions;
     using MainProject.BL.Interfaces;
     using MainProject.DAL.Interfaces;
+    using MainProject.DAL.Models;
 
     public class CourseService : ICourseService
     {
@@ -16,6 +17,11 @@
 
         public CourseDTO AddCourse(CourseDTO course)
         {
+            if (course == null)
+            {
+                return null;
+            }
+
             _unitOfWork.CourseRepository.AddCourse(course.ToModel());
 
             return course;

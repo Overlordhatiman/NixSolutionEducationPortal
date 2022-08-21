@@ -214,11 +214,13 @@
                 return new SkillDTO();
             }
 
-            return new SkillDTO
+            SkillDTO skillDTO = new SkillDTO
             {
                 Id = skill.Id,
                 Name = skill.Name,
             };
+
+            return skillDTO;
         }
 
         public static Skill ToModel(this SkillDTO skill)
@@ -228,11 +230,13 @@
                 return new Skill();
             }
 
-            return new Skill
+            Skill skillModel = new Skill
             {
                 Id = skill.Id,
                 Name = skill.Name,
             };
+
+            return skillModel;
         }
 
         public static UserDTO ToDTO(this User user)
@@ -300,11 +304,6 @@
                 {
                     materials.Add(ToDTO(book));
                 }
-
-                if (material is Materials)
-                {
-                    materials.Add(material.ToDTO());
-                }
             }
 
             return new CourseDTO
@@ -325,7 +324,6 @@
             }
 
             List<Skill> skills = new List<Skill>();
-            //course.Skills = new List<SkillDTO>();
 
             foreach (var skill in course.Skills)
             {
@@ -336,7 +334,6 @@
             }
 
             List<Materials> materials = new List<Materials>();
-            //course.Materials = new List<MaterialsDTO>();
 
             foreach (var material in course.Materials)
             {
@@ -353,11 +350,6 @@
                 if (material is BookDTO book)
                 {
                     materials.Add(ToModel(book));
-                }
-
-                if (material is MaterialsDTO)
-                {
-                    materials.Add(material.ToModel());
                 }
             }
 

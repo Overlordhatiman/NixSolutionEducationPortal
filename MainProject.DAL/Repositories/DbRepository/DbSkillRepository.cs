@@ -32,7 +32,7 @@
 
         public IEnumerable<Skill> GetAllSkill()
         {
-            return _context.Skills.AsNoTracking().ToList();
+            return _context.Skills.Include(m => m.Courses).AsNoTracking().ToList();
         }
 
         public Skill UpdateSkill(Skill skill)
@@ -50,7 +50,7 @@
 
         public Skill GetSkill(int id)
         {
-            return _context.Skills.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return _context.Skills.Include(m => m.Courses).SingleOrDefault(x => x.Id == id);
         }
     }
 }

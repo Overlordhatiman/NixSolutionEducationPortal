@@ -15,6 +15,21 @@
 
         public Course AddCourse(Course course)
         {
+            if (course == null)
+            {
+                return null;
+            }
+
+            course.Materials = course.Materials
+                .Select(material => _context.Materials
+                .FirstOrDefault(m => m.Id == material.Id) ?? material)
+                .ToList();
+
+            course.Skills = course.Skills
+                .Select(skill => _context.Skills
+                .FirstOrDefault(m => m.Id == skill.Id) ?? skill)
+                .ToList();
+
             _context.Courses.Add(course);
             _context.SaveChanges();
 
@@ -45,6 +60,16 @@
             {
                 return null;
             }
+
+            course.Materials = course.Materials
+                .Select(material => _context.Materials
+                .FirstOrDefault(m => m.Id == material.Id) ?? material)
+                .ToList();
+
+            course.Skills = course.Skills
+                .Select(skill => _context.Skills
+                .FirstOrDefault(m => m.Id == skill.Id) ?? skill)
+                .ToList();
 
             _context.Courses.Update(course);
             _context.SaveChanges();

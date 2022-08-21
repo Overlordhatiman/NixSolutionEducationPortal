@@ -6,8 +6,6 @@
 
         public string? Name { get; set; }
 
-        public int? CourseId { get; set; }
-
-        public Course? Course { get; set; }
+        public List<Course>? Courses { get; set; } = new List<Course>();
     }
 }

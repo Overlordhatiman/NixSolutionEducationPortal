@@ -18,12 +18,16 @@
 
             result = Id.ToString() + "\t" + Name + "\t" + Description + "\n";
 
+            result += "Materials:\n";
+
             foreach (var material in Materials)
             {
                 result += material.ToString() + "\t";
             }
 
             result += "\n";
+
+            result += "Skills:\n";
 
             foreach (var skill in Skills)
             {

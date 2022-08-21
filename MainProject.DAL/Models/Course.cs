@@ -8,8 +8,8 @@
 
         public string? Description { get; set; }
 
-        public List<Materials>? Materials { get; set; }
+        public List<Materials>? Materials { get; set; } = new List<Materials>();
 
-        public List<Skill>? Skills { get; set; }
+        public List<Skill>? Skills { get; set; } = new List<Skill>();
     }
 }

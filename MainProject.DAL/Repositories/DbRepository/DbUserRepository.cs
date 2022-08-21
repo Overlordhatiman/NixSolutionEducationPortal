@@ -37,7 +37,7 @@
 
         public bool IsValidUser(string mail, string password)
         {
-            var user = _context.Users.FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
+            var user = _context.Users.FirstOrDefault(x => x.Mail == mail && x.Password == password);
 
             return user != null;
         }

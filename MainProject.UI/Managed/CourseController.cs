@@ -30,6 +30,7 @@
 
         public void UpdateCourse()
         {
+            OutputCourse();
             Console.WriteLine("Intput ID that you want to change");
             int id;
             int.TryParse(Console.ReadLine(), out id);
@@ -50,6 +51,7 @@
             foreach (var course in collection)
             {
                 Console.WriteLine(course);
+                Console.WriteLine("----------------------------------------");
             }
 
             Console.ReadKey();
@@ -85,11 +87,9 @@
             int.TryParse(Console.ReadLine(), out number);
 
             course.Materials = new List<MaterialsDTO>();
+            course.Skills = new List<SkillDTO>();
             for (int i = 0; i < number; i++)
             {
-                MaterialsDTO material = _materialCRUD.GetMaterials();
-                course.Materials.Add(material);
-
                 Console.WriteLine("(1)Create or (2)Select");
                 int.TryParse(Console.ReadLine(), out select);
 
@@ -97,7 +97,6 @@
                 {
                     MaterialsDTO materials = _materialCRUD.GetMaterials();
                     course.Materials.Add(materials);
-                    SaveMaterials(materials);
                 }
 
                 if (select == 2)
@@ -107,10 +106,8 @@
                     int.TryParse(Console.ReadLine(), out idOfSkillOrMaterial);
 
                     MaterialsDTO materials = _materialCRUD.GetMaterialById(idOfSkillOrMaterial);
-                    materials.Id = course.Id;
 
                     course.Materials.Add(materials);
-                    _materialCRUD.SaveMaterialAfterUpdate(materials);
                 }
             }
 
@@ -127,7 +124,6 @@
                 {
                     SkillDTO skill = _skillCRUD.GetSkillFromConsole();
                     course.Skills.Add(skill);
-                    SaveSkills(skill);
                 }
 
                 if (select == 2)
@@ -137,10 +133,8 @@
                     int.TryParse(Console.ReadLine(), out idOfSkillOrMaterial);
 
                     SkillDTO skill = _skillCRUD.GetSkillById(idOfSkillOrMaterial);
-                    skill.Id = course.Id;
 
                     course.Skills.Add(skill);
-                    _skillCRUD.SaveSkillAfterUpdate(skill);
                 }
             }
 
