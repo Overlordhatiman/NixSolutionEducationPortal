@@ -79,7 +79,11 @@
 
         public Course GetCourse(int id)
         {
-            return _context.Courses.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return _context.Courses
+                .AsNoTracking()
+                .Include(skill => skill.Skills)
+                .Include(material => material.Materials)
+                .SingleOrDefault(x => x.Id == id);
         }
     }
 }

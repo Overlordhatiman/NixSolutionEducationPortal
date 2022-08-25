@@ -37,7 +37,7 @@
             UpdateMaterial(materials);
         }
 
-        public MaterialsDTO GetMaterials()
+        public MaterialsDTO GetMaterialFromConsole()
         {
             Console.WriteLine("Select material 1 - Article, 2 - Book, 3 - Video");
             int select;
@@ -127,7 +127,91 @@
 
         public void CreateMaterial()
         {
-            CreateMaterial(GetMaterials());
+            CreateMaterial(GetMaterialFromConsole());
+        }
+
+        public MaterialsDTO GetMaterialFromConsole(MaterialsDTO oldMaterial)
+        {
+            MaterialsDTO material;
+            string name;
+
+            switch (oldMaterial)
+            {
+                case ArticleDTO:
+                    Console.WriteLine("Input Name");
+                    name = Console.ReadLine();
+
+                    Console.WriteLine("Input date of article");
+                    DateTime dateTime;
+                    DateTime.TryParse(Console.ReadLine(), out dateTime);
+
+                    Console.WriteLine("Input URL for resource");
+                    string resourse = Console.ReadLine();
+
+                    material = new ArticleDTO
+                    {
+                        Name = name,
+                        Date = dateTime,
+                        Resource = resourse,
+                    };
+                    break;
+                case BookDTO:
+                    Console.WriteLine("Input Name");
+                    name = Console.ReadLine();
+
+                    Console.WriteLine("Input Author");
+                    string author = Console.ReadLine();
+
+                    Console.WriteLine("Input Number of pages");
+                    int pages;
+                    int.TryParse(Console.ReadLine(), out pages);
+
+                    Console.WriteLine("Input format");
+                    string format = Console.ReadLine();
+
+                    Console.WriteLine("Input Date of publication");
+                    DateTime date;
+                    DateTime.TryParse(Console.ReadLine(), out date);
+
+                    material = new BookDTO
+                    {
+                        Name = name,
+                        Author = author,
+                        NumberOfPages = pages,
+                        Format = format,
+                        Date = date,
+                    };
+                    break;
+                case VideoDTO:
+                    Console.WriteLine("Input Name");
+                    name = Console.ReadLine();
+
+                    Console.WriteLine("Input time of video");
+                    int time;
+                    int.TryParse(Console.ReadLine(), out time);
+
+                    Console.WriteLine("Input Quality");
+                    string quality = Console.ReadLine();
+
+                    material = new VideoDTO
+                    {
+                        Name = name,
+                        Time = time,
+                        Quality = quality,
+                    };
+                    break;
+                default:
+                    Console.WriteLine("Input Name");
+                    name = Console.ReadLine();
+
+                    material = new MaterialsDTO
+                    {
+                        Name = name,
+                    };
+                    break;
+            }
+
+            return material;
         }
 
         public void UpdateMaterial()
@@ -136,8 +220,9 @@
 
             int id = GetId();
             Console.WriteLine("Current object");
-            Console.WriteLine(_materialsService.GetMaterials(id));
-            MaterialsDTO materials = GetMaterials();
+            MaterialsDTO oldMaterial = _materialsService.GetMaterials(id);
+            Console.WriteLine(oldMaterial);
+            MaterialsDTO materials = GetMaterialFromConsole(oldMaterial);
             materials.Id = id;
 
             UpdateMaterial(materials);

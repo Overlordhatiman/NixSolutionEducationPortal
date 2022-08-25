@@ -35,7 +35,14 @@
             int id;
             int.TryParse(Console.ReadLine(), out id);
 
-            UpdateCourse(GetCourse(), id);
+            CourseDTO course = _courseService.GetCourse(id);
+            Console.WriteLine(course);
+
+            CourseDTO updatedCourse = GetCourse();
+
+            updatedCourse.Id = id;
+
+            UpdateCourse(updatedCourse);
         }
 
         public void DeleteCourse()
@@ -95,7 +102,7 @@
 
                 if (select == 1)
                 {
-                    MaterialsDTO materials = _materialCRUD.GetMaterials();
+                    MaterialsDTO materials = _materialCRUD.GetMaterialFromConsole();
                     course.Materials.Add(materials);
                 }
 
@@ -170,14 +177,13 @@
             _courseService.AddCourse(course);
         }
 
-        private void UpdateCourse(CourseDTO course, int id)
+        private void UpdateCourse(CourseDTO course)
         {
             if (course == null)
             {
                 return;
             }
 
-            course.Id = id;
             _courseService.UpdateCourse(course);
         }
 
