@@ -39,7 +39,7 @@
         {
             if (skill == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             _context.Skills.Update(skill);

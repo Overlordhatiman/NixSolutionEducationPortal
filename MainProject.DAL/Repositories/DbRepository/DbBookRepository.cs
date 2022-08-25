@@ -39,7 +39,7 @@
         {
             if (bookMaterial == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             _context.Update(bookMaterial);

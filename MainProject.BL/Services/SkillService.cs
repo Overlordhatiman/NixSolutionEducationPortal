@@ -16,14 +16,14 @@
 
         public SkillDTO AddSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.AddSkill(skill.ToModel());
+            _unitOfWork.SkillRepository.Add(skill.ToModel());
 
             return skill;
         }
 
         public bool DeleteSkill(int id)
         {
-            var result = _unitOfWork.SkillRepository.DeleteSkill(id);
+            var result = _unitOfWork.SkillRepository.Delete(id);
 
             return result;
         }
@@ -31,7 +31,7 @@
         public List<SkillDTO> GetAllSkill()
         {
             List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var skill in _unitOfWork.SkillRepository.GetAllSkill())
+            foreach (var skill in _unitOfWork.SkillRepository.GetAll())
             {
                 skills.Add(skill.ToDTO());
             }
@@ -41,14 +41,14 @@
 
         public SkillDTO UpdateSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.UpdateSkill(skill.ToModel());
+            _unitOfWork.SkillRepository.Update(skill.ToModel());
 
             return skill;
         }
 
         public SkillDTO GetSkill(int id)
         {
-            return _unitOfWork.SkillRepository.GetSkill(id).ToDTO();
+            return _unitOfWork.SkillRepository.GetById(id).ToDTO();
         }
     }
 }

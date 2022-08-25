@@ -46,7 +46,7 @@
         {
             if (user == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             _context.Update(user);

@@ -17,7 +17,7 @@
         {
             if (course == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             course.Materials = course.Materials
@@ -58,7 +58,7 @@
         {
             if (course == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             course.Materials = course.Materials

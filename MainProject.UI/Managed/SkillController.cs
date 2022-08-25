@@ -52,6 +52,8 @@
 
         public void UpdateSkill()
         {
+            OutputSkills();
+
             int id = GetId();
             Console.WriteLine("Current object");
             Console.WriteLine(_skillService.GetSkill(id));

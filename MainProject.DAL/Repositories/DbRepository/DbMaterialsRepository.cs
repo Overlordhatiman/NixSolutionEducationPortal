@@ -39,7 +39,7 @@
         {
             if (material == null)
             {
-                return null;
+                throw new NullReferenceException();
             }
 
             _context.Entry(material).State = EntityState.Modified;

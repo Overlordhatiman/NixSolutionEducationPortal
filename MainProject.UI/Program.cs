@@ -20,9 +20,15 @@
             services.AddServices();
 
             var provider = services.BuildServiceProvider();
-
-            MainMenu mainMenu = provider.GetRequiredService<MainMenu>();
-            mainMenu.ShowRegisterMenu();
+            try
+            {
+                MainMenu mainMenu = provider.GetRequiredService<MainMenu>();
+                mainMenu.ShowRegisterMenu();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

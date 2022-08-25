@@ -77,11 +77,13 @@
         public void ShowSkillMenu()
         {
             Menu(_skillMenu, "Skill Menu");
+            ShowMainMenu();
         }
 
         public void ShowRegisterMenu()
         {
             Menu(_userMenu, "Register menu");
+            ShowRegisterMenu();
         }
 
         public void ShowRegisterMenu(string error)
@@ -92,11 +94,13 @@
         public void ShowCourseMenu()
         {
             Menu(_courseMenu, "Course menu");
+            ShowMainMenu();
         }
 
         public void ShowMaterialsMenu()
         {
             Menu(_materialsMenu, "Material menu");
+            ShowMainMenu();
         }
 
         private static void ClearAndShowHeading(string heading)
@@ -147,7 +151,6 @@
                      userInput < 1 || userInput > menuItems.Count);
 
             menuItems[userInput - 1].Execute();
-            ShowMainMenu();
         }
     }
 }

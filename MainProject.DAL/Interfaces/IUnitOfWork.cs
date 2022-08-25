@@ -1,5 +1,7 @@
 ﻿namespace MainProject.DAL.Interfaces
 {
+    using MainProject.DAL.Models;
+
     public interface IUnitOfWork
     {
         public IArticleRepository ArticleRepository { get; }
@@ -10,10 +12,10 @@
 
         public ICourseRepository CourseRepository { get; }
 
-        public ISkillRepository SkillRepository { get; }
+        public IGenericInterface<Skill> SkillRepository { get; }
 
         public IUserRepository UserRepository { get; }
 
-        public IMaterialsRepository MaterialsRepository { get; }
+        public IGenericInterface<Materials> MaterialsRepository { get; }
     }
 }

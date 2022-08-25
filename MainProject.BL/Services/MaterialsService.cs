@@ -16,14 +16,14 @@
 
         public MaterialsDTO AddMaterial(MaterialsDTO material)
         {
-            _unitOfWork.MaterialsRepository.AddMaterial(material.ToModel());
+            _unitOfWork.MaterialsRepository.Add(material.ToModel());
 
             return material;
         }
 
         public bool DeleteMaterial(int id)
         {
-            var result = _unitOfWork.MaterialsRepository.DeleteMaterial(id);
+            var result = _unitOfWork.MaterialsRepository.Delete(id);
 
             return result != null;
         }
@@ -31,7 +31,7 @@
         public List<MaterialsDTO> GetAllMaterial()
         {
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
-            foreach (var material in _unitOfWork.MaterialsRepository.GetAllMaterial())
+            foreach (var material in _unitOfWork.MaterialsRepository.GetAll())
             {
                 materials.Add(material.ToDTO());
             }
@@ -41,14 +41,14 @@
 
         public MaterialsDTO UpdateMaterial(MaterialsDTO material)
         {
-            _unitOfWork.MaterialsRepository.UpdateMaterial(material.ToModel());
+            _unitOfWork.MaterialsRepository.Update(material.ToModel());
 
             return material;
         }
 
         public MaterialsDTO GetMaterials(int id)
         {
-            var materials = _unitOfWork.MaterialsRepository.GetMaterials(id);
+            var materials = _unitOfWork.MaterialsRepository.GetById(id);
 
             return materials.ToDTO();
         }

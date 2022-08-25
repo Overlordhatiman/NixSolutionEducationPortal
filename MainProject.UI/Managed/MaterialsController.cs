@@ -132,6 +132,8 @@
 
         public void UpdateMaterial()
         {
+            OutputMaterials();
+
             int id = GetId();
             Console.WriteLine("Current object");
             Console.WriteLine(_materialsService.GetMaterials(id));

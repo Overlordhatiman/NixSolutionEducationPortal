@@ -7,8 +7,8 @@
     {
         public UserValidation()
         {
-            RuleFor(x => x.Mail).NotEmpty().EmailAddress().WithMessage(nameof(VideoDTO.Quality) + " Cant be empty");
-            RuleFor(x => x.Password).NotEmpty().Equal(x => x.Password).WithMessage(nameof(VideoDTO.Time) + " Cant be empty");
+            RuleFor(x => x.Mail).NotEmpty().EmailAddress().WithMessage(nameof(UserDTO.Mail) + " Cant be empty");
+            RuleFor(x => x.Password).NotEmpty().Equal(x => x.Password).WithMessage(nameof(UserDTO.Password) + " Cant be empty");
         }
     }
 }
