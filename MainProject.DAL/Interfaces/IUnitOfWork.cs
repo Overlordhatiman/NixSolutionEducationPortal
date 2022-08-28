@@ -17,5 +17,9 @@
         public IUserRepository UserRepository { get; }
 
         public IGenericInterface<Materials> MaterialsRepository { get; }
+
+        public IGenericInterface<UserSkill> UserSkillsRepository { get; }
+
+        public IGenericInterface<UserCourse> UserCoursesRepository { get; }
     }
 }

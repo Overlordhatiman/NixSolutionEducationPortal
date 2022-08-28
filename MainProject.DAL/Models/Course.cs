@@ -11,5 +11,7 @@
         public List<Materials>? Materials { get; set; } = new List<Materials>();
 
         public List<Skill>? Skills { get; set; } = new List<Skill>();
+
+        public List<UserCourse>? UserCourses { get; set; } = new List<UserCourse>();
     }
 }

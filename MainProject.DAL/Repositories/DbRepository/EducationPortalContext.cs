@@ -20,6 +20,10 @@
 
         public DbSet<ArticleMaterial>? Articles { get; set; }
 
+        public DbSet<UserSkill>? UserSkills { get; set; }
+
+        public DbSet<UserCourse>? UserCourses { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder == null)
@@ -49,6 +53,8 @@
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Skill>().ToTable("Skill");
+            modelBuilder.Entity<UserSkill>().ToTable("UserSkills");
+            modelBuilder.Entity<UserCourse>().ToTable("UserCourses");
         }
     }
 }
