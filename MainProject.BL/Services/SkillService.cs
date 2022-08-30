@@ -1,7 +1,7 @@
 ﻿namespace MainProject.BL.Services
 {
     using MainProject.BL.DTO;
-    using MainProject.BL.Extentions;
+    using MainProject.BL.Extentions.Mapping;
     using MainProject.BL.Interfaces;
     using MainProject.DAL.Interfaces;
 

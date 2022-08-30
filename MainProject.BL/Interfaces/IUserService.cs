@@ -15,5 +15,7 @@
         public bool IsValidUser(string mail, string password);
 
         public UserDTO GetUser(int id);
+
+        public UserDTO GetUser(string mail, string password);
     }
 }

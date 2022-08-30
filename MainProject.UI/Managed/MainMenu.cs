@@ -32,6 +32,7 @@
                 new MenuItem { Description = "Course", Execute = ShowCourseMenu },
                 new MenuItem { Description = "Materials", Execute = ShowMaterialsMenu },
                 new MenuItem { Description = "Skills", Execute = ShowSkillMenu },
+                new MenuItem { Description = "Start course", Execute = ShowSkillMenu },
                 new MenuItem { Description = "Log out", Execute = LogOut },
             };
 
@@ -124,6 +125,7 @@
 
         private void LogOut()
         {
+            _userCRUD.CurrentUser = null;
             ShowRegisterMenu();
         }
 

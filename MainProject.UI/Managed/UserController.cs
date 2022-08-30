@@ -18,6 +18,8 @@
             _userValidation = new UserValidation();
         }
 
+        public UserDTO CurrentUser { get; set; }
+
         public UserDTO GetUserFromConsole()
         {
             Console.WriteLine("Input Mail");
@@ -62,7 +64,14 @@
             Console.WriteLine("Input password");
             string? password = Console.ReadLine();
 
-            return _userService.IsValidUser(mail, password);
+            bool isValid = _userService.IsValidUser(mail, password);
+
+            if (isValid)
+            {
+                CurrentUser = _userService.GetUser(mail, password);
+            }
+
+            return isValid;
         }
 
         public void OutputUser()

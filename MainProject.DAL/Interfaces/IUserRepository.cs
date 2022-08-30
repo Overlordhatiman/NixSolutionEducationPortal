@@ -15,5 +15,7 @@
         public bool IsValidUser(string mail, string password);
 
         public User GetUser(int id);
+
+        public User GetUser(string mail, string password);
     }
 }

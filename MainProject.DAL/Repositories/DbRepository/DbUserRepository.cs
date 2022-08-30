@@ -32,7 +32,12 @@
 
         public IEnumerable<User> GetAllUser()
         {
-           return _context.Users.AsNoTracking().ToList();
+           return _context.Users
+                .AsNoTracking()
+                .Include(materials => materials.Materials)
+                .Include(userSkill => userSkill.UserSkills)
+                .Include(userCourse => userCourse.UserCourses)
+                .ToList();
         }
 
         public bool IsValidUser(string mail, string password)
@@ -57,7 +62,22 @@
 
         public User GetUser(int id)
         {
-            return _context.Users.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return _context.Users
+                .AsNoTracking()
+                .Include(materials => materials.Materials)
+                .Include(userSkill => userSkill.UserSkills)
+                .Include(userCourse => userCourse.UserCourses)
+                .SingleOrDefault(x => x.Id == id);
+        }
+
+        public User GetUser(string mail, string password)
+        {
+            return _context.Users
+                .AsNoTracking()
+                .Include(materials => materials.Materials)
+                .Include(userSkill => userSkill.UserSkills)
+                .Include(userCourse => userCourse.UserCourses)
+                .SingleOrDefault(x => x.Mail == mail && x.Password == password);
         }
     }
 }

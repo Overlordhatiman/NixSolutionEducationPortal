@@ -16,6 +16,8 @@
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IMaterialsService, MaterialsService>();
+            services.AddScoped<IUserCourse, UserCourseService>();
+            services.AddScoped<IUserSkill, UserSkillService>();
 
             MainProject.DAL.Repositories.Registrator.Register(services);
         }

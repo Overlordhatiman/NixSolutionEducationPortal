@@ -1,13 +1,13 @@
-﻿namespace MainProject.DAL.Models
+﻿namespace MainProject.BL.DTO
 {
-    public class UserCourse
+    public class UserCourseDTO
     {
         public int Id { get; set; }
-
-        public Course Course { get; set; }
 
         public bool IsFinished { get; set; }
 
         public int Percent { get; set; }
+
+        public CourseDTO? Course { get; set; }
     }
 }
