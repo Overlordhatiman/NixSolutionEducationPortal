@@ -18,6 +18,7 @@
                 IsFinished = userCourse.IsFinished,
                 Percent = userCourse.Percent,
                 Course = userCourse.Course.ToDTO(),
+                User = userCourse.User.ToDTO(),
             };
         }
 
@@ -34,6 +35,7 @@
                 IsFinished = userCourse.IsFinished,
                 Percent = userCourse.Percent,
                 Course = userCourse.Course.ToModel(),
+                User = userCourse.User.ToModel(),
             };
         }
     }

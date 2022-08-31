@@ -20,6 +20,6 @@
 
         public IGenericInterface<UserSkill> UserSkillsRepository { get; }
 
-        public IGenericInterface<UserCourse> UserCoursesRepository { get; }
+        public IUserCourseRepository UserCoursesRepository { get; }
     }
 }

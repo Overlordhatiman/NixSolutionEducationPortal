@@ -23,7 +23,7 @@
 
         private BaseRepository<UserSkill> _userSkillRepository;
 
-        private BaseRepository<UserCourse> _userCourseRepository;
+        private DbUserCourseRepository _userCourseRepository;
 
         public DbUnitOfWork(EducationPortalContext context)
         {
@@ -46,6 +46,6 @@
 
         public IGenericInterface<UserSkill> UserSkillsRepository => _userSkillRepository ??= new BaseRepository<UserSkill>(_context);
 
-        public IGenericInterface<UserCourse> UserCoursesRepository => _userCourseRepository ??= new BaseRepository<UserCourse>(_context);
+        public IUserCourseRepository UserCoursesRepository => _userCourseRepository ??= new DbUserCourseRepository(_context);
     }
 }

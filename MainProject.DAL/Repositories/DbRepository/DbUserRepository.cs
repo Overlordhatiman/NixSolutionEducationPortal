@@ -77,7 +77,7 @@
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .SingleOrDefault(x => x.Mail == mail && x.Password == password);
+                .FirstOrDefault(x => x.Mail == mail && x.Password == password);
         }
     }
 }

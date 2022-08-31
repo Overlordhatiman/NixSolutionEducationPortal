@@ -9,5 +9,7 @@
         public int Percent { get; set; }
 
         public CourseDTO? Course { get; set; }
+
+        public UserDTO? User { get; set; }
     }
 }

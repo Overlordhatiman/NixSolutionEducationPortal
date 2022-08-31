@@ -20,19 +20,26 @@
 
         private UserController _userCRUD;
 
-        public MainMenu(MaterialsController materialsCRUD, CourseController courseCRUD, SkillController skillCRUD, UserController userCRUD)
+        private UserCourseController _userCourse;
+
+        public MainMenu(MaterialsController materialsCRUD,
+                        CourseController courseCRUD,
+                        SkillController skillCRUD,
+                        UserController userCRUD,
+                        UserCourseController userCourse)
         {
             _materialsCRUD = materialsCRUD;
             _courseCRUD = courseCRUD;
             _skillCRUD = skillCRUD;
             _userCRUD = userCRUD;
+            _userCourse = userCourse;
 
             _mainMenu = new List<MenuItem>
             {
                 new MenuItem { Description = "Course", Execute = ShowCourseMenu },
                 new MenuItem { Description = "Materials", Execute = ShowMaterialsMenu },
                 new MenuItem { Description = "Skills", Execute = ShowSkillMenu },
-                new MenuItem { Description = "Start course", Execute = ShowSkillMenu },
+                new MenuItem { Description = "Start course", Execute = _userCourse.StartCourseFromConsole },
                 new MenuItem { Description = "Log out", Execute = LogOut },
             };
 

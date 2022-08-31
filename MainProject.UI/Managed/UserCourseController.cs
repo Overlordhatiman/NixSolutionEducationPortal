@@ -22,6 +22,19 @@
             _courseService = courseService;
         }
 
+        public void StartCourseFromConsole()
+        {
+            foreach (var course in _courseService.GetAllCourse())
+            {
+                Console.WriteLine(course);
+            }
+
+            Console.WriteLine("Input ID");
+            int id;
+            int.TryParse(Console.ReadLine(), out id);
+            StartCourse(id);
+        }
+
         public void StartCourse(int id)
         {
             CourseDTO courseDTO = _courseService.GetCourse(id);
@@ -31,6 +44,7 @@
                 IsFinished = false,
                 Percent = GetPercent(courseDTO),
                 Course = courseDTO,
+                User = _userController.CurrentUser
             };
 
             _userCourseService.AddUserCourse(userCourse);

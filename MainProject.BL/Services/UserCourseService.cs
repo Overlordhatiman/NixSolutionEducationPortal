@@ -4,6 +4,7 @@
     using MainProject.BL.Extentions.Mapping;
     using MainProject.BL.Interfaces;
     using MainProject.DAL.Interfaces;
+    using MainProject.DAL.Models;
     using System.Collections.Generic;
 
     public class UserCourseService : IUserCourse
@@ -17,14 +18,14 @@
 
         public UserCourseDTO AddUserCourse(UserCourseDTO userCourse)
         {
-            _unitOfWork.UserCoursesRepository.Add(userCourse.ToModel());
+            _unitOfWork.UserCoursesRepository.AddUserCourse(userCourse.ToModel());
 
             return userCourse;
         }
 
         public bool DeleteUserCourse(int id)
         {
-            var result = _unitOfWork.UserCoursesRepository.Delete(id);
+            var result = _unitOfWork.UserCoursesRepository.DeleteUserCourse(id);
 
             return result != null;
         }
@@ -33,7 +34,7 @@
         {
             List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
 
-            foreach (var userCourse in _unitOfWork.UserCoursesRepository.GetAll())
+            foreach (var userCourse in _unitOfWork.UserCoursesRepository.GetAllUserCourse())
             {
                 userCourses.Add(userCourse.ToDTO());
             }
@@ -43,12 +44,12 @@
 
         public UserCourseDTO GetUserCourse(int id)
         {
-            return _unitOfWork.UserCoursesRepository.GetById(id).ToDTO();
+            return _unitOfWork.UserCoursesRepository.GetUserCourse(id).ToDTO();
         }
 
         public UserCourseDTO UpdateUserCourse(UserCourseDTO userCourse)
         {
-            _unitOfWork.UserCoursesRepository.Update(userCourse.ToModel());
+            _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel());
 
             return userCourse;
         }

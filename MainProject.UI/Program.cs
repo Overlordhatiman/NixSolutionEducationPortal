@@ -15,11 +15,13 @@
             services.AddScoped<CourseController>();
             services.AddScoped<UserController>();
             services.AddScoped<MaterialsController>();
+            services.AddScoped<UserCourseController>();
             services.AddScoped<MainMenu>();
 
             services.AddServices();
 
             var provider = services.BuildServiceProvider();
+
             try
             {
                 MainMenu mainMenu = provider.GetRequiredService<MainMenu>();

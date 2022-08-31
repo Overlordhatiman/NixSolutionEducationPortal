@@ -51,6 +51,11 @@
             UpdateUser(GetUserFromConsole(), id);
         }
 
+        public void UpdateUser(UserDTO user)
+        {
+            UpdateUser(user, CurrentUser.Id);
+        }
+
         public void DeleteUser()
         {
             DeleteUser(GetId());
