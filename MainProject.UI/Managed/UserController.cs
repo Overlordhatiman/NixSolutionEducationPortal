@@ -81,6 +81,15 @@
 
         public void OutputUser()
         {
+            Console.WriteLine("User");
+
+            Console.WriteLine(CurrentUser);
+
+            Console.ReadKey();
+        }
+
+        public void OutputUsers()
+        {
             Console.WriteLine("Users");
             var users = _userService.GetAllUser();
 

@@ -80,9 +80,9 @@
         public Course GetCourse(int id)
         {
             return _context.Courses
-                .AsNoTracking()
                 .Include(skill => skill.Skills)
                 .Include(material => material.Materials)
+                .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
         }
     }

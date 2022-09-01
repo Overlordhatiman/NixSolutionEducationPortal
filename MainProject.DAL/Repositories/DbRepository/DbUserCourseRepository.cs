@@ -3,6 +3,7 @@
     using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
 
     public class DbUserCourseRepository : IUserCourseRepository
     {
@@ -20,8 +21,8 @@
                 throw new NullReferenceException();
             }
 
-            userCourse.Course = _context.Courses.Find(userCourse.Course.Id);
-            userCourse.User = _context.Users.Find(userCourse.User.Id);
+            userCourse.Course = _context.Courses.FirstOrDefault(course => course.Id == userCourse.Course.Id);
+            userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
 
             _context.UserCourses.Add(userCourse);
             _context.SaveChanges();
@@ -31,8 +32,8 @@
 
         public bool DeleteUserCourse(int id)
         {
-            var entityToDelete = _context.Courses.SingleOrDefault(e => e.Id == id);
-            var obj = _context.Courses.Remove(entityToDelete);
+            var entityToDelete = _context.UserCourses.SingleOrDefault(e => e.Id == id);
+            var obj = _context.UserCourses.Remove(entityToDelete);
             _context.SaveChanges();
 
             return obj != null;
@@ -40,12 +41,20 @@
 
         public IEnumerable<UserCourse> GetAllUserCourse()
         {
-            return _context.UserCourses.ToList();
+            return _context.UserCourses
+                .Include(user => user.User)
+                .Include(course => course.Course)
+                .AsNoTracking()
+                .ToList();
         }
 
         public UserCourse GetUserCourse(int id)
         {
-            return _context.UserCourses.SingleOrDefault(x => x.Id == id);
+            return _context.UserCourses
+                .Include(user => user.User)
+                .Include(course => course.Course)
+                .AsNoTracking()
+                .SingleOrDefault(x => x.Id == id);
         }
 
         public UserCourse UpdateUserCourse(UserCourse userCourse)
@@ -55,8 +64,8 @@
                 throw new NullReferenceException();
             }
 
-            userCourse.Course = _context.Courses.Find(userCourse.Course.Id);
-            userCourse.User = _context.Users.Find(userCourse.User.Id);
+            userCourse.Course = _context.Courses.FirstOrDefault(course => course.Id == userCourse.Course.Id);
+            userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
 
             _context.UserCourses.Update(userCourse);
             _context.SaveChanges();

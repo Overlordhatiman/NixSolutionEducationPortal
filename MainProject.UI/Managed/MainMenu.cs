@@ -39,7 +39,7 @@
                 new MenuItem { Description = "Course", Execute = ShowCourseMenu },
                 new MenuItem { Description = "Materials", Execute = ShowMaterialsMenu },
                 new MenuItem { Description = "Skills", Execute = ShowSkillMenu },
-                new MenuItem { Description = "Start course", Execute = _userCourse.StartCourseFromConsole },
+                new MenuItem { Description = "User", Execute = _userCRUD.OutputUser },
                 new MenuItem { Description = "Log out", Execute = LogOut },
             };
 
@@ -58,6 +58,9 @@
                 new MenuItem { Description = "Delete", Execute = _courseCRUD.DeleteCourse },
                 new MenuItem { Description = "Update", Execute = _courseCRUD.UpdateCourse },
                 new MenuItem { Description = "Output", Execute = _courseCRUD.OutputCourse },
+                new MenuItem { Description = "Start course", Execute = _userCourse.StartCourseFromConsole },
+                new MenuItem { Description = "Finish material", Execute = _userCourse.UpdateMaterials },
+                new MenuItem { Description = "Output user course", Execute = _userCourse.OutputUserCourse },
                 new MenuItem { Description = "Log out", Execute = LogOut },
             };
 

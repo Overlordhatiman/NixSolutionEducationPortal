@@ -11,5 +11,10 @@
         public CourseDTO? Course { get; set; }
 
         public UserDTO? User { get; set; }
+
+        public override string? ToString()
+        {
+            return Id.ToString() + "\t Is finished: " + IsFinished + "\t Percent: " + Percent.ToString() + "\t" + Course.Id.ToString();
+        }
     }
 }

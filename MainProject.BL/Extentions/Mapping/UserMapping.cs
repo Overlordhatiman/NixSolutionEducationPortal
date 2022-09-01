@@ -14,7 +14,6 @@
 
             List<UserSkillDTO> userSkills = new List<UserSkillDTO>();
             List<MaterialsDTO> materials = new List<MaterialsDTO>();
-            List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
 
             foreach (var userSkill in user.UserSkills)
             {
@@ -26,18 +25,12 @@
                 materials.Add(material.ToDTO());
             }
 
-            foreach (var userCourse in user.UserCourses)
-            {
-                userCourses.Add(userCourse.ToDTO());
-            }
-
             return new UserDTO
             {
                 Id = user.Id,
                 Mail = user.Mail,
                 Password = user.Password,
                 Materials = materials,
-                UserCourses = userCourses,
                 UserSkills = userSkills,
             };
         }
@@ -51,7 +44,6 @@
 
             List<UserSkill> userSkills = new List<UserSkill>();
             List<Materials> materials = new List<Materials>();
-            List<UserCourse> userCourses = new List<UserCourse>();
 
             foreach (var userSkill in user.UserSkills)
             {
@@ -63,18 +55,12 @@
                 materials.Add(material.ToModel());
             }
 
-            foreach (var userCourse in user.UserCourses)
-            {
-                userCourses.Add(userCourse.ToModel());
-            }
-
             return new User
             {
                 Id = user.Id,
                 Mail = user.Mail,
                 Password = user.Password,
                 Materials = materials,
-                UserCourses = userCourses,
                 UserSkills = userSkills,
             };
         }

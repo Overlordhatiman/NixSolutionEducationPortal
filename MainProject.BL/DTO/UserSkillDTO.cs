@@ -5,5 +5,10 @@
         public int Id { get; set; }
 
         public int LevelOfSkill { get; set; }
+
+        public override string? ToString()
+        {
+            return Id.ToString() + "\t" + LevelOfSkill.ToString() + "\t";
+        }
     }
 }
