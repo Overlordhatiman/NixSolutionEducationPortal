@@ -47,6 +47,18 @@
             return _unitOfWork.UserCoursesRepository.GetUserCourse(id).ToDTO();
         }
 
+        public List<UserCourseDTO> GetUserCourseForUser(int id)
+        {
+            List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
+
+            foreach (var userCourse in _unitOfWork.UserCoursesRepository.GetUserCourseForUser(id))
+            {
+                userCourses.Add(userCourse.ToDTO());
+            }
+
+            return userCourses;
+        }
+
         public UserCourseDTO UpdateUserCourse(UserCourseDTO userCourse)
         {
             _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel());

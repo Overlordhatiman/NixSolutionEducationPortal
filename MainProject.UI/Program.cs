@@ -22,15 +22,15 @@
 
             var provider = services.BuildServiceProvider();
 
-            try
-            {
-                MainMenu mainMenu = provider.GetRequiredService<MainMenu>();
-                mainMenu.ShowRegisterMenu();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            MainMenu mainMenu = provider.GetRequiredService<MainMenu>();
+            mainMenu.ShowRegisterMenu();
+            //try
+            //{
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
         }
     }
 }

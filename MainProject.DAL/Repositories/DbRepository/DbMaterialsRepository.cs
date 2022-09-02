@@ -50,7 +50,7 @@
 
         public Materials GetMaterials(int id)
         {
-            return _context.Materials.Include(m => m.Courses).SingleOrDefault(x => x.Id == id);
+            return _context.Materials.Include(m => m.Courses).AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

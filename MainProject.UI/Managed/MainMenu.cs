@@ -135,7 +135,7 @@
 
         private void LogOut()
         {
-            _userCRUD.CurrentUser = null;
+            _userCRUD.IdUser = 0;
             ShowRegisterMenu();
         }
 

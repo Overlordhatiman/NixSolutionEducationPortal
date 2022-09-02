@@ -53,10 +53,10 @@
         public IEnumerable<User> GetAllUser()
         {
            return _context.Users
+                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .AsNoTracking()
                 .ToList();
         }
 
@@ -89,7 +89,7 @@
                 .FirstOrDefault(m => m.Id == userCourse.Id) ?? userCourse)
                 .ToList();
 
-            _context.Update(user);
+            _context.Users.Update(user);
             _context.SaveChanges();
 
             return user;
@@ -98,20 +98,20 @@
         public User GetUser(int id)
         {
             return _context.Users
+                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
         }
 
         public User GetUser(string mail, string password)
         {
             return _context.Users
+                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .AsNoTracking()
                 .FirstOrDefault(x => x.Mail == mail && x.Password == password);
         }
     }

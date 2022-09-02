@@ -13,5 +13,7 @@
         public bool DeleteUserCourse(int id);
 
         public UserCourseDTO GetUserCourse(int id);
+
+        public List<UserCourseDTO> GetUserCourseForUser(int id);
     }
 }

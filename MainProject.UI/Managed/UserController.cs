@@ -18,7 +18,7 @@
             _userValidation = new UserValidation();
         }
 
-        public UserDTO CurrentUser { get; set; }
+        public int IdUser { get; set; }
 
         public UserDTO GetUserFromConsole()
         {
@@ -51,9 +51,19 @@
             UpdateUser(GetUserFromConsole(), id);
         }
 
+        public UserDTO GetUser(int id)
+        {
+            return _userService.GetUser(id);
+        }
+
+        public UserDTO GetUser()
+        {
+            return _userService.GetUser(IdUser);
+        }
+
         public void UpdateUser(UserDTO user)
         {
-            UpdateUser(user, CurrentUser.Id);
+            UpdateUser(user, IdUser);
         }
 
         public void DeleteUser()
@@ -73,7 +83,7 @@
 
             if (isValid)
             {
-                CurrentUser = _userService.GetUser(mail, password);
+                IdUser = _userService.GetUser(mail, password).Id;
             }
 
             return isValid;
@@ -83,7 +93,7 @@
         {
             Console.WriteLine("User");
 
-            Console.WriteLine(CurrentUser);
+            Console.WriteLine(_userService.GetUser(IdUser));
 
             Console.ReadKey();
         }

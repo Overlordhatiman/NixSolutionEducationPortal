@@ -51,10 +51,20 @@
         public UserCourse GetUserCourse(int id)
         {
             return _context.UserCourses
+                .AsNoTracking()
                 .Include(user => user.User)
                 .Include(course => course.Course)
-                .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
+        }
+
+        public IEnumerable<UserCourse> GetUserCourseForUser(int id)
+        {
+            return _context.UserCourses
+                .AsNoTracking()
+                .Include(user => user.User)
+                .Include(course => course.Course)
+                .Where(x => x.User.Id == id)
+                .ToList();
         }
 
         public UserCourse UpdateUserCourse(UserCourse userCourse)

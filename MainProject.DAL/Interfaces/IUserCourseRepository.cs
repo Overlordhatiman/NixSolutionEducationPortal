@@ -13,5 +13,7 @@
         public bool DeleteUserCourse(int id);
 
         public UserCourse GetUserCourse(int id);
+
+        public IEnumerable<UserCourse> GetUserCourseForUser(int id);
     }
 }

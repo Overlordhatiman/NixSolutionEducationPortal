@@ -50,7 +50,7 @@
 
         public Skill GetSkill(int id)
         {
-            return _context.Skills.Include(m => m.Courses).SingleOrDefault(x => x.Id == id);
+            return _context.Skills.Include(m => m.Courses).AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
     }
 }

@@ -45,23 +45,28 @@
         public void StartCourse(int id)
         {
             CourseDTO courseDTO = _courseService.GetCourse(id);
+            UserDTO user = _userController.GetUser();
 
+            int percent = GetPercent(courseDTO);
             UserCourseDTO userCourse = new UserCourseDTO
             {
-                IsFinished = false,
-                Percent = GetPercent(courseDTO),
+                IsFinished = 100 == percent,
+                Percent = percent,
                 Course = courseDTO,
-                User = _userController.CurrentUser
+                User = user,
             };
+
+            if (percent == 100)
+            {
+                UpdateSkills(user, courseDTO);
+            }
 
             _userCourseService.AddUserCourse(userCourse);
         }
 
         public void UpdateMaterials()
         {
-            foreach (var item in _userCourseService
-                                .GetAllUserCourse()
-                                .Where(userCourse => userCourse.User.Id == _userController.CurrentUser.Id))
+            foreach (var item in _userCourseService.GetUserCourseForUser(_userController.IdUser))
             {
                 Console.WriteLine(item);
             }
@@ -78,15 +83,23 @@
 
             int.TryParse(Console.ReadLine(), out id);
 
-            _userController.CurrentUser.Materials.Add(_materialService.GetMaterials(id));
-            _userController.UpdateUser(_userController.CurrentUser);
+            MaterialsDTO material = _materialService.GetMaterials(id);
 
-            UpdateUserCourse(courseDTO);
+            int userCourseId = _userCourseService.GetUserCourseForUser(_userController.IdUser).FirstOrDefault(course => course.Course.Id == courseDTO.Id).Id;
+
+            if (!_userController.GetUser().Materials.Contains(material))
+            {
+                UserDTO user = _userController.GetUser();
+                user.Materials.Add(material);
+                _userController.UpdateUser(user);
+            }
+
+            UpdateUserCourse(courseDTO, userCourseId);
         }
 
         public void OutputUserCourse()
         {
-            foreach (var item in _userCourseService.GetAllUserCourse())
+            foreach (var item in _userCourseService.GetUserCourseForUser(_userController.IdUser))
             {
                 Console.WriteLine(item);
             }
@@ -94,28 +107,63 @@
             Console.ReadKey();
         }
 
-        private void UpdateUserCourse(CourseDTO courseDTO)
+        private void UpdateUserCourse(CourseDTO courseDTO, int id)
         {
             int percent = GetPercent(courseDTO);
+            UserDTO user = _userController.GetUser();
             UserCourseDTO userCourse = new UserCourseDTO
             {
+                Id = id,
                 IsFinished = 100 == percent,
                 Percent = percent,
                 Course = courseDTO,
-                User = _userController.CurrentUser
+                User = user
             };
 
+            if (percent == 100)
+            {
+                UpdateSkills(user, courseDTO);
+            }
+
             _userCourseService.UpdateUserCourse(userCourse);
+        }
+
+        private void UpdateSkills(UserDTO user, CourseDTO course)
+        {
+            foreach (var skill in course.Skills)
+            {
+                if (user.UserSkills.Exists(x => x.Skill.Id == skill.Id))
+                {
+                    UserSkillDTO userSkill = user.UserSkills.Find(x => x.Skill.Id == skill.Id);
+                    userSkill.LevelOfSkill++;
+                    int index = user.UserSkills.FindIndex(x => x.Skill.Id == skill.Id);
+                    user.UserSkills[index] = userSkill;
+                }
+                else
+                {
+                    UserSkillDTO userSkill = new UserSkillDTO
+                    {
+                        LevelOfSkill = 0,
+                        Skill = skill,
+                        User = user,
+                    };
+
+                    user.UserSkills.Add(userSkill);
+                }
+            }
+
+            _userController.UpdateUser(user);
         }
 
         private int GetPercent(CourseDTO courseDTO)
         {
             int result = 0;
             double percentForOneMaterial = (double)100 / courseDTO.Materials.Count;
+            UserDTO user = _userController.GetUser();
 
             foreach (var course in courseDTO.Materials)
             {
-                foreach (var material in _userController.CurrentUser.Materials)
+                foreach (var material in user.Materials)
                 {
                     if (course.Id == material.Id)
                     {
