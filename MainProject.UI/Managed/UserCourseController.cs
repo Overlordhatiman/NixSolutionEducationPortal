@@ -87,14 +87,15 @@
 
             int userCourseId = _userCourseService.GetUserCourseForUser(_userController.IdUser).FirstOrDefault(course => course.Course.Id == courseDTO.Id).Id;
 
-            if (!_userController.GetUser().Materials.Contains(material))
+            UserDTO user = _userController.GetUser();
+
+            if (!user.Materials.Contains(material))
             {
-                UserDTO user = _userController.GetUser();
                 user.Materials.Add(material);
                 _userController.UpdateUser(user);
             }
 
-            UpdateUserCourse(courseDTO, userCourseId);
+            UpdateUserCourse(courseDTO, user, userCourseId);
         }
 
         public void OutputUserCourse()
@@ -107,10 +108,9 @@
             Console.ReadKey();
         }
 
-        private void UpdateUserCourse(CourseDTO courseDTO, int id)
+        private void UpdateUserCourse(CourseDTO courseDTO, UserDTO user, int id)
         {
             int percent = GetPercent(courseDTO);
-            UserDTO user = _userController.GetUser();
             UserCourseDTO userCourse = new UserCourseDTO
             {
                 Id = id,

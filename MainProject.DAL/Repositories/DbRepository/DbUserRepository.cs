@@ -102,7 +102,7 @@
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .SingleOrDefault(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public User GetUser(string mail, string password)

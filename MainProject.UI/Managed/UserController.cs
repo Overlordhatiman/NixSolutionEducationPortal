@@ -156,7 +156,6 @@
                 return;
             }
 
-            user.Id = id;
             _userService.UpdateUser(user);
         }
 
