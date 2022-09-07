@@ -13,29 +13,29 @@
             _context = context;
         }
 
-        public Materials AddMaterial(Materials material)
+        public async Task<Materials> AddMaterial(Materials material)
         {
             _context.Materials.Add(material);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return material;
         }
 
-        public bool DeleteMaterial(int id)
+        public async Task<bool> DeleteMaterial(int id)
         {
             var entityToDelete = _context.Materials.SingleOrDefault(e => e.Id == id);
             var obj = _context.Materials.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<Materials> GetAllMaterial()
+        public async Task<IEnumerable<Materials>> GetAllMaterial()
         {
-            return _context.Materials.Include(m => m.Courses).AsNoTracking().ToList();
+            return await _context.Materials.Include(m => m.Courses).AsNoTracking().ToListAsync();
         }
 
-        public Materials UpdateMaterial(Materials material)
+        public async Task<Materials> UpdateMaterial(Materials material)
         {
             if (material == null)
             {
@@ -43,14 +43,14 @@
             }
 
             _context.Entry(material).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return material;
         }
 
-        public Materials GetMaterials(int id)
+        public async Task<Materials> GetMaterials(int id)
         {
-            return _context.Materials.Include(m => m.Courses).AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return await _context.Materials.Include(m => m.Courses).AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

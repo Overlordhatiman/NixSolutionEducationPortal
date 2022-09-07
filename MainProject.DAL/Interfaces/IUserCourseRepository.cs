@@ -4,16 +4,16 @@
 
     public interface IUserCourseRepository
     {
-        public UserCourse AddUserCourse(UserCourse userCourse);
+        public Task<UserCourse> AddUserCourse(UserCourse userCourse);
 
-        public UserCourse UpdateUserCourse(UserCourse userCourse);
+        public Task<UserCourse> UpdateUserCourse(UserCourse userCourse);
 
-        public IEnumerable<UserCourse> GetAllUserCourse();
+        public Task<IEnumerable<UserCourse>> GetAllUserCourse();
 
-        public bool DeleteUserCourse(int id);
+        public Task<bool> DeleteUserCourse(int id);
 
-        public UserCourse GetUserCourse(int id);
+        public Task<UserCourse> GetUserCourse(int id);
 
-        public IEnumerable<UserCourse> GetUserCourseForUser(int id);
+        public Task<IEnumerable<UserCourse>> GetUserCourseForUser(int id);
     }
 }

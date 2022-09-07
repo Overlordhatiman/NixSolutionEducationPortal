@@ -16,25 +16,25 @@
             _unitOfWork = unitOfWork;
         }
 
-        public UserCourseDTO AddUserCourse(UserCourseDTO userCourse)
+        public async Task<UserCourseDTO> AddUserCourse(UserCourseDTO userCourse)
         {
-            _unitOfWork.UserCoursesRepository.AddUserCourse(userCourse.ToModel());
+            await _unitOfWork.UserCoursesRepository.AddUserCourse(userCourse.ToModel());
 
             return userCourse;
         }
 
-        public bool DeleteUserCourse(int id)
+        public async Task<bool> DeleteUserCourse(int id)
         {
-            var result = _unitOfWork.UserCoursesRepository.DeleteUserCourse(id);
+            var result = await _unitOfWork.UserCoursesRepository.DeleteUserCourse(id);
 
             return result != null;
         }
 
-        public List<UserCourseDTO> GetAllUserCourse()
+        public async Task<List<UserCourseDTO>> GetAllUserCourse()
         {
             List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
 
-            foreach (var userCourse in _unitOfWork.UserCoursesRepository.GetAllUserCourse())
+            foreach (var userCourse in await _unitOfWork.UserCoursesRepository.GetAllUserCourse())
             {
                 userCourses.Add(userCourse.ToDTO());
             }
@@ -42,16 +42,16 @@
             return userCourses;
         }
 
-        public UserCourseDTO GetUserCourse(int id)
+        public async Task<UserCourseDTO> GetUserCourse(int id)
         {
-            return _unitOfWork.UserCoursesRepository.GetUserCourse(id).ToDTO();
+            return UserCourseMapping.ToDTO(await _unitOfWork.UserCoursesRepository.GetUserCourse(id));
         }
 
-        public List<UserCourseDTO> GetUserCourseForUser(int id)
+        public async Task<List<UserCourseDTO>> GetUserCourseForUser(int id)
         {
             List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
 
-            foreach (var userCourse in _unitOfWork.UserCoursesRepository.GetUserCourseForUser(id))
+            foreach (var userCourse in await _unitOfWork.UserCoursesRepository.GetUserCourseForUser(id))
             {
                 userCourses.Add(userCourse.ToDTO());
             }
@@ -59,9 +59,9 @@
             return userCourses;
         }
 
-        public UserCourseDTO UpdateUserCourse(UserCourseDTO userCourse)
+        public async Task<UserCourseDTO> UpdateUserCourse(UserCourseDTO userCourse)
         {
-            _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel());
+            await _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel());
 
             return userCourse;
         }

@@ -14,7 +14,7 @@
             _context = context;
         }
 
-        public UserCourse AddUserCourse(UserCourse userCourse)
+        public async Task<UserCourse> AddUserCourse(UserCourse userCourse)
         {
             if (userCourse == null)
             {
@@ -25,49 +25,49 @@
             userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
 
             _context.UserCourses.Add(userCourse);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return userCourse;
         }
 
-        public bool DeleteUserCourse(int id)
+        public async Task<bool> DeleteUserCourse(int id)
         {
             var entityToDelete = _context.UserCourses.SingleOrDefault(e => e.Id == id);
             var obj = _context.UserCourses.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<UserCourse> GetAllUserCourse()
+        public async Task<IEnumerable<UserCourse>> GetAllUserCourse()
         {
-            return _context.UserCourses
+            return await _context.UserCourses
                 .Include(user => user.User)
                 .Include(course => course.Course)
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
         }
 
-        public UserCourse GetUserCourse(int id)
+        public async Task<UserCourse> GetUserCourse(int id)
         {
-            return _context.UserCourses
+            return await _context.UserCourses
                 .AsNoTracking()
                 .Include(user => user.User)
                 .Include(course => course.Course)
-                .SingleOrDefault(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public IEnumerable<UserCourse> GetUserCourseForUser(int id)
+        public async Task<IEnumerable<UserCourse>> GetUserCourseForUser(int id)
         {
-            return _context.UserCourses
+            return await _context.UserCourses
                 .AsNoTracking()
                 .Include(user => user.User)
                 .Include(course => course.Course)
                 .Where(x => x.User.Id == id)
-                .ToList();
+                .ToListAsync();
         }
 
-        public UserCourse UpdateUserCourse(UserCourse userCourse)
+        public async Task<UserCourse> UpdateUserCourse(UserCourse userCourse)
         {
             if (userCourse == null)
             {
@@ -78,7 +78,7 @@
             userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
 
             _context.UserCourses.Update(userCourse);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return userCourse;
         }

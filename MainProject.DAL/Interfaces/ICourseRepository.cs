@@ -4,14 +4,14 @@
 
     public interface ICourseRepository
     {
-        public Course AddCourse(Course course);
+        public Task<Course> AddCourse(Course course);
 
-        public Course UpdateCourse(Course course);
+        public Task<Course> UpdateCourse(Course course);
 
-        public IEnumerable<Course> GetAllCourse();
+        public Task<IEnumerable<Course>> GetAllCourse();
 
-        public bool DeleteCourse(int id);
+        public Task<bool> DeleteCourse(int id);
 
-        public Course GetCourse(int id);
+        public Task<Course> GetCourse(int id);
     }
 }

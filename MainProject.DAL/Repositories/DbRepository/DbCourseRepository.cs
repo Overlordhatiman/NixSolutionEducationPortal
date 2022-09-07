@@ -13,7 +13,7 @@
             _context = context;
         }
 
-        public Course AddCourse(Course course)
+        public async Task<Course> AddCourse(Course course)
         {
             if (course == null)
             {
@@ -31,30 +31,30 @@
                 .ToList();
 
             _context.Courses.Add(course);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return course;
         }
 
-        public bool DeleteCourse(int id)
+        public async Task<bool> DeleteCourse(int id)
         {
             var entityToDelete = _context.Courses.SingleOrDefault(e => e.Id == id);
             var obj = _context.Courses.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<Course> GetAllCourse()
+        public async Task<IEnumerable<Course>> GetAllCourse()
         {
-           return _context.Courses
+           return await _context.Courses
                 .AsNoTracking()
                 .Include(material => material.Materials)
                 .Include(skill => skill.Skills)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Course UpdateCourse(Course course)
+        public async Task<Course> UpdateCourse(Course course)
         {
             if (course == null)
             {
@@ -72,18 +72,18 @@
                 .ToList();
 
             _context.Courses.Update(course);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return course;
         }
 
-        public Course GetCourse(int id)
+        public async Task<Course> GetCourse(int id)
         {
-            return _context.Courses
+            return await _context.Courses
                 .AsNoTracking()
                 .Include(skill => skill.Skills)
                 .Include(material => material.Materials)
-                .SingleOrDefault(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

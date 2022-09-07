@@ -4,16 +4,16 @@
 
     public interface IUserCourse
     {
-        public UserCourseDTO AddUserCourse(UserCourseDTO userCourse);
+        public Task<UserCourseDTO> AddUserCourse(UserCourseDTO userCourse);
 
-        public UserCourseDTO UpdateUserCourse(UserCourseDTO userCourse);
+        public Task<UserCourseDTO> UpdateUserCourse(UserCourseDTO userCourse);
 
-        public List<UserCourseDTO> GetAllUserCourse();
+        public Task<List<UserCourseDTO>> GetAllUserCourse();
 
-        public bool DeleteUserCourse(int id);
+        public Task<bool> DeleteUserCourse(int id);
 
-        public UserCourseDTO GetUserCourse(int id);
+        public Task<UserCourseDTO> GetUserCourse(int id);
 
-        public List<UserCourseDTO> GetUserCourseForUser(int id);
+        public Task<List<UserCourseDTO>> GetUserCourseForUser(int id);
     }
 }

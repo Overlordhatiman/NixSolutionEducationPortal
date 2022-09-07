@@ -4,12 +4,6 @@
 
     public interface IUnitOfWork
     {
-        public IArticleRepository ArticleRepository { get; }
-
-        public IBookRepository BookRepository { get; }
-
-        public IVideoRepository VideoRepository { get; }
-
         public ICourseRepository CourseRepository { get; }
 
         public IGenericInterface<Skill> SkillRepository { get; }

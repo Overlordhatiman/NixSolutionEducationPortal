@@ -4,14 +4,14 @@
 
     public interface ICourseService
     {
-        public CourseDTO AddCourse(CourseDTO course);
+        public Task<CourseDTO> AddCourse(CourseDTO course);
 
-        public CourseDTO UpdateCourse(CourseDTO course);
+        public Task<CourseDTO> UpdateCourse(CourseDTO course);
 
-        public List<CourseDTO> GetAllCourse();
+        public Task<List<CourseDTO>> GetAllCourse();
 
-        public bool DeleteCourse(int id);
+        public Task<bool> DeleteCourse(int id);
 
-        public CourseDTO GetCourse(int id);
+        public Task<CourseDTO> GetCourse(int id);
     }
 }

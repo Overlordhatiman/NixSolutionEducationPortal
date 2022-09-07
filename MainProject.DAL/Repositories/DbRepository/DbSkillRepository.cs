@@ -13,29 +13,29 @@
             _context = context;
         }
 
-        public Skill AddSkill(Skill skill)
+        public async Task<Skill> AddSkill(Skill skill)
         {
             _context.Skills.Add(skill);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return skill;
         }
 
-        public bool DeleteSkill(int id)
+        public async Task<bool> DeleteSkill(int id)
         {
             var entityToDelete = _context.Skills.SingleOrDefault(e => e.Id == id);
             var obj = _context.Skills.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<Skill> GetAllSkill()
+        public async Task<IEnumerable<Skill>> GetAllSkill()
         {
-            return _context.Skills.Include(m => m.Courses).AsNoTracking().ToList();
+            return await _context.Skills.Include(m => m.Courses).AsNoTracking().ToListAsync();
         }
 
-        public Skill UpdateSkill(Skill skill)
+        public async Task<Skill> UpdateSkill(Skill skill)
         {
             if (skill == null)
             {
@@ -43,14 +43,14 @@
             }
 
             _context.Skills.Update(skill);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return skill;
         }
 
-        public Skill GetSkill(int id)
+        public async Task<Skill> GetSkill(int id)
         {
-            return _context.Skills.Include(m => m.Courses).AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return await _context.Skills.Include(m => m.Courses).AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

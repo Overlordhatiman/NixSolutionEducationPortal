@@ -14,40 +14,40 @@
             _dbSet = context.Set<TEntity>();
         }
 
-        public TEntity Add(TEntity obj)
+        public async Task<TEntity> Add(TEntity obj)
         {
             _dbSet.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var entityToDelete = _dbSet.Find(id);
             var obj = _dbSet.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public TEntity GetById(int id)
+        public async Task<TEntity> GetById(int id)
         {
-            var entity = _dbSet.Find(id);
+            var entity = await _dbSet.FindAsync(id);
             _context.Entry(entity).State = EntityState.Detached;
 
             return entity;
         }
 
-        public TEntity Update(TEntity obj)
+        public async Task<TEntity> Update(TEntity obj)
         {
             _dbSet.Update(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj;
         }

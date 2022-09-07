@@ -14,42 +14,42 @@
             _context = context;
         }
 
-        public UserSkill AddUserSkill(UserSkill userSkill)
+        public async Task<UserSkill> AddUserSkill(UserSkill userSkill)
         {
             _context.UserSkills.Add(userSkill);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return userSkill;
         }
 
-        public bool DeleteUserSkill(int id)
+        public async Task<bool> DeleteUserSkill(int id)
         {
             var entityToDelete = _context.UserSkills.SingleOrDefault(e => e.Id == id);
             var obj = _context.UserSkills.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<UserSkill> GetAllUserSkill()
+        public async Task<IEnumerable<UserSkill>> GetAllUserSkill()
         {
-            return _context.UserSkills
+            return await _context.UserSkills
                             .Include(user => user.User)
                             .Include(skill => skill.Skill)
                             .AsNoTracking()
-                            .ToList();
+                            .ToListAsync();
         }
 
-        public UserSkill GetUserSkill(int id)
+        public async Task<UserSkill> GetUserSkill(int id)
         {
-            return _context.UserSkills
+            return await _context.UserSkills
                             .Include(user => user.User)
                             .Include(skill => skill.Skill)
                             .AsNoTracking()
-                            .SingleOrDefault(x => x.Id == id);
+                            .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public UserSkill UpdateUserSkill(UserSkill userSkill)
+        public async Task<UserSkill> UpdateUserSkill(UserSkill userSkill)
         {
             if (userSkill == null)
             {
@@ -57,7 +57,7 @@
             }
 
             _context.Entry(userSkill).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return userSkill;
         }

@@ -4,14 +4,14 @@
 
     public interface IUserSkill
     {
-        public UserSkillDTO AddUserSkill(UserSkillDTO userSkill);
+        public Task<UserSkillDTO> AddUserSkill(UserSkillDTO userSkill);
 
-        public UserSkillDTO UpdateUserSkill(UserSkillDTO userSkill);
+        public Task<UserSkillDTO> UpdateUserSkill(UserSkillDTO userSkill);
 
-        public List<UserSkillDTO> GetAllUserSkill();
+        public Task<List<UserSkillDTO>> GetAllUserSkill();
 
-        public bool DeleteUserSkill(int id);
+        public Task<bool> DeleteUserSkill(int id);
 
-        public UserSkillDTO GetUserSkill(int id);
+        public Task<UserSkillDTO> GetUserSkill(int id);
     }
 }

@@ -51,14 +51,14 @@
             UpdateUser(GetUserFromConsole(), id);
         }
 
-        public UserDTO GetUser(int id)
+        public async Task<UserDTO> GetUser(int id)
         {
-            return _userService.GetUser(id);
+            return await _userService.GetUser(id);
         }
 
-        public UserDTO GetUser()
+        public async Task<UserDTO> GetUser()
         {
-            return _userService.GetUser(IdUser);
+            return await _userService.GetUser(IdUser);
         }
 
         public void UpdateUser(UserDTO user)
@@ -71,7 +71,7 @@
             DeleteUser(GetId());
         }
 
-        public bool IsValid()
+        public async Task<bool> IsValid()
         {
             Console.WriteLine("Input mail");
             string? mail = Console.ReadLine();
@@ -79,7 +79,7 @@
             Console.WriteLine("Input password");
             string? password = Console.ReadLine();
 
-            bool isValid = _userService.IsValidUser(mail, password);
+            bool isValid = await _userService.IsValidUser(mail, password);
 
             if (isValid)
             {
@@ -91,22 +91,27 @@
 
         public void OutputUser()
         {
-            Console.WriteLine("User");
-
-            Console.WriteLine(_userService.GetUser(IdUser));
-
-            Console.ReadKey();
+            Output();
         }
 
-        public void OutputUsers()
+        public async Task OutputUsers()
         {
             Console.WriteLine("Users");
-            var users = _userService.GetAllUser();
+            var users = await _userService.GetAllUser();
 
             foreach (var user in users)
             {
                 Console.WriteLine(user);
             }
+
+            Console.ReadKey();
+        }
+
+        private async Task Output()
+        {
+            Console.WriteLine("User");
+
+            Console.WriteLine(await _userService.GetUser(IdUser));
 
             Console.ReadKey();
         }

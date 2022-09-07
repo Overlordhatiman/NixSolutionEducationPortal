@@ -27,14 +27,14 @@
             _materialsService.AddMaterial(materials);
         }
 
-        public MaterialsDTO GetMaterialById(int id)
+        public async Task<MaterialsDTO> GetMaterialById(int id)
         {
-            return _materialsService.GetMaterials(id);
+            return await _materialsService.GetMaterials(id);
         }
 
         public void SaveMaterialAfterUpdate(MaterialsDTO materials)
         {
-            UpdateMaterial(materials);
+            Update(materials);
         }
 
         public MaterialsDTO GetMaterialFromConsole()
@@ -218,14 +218,7 @@
         {
             OutputMaterials();
 
-            int id = GetId();
-            Console.WriteLine("Current object");
-            MaterialsDTO oldMaterial = _materialsService.GetMaterials(id);
-            Console.WriteLine(oldMaterial);
-            MaterialsDTO materials = GetMaterialFromConsole(oldMaterial);
-            materials.Id = id;
-
-            UpdateMaterial(materials);
+            Update();
         }
 
         public void DeleteMaterial()
@@ -235,8 +228,13 @@
 
         public void OutputMaterials()
         {
+            Output();
+        }
+
+        private async Task Output()
+        {
             Console.WriteLine("Materials");
-            var materials = _materialsService.GetAllMaterial();
+            var materials = await GetAllMaterials();
 
             foreach (var material in materials)
             {
@@ -244,6 +242,11 @@
             }
 
             Console.ReadKey();
+        }
+
+        private async Task<List<MaterialsDTO>> GetAllMaterials()
+        {
+            return await _materialsService.GetAllMaterial();
         }
 
         private MaterialsDTO Validate(MaterialsDTO material)
@@ -284,17 +287,24 @@
             _materialsService.AddMaterial(materialsDTO);
         }
 
-        private void UpdateMaterial(MaterialsDTO materialsDTO)
+        private async Task Update()
         {
-            if (materialsDTO == null)
-            {
-                return;
-            }
+            int id = GetId();
+            Console.WriteLine("Current object");
+            MaterialsDTO oldMaterial = await _materialsService.GetMaterials(id);
+            Console.WriteLine(oldMaterial);
+            MaterialsDTO materials = GetMaterialFromConsole(oldMaterial);
+            materials.Id = id;
 
-            _materialsService.UpdateMaterial(materialsDTO);
+            _materialsService.UpdateMaterial(materials);
         }
 
-        private void DeleteMaterial(int id)
+        private async Task Update(MaterialsDTO materials)
+        {
+            _materialsService.UpdateMaterial(materials);
+        }
+
+        private async Task DeleteMaterial(int id)
         {
             _materialsService.DeleteMaterial(id);
         }

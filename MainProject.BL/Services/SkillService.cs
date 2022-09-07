@@ -14,24 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public SkillDTO AddSkill(SkillDTO skill)
+        public async Task<SkillDTO> AddSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.Add(skill.ToModel());
+            await _unitOfWork.SkillRepository.Add(skill.ToModel());
 
             return skill;
         }
 
-        public bool DeleteSkill(int id)
+        public async Task<bool> DeleteSkill(int id)
         {
-            var result = _unitOfWork.SkillRepository.Delete(id);
+            var result = await _unitOfWork.SkillRepository.Delete(id);
 
             return result;
         }
 
-        public List<SkillDTO> GetAllSkill()
+        public async Task<List<SkillDTO>> GetAllSkill()
         {
             List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var skill in _unitOfWork.SkillRepository.GetAll())
+            foreach (var skill in await _unitOfWork.SkillRepository.GetAll())
             {
                 skills.Add(skill.ToDTO());
             }
@@ -39,16 +39,16 @@
             return skills;
         }
 
-        public SkillDTO UpdateSkill(SkillDTO skill)
+        public async Task<SkillDTO> UpdateSkill(SkillDTO skill)
         {
-            _unitOfWork.SkillRepository.Update(skill.ToModel());
+            await _unitOfWork.SkillRepository.Update(skill.ToModel());
 
             return skill;
         }
 
-        public SkillDTO GetSkill(int id)
+        public async Task<SkillDTO> GetSkill(int id)
         {
-            return _unitOfWork.SkillRepository.GetById(id).ToDTO();
+            return SkillMapping.ToDTO(await _unitOfWork.SkillRepository.GetById(id));
         }
     }
 }

@@ -10,9 +10,6 @@
         public static void AddServices(this ServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IBookService, BookService>();
-            services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IMaterialsService, MaterialsService>();

@@ -4,14 +4,14 @@
 
     public interface IMaterialsRepository
     {
-        public Materials AddMaterial(Materials material);
+        public Task<Materials> AddMaterial(Materials material);
 
-        public Materials UpdateMaterial(Materials material);
+        public Task<Materials> UpdateMaterial(Materials material);
 
-        public IEnumerable<Materials> GetAllMaterial();
+        public Task<IEnumerable<Materials>> GetAllMaterial();
 
-        public bool DeleteMaterial(int id);
+        public Task<bool> DeleteMaterial(int id);
 
-        public Materials GetMaterials(int id);
+        public Task<Materials> GetMaterials(int id);
     }
 }

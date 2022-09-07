@@ -15,29 +15,29 @@
             _unitOfWork = unitOfWork;
         }
 
-        public CourseDTO AddCourse(CourseDTO course)
+        public async Task<CourseDTO> AddCourse(CourseDTO course)
         {
             if (course == null)
             {
                 return null;
             }
 
-            _unitOfWork.CourseRepository.AddCourse(course.ToModel());
+            await _unitOfWork.CourseRepository.AddCourse(course.ToModel());
 
             return course;
         }
 
-        public bool DeleteCourse(int id)
+        public async Task<bool> DeleteCourse(int id)
         {
-            var result = _unitOfWork.CourseRepository.DeleteCourse(id);
+            var result = await _unitOfWork.CourseRepository.DeleteCourse(id);
 
             return result != null;
         }
 
-        public List<CourseDTO> GetAllCourse()
+        public async Task<List<CourseDTO>> GetAllCourse()
         {
             List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var course in _unitOfWork.CourseRepository.GetAllCourse())
+            foreach (var course in await _unitOfWork.CourseRepository.GetAllCourse())
             {
                 courses.Add(course.ToDTO());
             }
@@ -45,16 +45,16 @@
             return courses;
         }
 
-        public CourseDTO UpdateCourse(CourseDTO course)
+        public async Task<CourseDTO> UpdateCourse(CourseDTO course)
         {
-            _unitOfWork.CourseRepository.UpdateCourse(course.ToModel());
+            await _unitOfWork.CourseRepository.UpdateCourse(course.ToModel());
 
             return course;
         }
 
-        public CourseDTO GetCourse(int id)
+        public async Task<CourseDTO> GetCourse(int id)
         {
-            return _unitOfWork.CourseRepository.GetCourse(id).ToDTO();
+            return CourseMapping.ToDTO(await _unitOfWork.CourseRepository.GetCourse(id));
         }
     }
 }

@@ -94,7 +94,6 @@
         public void ShowRegisterMenu()
         {
             Menu(_userMenu, "Register menu");
-            ShowRegisterMenu();
         }
 
         public void ShowRegisterMenu(string error)
@@ -105,7 +104,6 @@
         public void ShowCourseMenu()
         {
             Menu(_courseMenu, "Course menu");
-            ShowMainMenu();
         }
 
         public void ShowMaterialsMenu()
@@ -114,7 +112,7 @@
             ShowMainMenu();
         }
 
-        private static void ClearAndShowHeading(string heading)
+        private void ClearAndShowHeading(string heading)
         {
             Console.Clear();
             Console.WriteLine(heading);
@@ -123,7 +121,7 @@
 
         private void LogIn()
         {
-            if (_userCRUD.IsValid())
+            if (_userCRUD.IsValid().Result)
             {
                 ShowMainMenu();
             }

@@ -7,12 +7,6 @@
     {
         private readonly EducationPortalContext _context;
 
-        private DbArticleRepository? _articleRepository;
-
-        private DbBookRepository? _bookRepository;
-
-        private DbVideoRepository? _videoRepository;
-
         private DbCourseRepository? _courseRepository;
 
         private BaseRepository<Skill>? _skillRepository;
@@ -29,12 +23,6 @@
         {
             _context = context;
         }
-
-        public IArticleRepository ArticleRepository => _articleRepository ??= new DbArticleRepository(_context);
-
-        public IBookRepository BookRepository => _bookRepository ??= new DbBookRepository(_context);
-
-        public IVideoRepository VideoRepository => _videoRepository ??= new DbVideoRepository(_context);
 
         public ICourseRepository CourseRepository => _courseRepository ??= new DbCourseRepository(_context);
 

@@ -13,7 +13,7 @@
             _context = context;
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             if (user == null)
             {
@@ -36,38 +36,38 @@
                 .ToList();
 
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             var entityToDelete = _context.Users.SingleOrDefault(e => e.Id == id);
             var obj = _context.Users.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return obj != null;
         }
 
-        public IEnumerable<User> GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-           return _context.Users
+           return await _context.Users
                 .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .ToList();
+                .ToListAsync();
         }
 
-        public bool IsValidUser(string mail, string password)
+        public async Task<bool> IsValidUser(string mail, string password)
         {
-            var user = _context.Users.AsNoTracking().FirstOrDefault(x => x.Mail == mail && x.Password == password);
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
 
             return user != null;
         }
 
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
             if (user == null)
             {
@@ -90,29 +90,29 @@
                 .ToList();
 
             _context.Users.Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
-        public User GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
-            return _context.Users
+            return await _context.Users
                 .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public User GetUser(string mail, string password)
+        public async Task<User> GetUser(string mail, string password)
         {
-            return _context.Users
+            return await _context.Users
                 .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
-                .FirstOrDefault(x => x.Mail == mail && x.Password == password);
+                .FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
         }
     }
 }

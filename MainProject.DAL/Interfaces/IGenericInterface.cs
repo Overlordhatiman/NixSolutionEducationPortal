@@ -8,14 +8,14 @@ namespace MainProject.DAL.Interfaces
 {
     public interface IGenericInterface<TEntity> where TEntity : class
     {
-        public TEntity Add(TEntity obj);
+        public Task<TEntity> Add(TEntity obj);
 
-        public TEntity Update(TEntity obj);
+        public Task<TEntity> Update(TEntity obj);
 
-        public IEnumerable<TEntity> GetAll();
+        public Task<IEnumerable<TEntity>> GetAll();
 
-        public bool Delete(int id);
+        public Task<bool> Delete(int id);
 
-        public TEntity GetById(int id);
+        public Task<TEntity> GetById(int id);
     }
 }

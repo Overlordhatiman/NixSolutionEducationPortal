@@ -14,12 +14,6 @@
 
         public DbSet<Course>? Courses { get; set; }
 
-        public DbSet<VideoMaterial>? Videos { get; set; }
-
-        public DbSet<BookMaterial>? Books { get; set; }
-
-        public DbSet<ArticleMaterial>? Articles { get; set; }
-
         public DbSet<UserSkill>? UserSkills { get; set; }
 
         public DbSet<UserCourse>? UserCourses { get; set; }

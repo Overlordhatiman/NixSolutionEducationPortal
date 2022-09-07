@@ -30,9 +30,9 @@
             return Validate(skill);
         }
 
-        public SkillDTO GetSkillById(int id)
+        public async Task<SkillDTO> GetSkillById(int id)
         {
-            return _skillService.GetSkill(id);
+            return await _skillService.GetSkill(id);
         }
 
         public void CreateSkill()
@@ -75,8 +75,13 @@
 
         public void OutputSkills()
         {
+            Output();
+        }
+
+        private async Task Output()
+        {
             Console.WriteLine("Skills");
-            var skills = _skillService.GetAllSkill();
+            var skills = await _skillService.GetAllSkill();
 
             foreach (var skill in skills)
             {

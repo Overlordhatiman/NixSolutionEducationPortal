@@ -14,24 +14,24 @@
             _unitOfWork = unitOfWork;
         }
 
-        public UserDTO AddUser(UserDTO user)
+        public async Task<UserDTO> AddUser(UserDTO user)
         {
-            _unitOfWork.UserRepository.AddUser(user.ToModel());
+            await _unitOfWork.UserRepository.AddUser(user.ToModel());
 
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
-            var result = _unitOfWork.UserRepository.DeleteUser(id);
+            var result = await _unitOfWork.UserRepository.DeleteUser(id);
 
             return result != null;
         }
 
-        public List<UserDTO> GetAllUser()
+        public async Task<List<UserDTO>> GetAllUser()
         {
             List<UserDTO> users = new List<UserDTO>();
-            foreach (var user in _unitOfWork.UserRepository.GetAllUser())
+            foreach (var user in await _unitOfWork.UserRepository.GetAllUser())
             {
                 users.Add(user.ToDTO());
             }
@@ -39,26 +39,26 @@
             return users;
         }
 
-        public UserDTO UpdateUser(UserDTO user)
+        public async Task<UserDTO> UpdateUser(UserDTO user)
         {
-            _unitOfWork.UserRepository.UpdateUser(user.ToModel());
+            await _unitOfWork.UserRepository.UpdateUser(user.ToModel());
 
             return user;
         }
 
-        public bool IsValidUser(string mail, string password)
+        public async Task<bool> IsValidUser(string mail, string password)
         {
-            return _unitOfWork.UserRepository.IsValidUser(mail, password);
+            return await _unitOfWork.UserRepository.IsValidUser(mail, password);
         }
 
-        public UserDTO GetUser(int id)
+        public async Task<UserDTO> GetUser(int id)
         {
-            return _unitOfWork.UserRepository.GetUser(id).ToDTO();
+            return UserMapping.ToDTO(await _unitOfWork.UserRepository.GetUser(id));
         }
 
-        public UserDTO GetUser(string mail, string password)
+        public async Task<UserDTO> GetUser(string mail, string password)
         {
-            return _unitOfWork.UserRepository.GetUser(mail, password).ToDTO();
+            return UserMapping.ToDTO(await _unitOfWork.UserRepository.GetUser(mail, password));
         }
     }
 }

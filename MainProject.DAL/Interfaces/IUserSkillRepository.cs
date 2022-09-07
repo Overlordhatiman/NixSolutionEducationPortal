@@ -4,14 +4,14 @@
 
     public interface IUserSkillRepository
     {
-        public UserSkill AddUserSkill(UserSkill userSkill);
+        public Task<UserSkill> AddUserSkill(UserSkill userSkill);
 
-        public UserSkill UpdateUserSkill(UserSkill userSkill);
+        public Task<UserSkill> UpdateUserSkill(UserSkill userSkill);
 
-        public IEnumerable<UserSkill> GetAllUserSkill();
+        public Task<IEnumerable<UserSkill>> GetAllUserSkill();
 
-        public bool DeleteUserSkill(int id);
+        public Task<bool> DeleteUserSkill(int id);
 
-        public UserSkill GetUserSkill(int id);
+        public Task<UserSkill> GetUserSkill(int id);
     }
 }

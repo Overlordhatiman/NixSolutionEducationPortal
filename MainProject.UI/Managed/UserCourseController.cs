@@ -31,23 +31,24 @@
 
         public void StartCourseFromConsole()
         {
-            foreach (var course in _courseService.GetAllCourse())
+            StartCourse();
+        }
+
+        public async Task StartCourse()
+        {
+            foreach (var course in await _courseService.GetAllCourse())
             {
                 Console.WriteLine(course);
             }
 
             Console.WriteLine("Input ID of course");
-            int id;
-            int.TryParse(Console.ReadLine(), out id);
-            StartCourse(id);
-        }
+            int idCourse;
+            int.TryParse(Console.ReadLine(), out idCourse);
 
-        public void StartCourse(int id)
-        {
-            CourseDTO courseDTO = _courseService.GetCourse(id);
-            UserDTO user = _userController.GetUser();
+            CourseDTO courseDTO = await _courseService.GetCourse(idCourse);
+            UserDTO user = await _userController.GetUser();
 
-            int percent = GetPercent(courseDTO);
+            int percent = await GetPercent(courseDTO);
             UserCourseDTO userCourse = new UserCourseDTO
             {
                 IsFinished = 100 == percent,
@@ -66,7 +67,27 @@
 
         public void UpdateMaterials()
         {
-            foreach (var item in _userCourseService.GetUserCourseForUser(_userController.IdUser))
+            UpdateUserCourse();
+        }
+
+        public void OutputUserCourse()
+        {
+            Output();
+        }
+
+        private async Task Output()
+        {
+            foreach (var item in await _userCourseService.GetUserCourseForUser(_userController.IdUser))
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.ReadKey();
+        }
+
+        private async Task UpdateUserCourse()
+        {
+            foreach (var item in await _userCourseService.GetUserCourseForUser(_userController.IdUser))
             {
                 Console.WriteLine(item);
             }
@@ -75,7 +96,7 @@
             int id;
             int.TryParse(Console.ReadLine(), out id);
 
-            CourseDTO courseDTO = _courseService.GetCourse(id);
+            CourseDTO courseDTO = await _courseService.GetCourse(id);
 
             Console.WriteLine(courseDTO);
 
@@ -83,11 +104,11 @@
 
             int.TryParse(Console.ReadLine(), out id);
 
-            MaterialsDTO material = _materialService.GetMaterials(id);
+            MaterialsDTO material = await _materialService.GetMaterials(id);
 
-            int userCourseId = _userCourseService.GetUserCourseForUser(_userController.IdUser).FirstOrDefault(course => course.Course.Id == courseDTO.Id).Id;
+            int userCourseId = _userCourseService.GetUserCourseForUser(_userController.IdUser).Id;
 
-            UserDTO user = _userController.GetUser();
+            UserDTO user = await _userController.GetUser();
 
             if (!user.Materials.Contains(material))
             {
@@ -95,22 +116,7 @@
                 _userController.UpdateUser(user);
             }
 
-            UpdateUserCourse(courseDTO, user, userCourseId);
-        }
-
-        public void OutputUserCourse()
-        {
-            foreach (var item in _userCourseService.GetUserCourseForUser(_userController.IdUser))
-            {
-                Console.WriteLine(item);
-            }
-
-            Console.ReadKey();
-        }
-
-        private void UpdateUserCourse(CourseDTO courseDTO, UserDTO user, int id)
-        {
-            int percent = GetPercent(courseDTO);
+            int percent = await GetPercent(courseDTO);
             UserCourseDTO userCourse = new UserCourseDTO
             {
                 Id = id,
@@ -155,11 +161,11 @@
             _userController.UpdateUser(user);
         }
 
-        private int GetPercent(CourseDTO courseDTO)
+        private async Task<int> GetPercent(CourseDTO courseDTO)
         {
             int result = 0;
             double percentForOneMaterial = (double)100 / courseDTO.Materials.Count;
-            UserDTO user = _userController.GetUser();
+            UserDTO user = await _userController.GetUser();
 
             foreach (var course in courseDTO.Materials)
             {
