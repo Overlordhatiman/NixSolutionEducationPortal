@@ -62,7 +62,7 @@
                 UpdateSkills(user, courseDTO);
             }
 
-            _userCourseService.AddUserCourse(userCourse);
+            user.UserCourses.Add(userCourse);
         }
 
         public void UpdateMaterials()
@@ -128,10 +128,12 @@
 
             if (percent == 100)
             {
-                UpdateSkills(user, courseDTO);
+                //UpdateSkills(user, courseDTO);
             }
 
             _userCourseService.UpdateUserCourse(userCourse);
+
+            _userController.UpdateUser(user);
         }
 
         private void UpdateSkills(UserDTO user, CourseDTO course)

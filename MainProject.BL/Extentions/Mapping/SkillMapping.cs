@@ -1,6 +1,7 @@
 ﻿namespace MainProject.BL.Extentions.Mapping
 {
     using MainProject.BL.DTO;
+    using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
 
     public static class SkillMapping
@@ -21,18 +22,29 @@
             return skillDTO;
         }
 
-        public static Skill ToModel(this SkillDTO skill)
+        public static Skill ToModel(this SkillDTO skill, IUnitOfWork unitOfWork)
         {
             if (skill == null)
             {
                 return new Skill();
             }
 
-            Skill skillModel = new Skill
+            Skill skillModel;
+
+            if (skill.Id != 0 && unitOfWork != null)
             {
-                Id = skill.Id,
-                Name = skill.Name,
-            };
+                skillModel = unitOfWork.SkillRepository.GetById(skill.Id).Result;
+                skillModel.Id = skill.Id;
+                skillModel.Name = skill.Name;
+            }
+            else
+            {
+                skillModel = new Skill
+                {
+                    Id = skill.Id,
+                    Name = skill.Name,
+                };
+            }
 
             return skillModel;
         }

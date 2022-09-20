@@ -16,7 +16,7 @@
 
         public async Task<UserDTO> AddUser(UserDTO user)
         {
-            await _unitOfWork.UserRepository.AddUser(user.ToModel());
+            await _unitOfWork.UserRepository.AddUser(user.ToModel(_unitOfWork));
 
             return user;
         }
@@ -28,20 +28,14 @@
             return result != null;
         }
 
-        public async Task<List<UserDTO>> GetAllUser()
+        public async Task<IEnumerable<UserDTO>> GetAllUser()
         {
-            List<UserDTO> users = new List<UserDTO>();
-            foreach (var user in await _unitOfWork.UserRepository.GetAllUser())
-            {
-                users.Add(user.ToDTO());
-            }
-
-            return users;
+            return (await _unitOfWork.UserRepository.GetAllUser()).Select(x => x.ToDTO());
         }
 
         public async Task<UserDTO> UpdateUser(UserDTO user)
         {
-            await _unitOfWork.UserRepository.UpdateUser(user.ToModel());
+            await _unitOfWork.UserRepository.UpdateUser(user.ToModel(_unitOfWork));
 
             return user;
         }

@@ -29,16 +29,9 @@
             return result != null;
         }
 
-        public async Task<List<UserSkillDTO>> GetAllUserSkill()
+        public async Task<IEnumerable<UserSkillDTO>> GetAllUserSkill()
         {
-            List<UserSkillDTO> userSkills = new List<UserSkillDTO>();
-
-            foreach (var userSkill in await _unitOfWork.UserSkillsRepository.GetAll())
-            {
-                userSkills.Add(userSkill.ToDTO());
-            }
-
-            return userSkills;
+            return (await _unitOfWork.UserSkillsRepository.GetAll()).Select(x => x.ToDTO());
         }
 
         public async Task<UserSkillDTO> GetUserSkill(int id)

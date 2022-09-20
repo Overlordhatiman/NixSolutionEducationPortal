@@ -1,0 +1,23 @@
+﻿@model MainProject.BL.DTO.MaterialsDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>MaterialsDTO</h4>
+<hr />
+<div class="col">
+    @Html.ActionLink("Список статей", "Create", "ArticleDTOes")
+    @Html.ActionLink("Список книг", "Create", "BookDTOes")
+    @Html.ActionLink("Список видео", "Create", "VideoDTOes")
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

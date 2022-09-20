@@ -13,7 +13,7 @@
 
         private DbUserRepository? _userRepository;
 
-        private BaseRepository<Materials>? _materialsRepository;
+        private DbMaterialsRepository? _materialsRepository;
 
         private BaseRepository<UserSkill> _userSkillRepository;
 
@@ -30,7 +30,7 @@
 
         public IUserRepository UserRepository => _userRepository ??= new DbUserRepository(_context);
 
-        public IGenericInterface<Materials> MaterialsRepository => _materialsRepository ??= new BaseRepository<Materials>(_context);
+        public IMaterialsRepository MaterialsRepository => _materialsRepository ??= new DbMaterialsRepository(_context);
 
         public IGenericInterface<UserSkill> UserSkillsRepository => _userSkillRepository ??= new BaseRepository<UserSkill>(_context);
 

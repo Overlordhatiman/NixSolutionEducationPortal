@@ -8,7 +8,13 @@
 
         public Task<MaterialsDTO> UpdateMaterial(MaterialsDTO material);
 
-        public Task<List<MaterialsDTO>> GetAllMaterial();
+        public Task<IEnumerable<MaterialsDTO>> GetAllMaterial();
+
+        public Task<IEnumerable<ArticleDTO>> GetAllArticle();
+
+        public Task<IEnumerable<BookDTO>> GetAllBook();
+
+        public Task<IEnumerable<VideoDTO>> GetAllVideo();
 
         public Task<bool> DeleteMaterial(int id);
 

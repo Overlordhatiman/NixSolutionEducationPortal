@@ -10,6 +10,12 @@
 
         public Task<IEnumerable<Materials>> GetAllMaterial();
 
+        public Task<IEnumerable<ArticleMaterial>> GetAllArticle();
+
+        public Task<IEnumerable<BookMaterial>> GetAllBook();
+
+        public Task<IEnumerable<VideoMaterial>> GetAllVideo();
+
         public Task<bool> DeleteMaterial(int id);
 
         public Task<Materials> GetMaterials(int id);

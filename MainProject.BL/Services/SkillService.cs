@@ -16,7 +16,7 @@
 
         public async Task<SkillDTO> AddSkill(SkillDTO skill)
         {
-            await _unitOfWork.SkillRepository.Add(skill.ToModel());
+            await _unitOfWork.SkillRepository.Add(skill.ToModel(_unitOfWork));
 
             return skill;
         }
@@ -28,20 +28,14 @@
             return result;
         }
 
-        public async Task<List<SkillDTO>> GetAllSkill()
+        public async Task<IEnumerable<SkillDTO>> GetAllSkill()
         {
-            List<SkillDTO> skills = new List<SkillDTO>();
-            foreach (var skill in await _unitOfWork.SkillRepository.GetAll())
-            {
-                skills.Add(skill.ToDTO());
-            }
-
-            return skills;
+            return (await _unitOfWork.SkillRepository.GetAll()).Select(x => x.ToDTO());
         }
 
         public async Task<SkillDTO> UpdateSkill(SkillDTO skill)
         {
-            await _unitOfWork.SkillRepository.Update(skill.ToModel());
+            await _unitOfWork.SkillRepository.Update(skill.ToModel(_unitOfWork));
 
             return skill;
         }

@@ -10,7 +10,7 @@
 
         public IUserRepository UserRepository { get; }
 
-        public IGenericInterface<Materials> MaterialsRepository { get; }
+        public IMaterialsRepository MaterialsRepository { get; }
 
         public IGenericInterface<UserSkill> UserSkillsRepository { get; }
 

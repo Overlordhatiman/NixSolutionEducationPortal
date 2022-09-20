@@ -119,14 +119,14 @@
             return id;
         }
 
-        private void CreateSkill(SkillDTO skill)
+        private async Task CreateSkill(SkillDTO skill)
         {
             if (skill == null)
             {
                 return;
             }
 
-            _skillService.AddSkill(skill);
+            await _skillService.AddSkill(skill);
         }
 
         private void UpdateSkill(SkillDTO skill)

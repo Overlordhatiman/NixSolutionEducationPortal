@@ -18,7 +18,7 @@
 
         public async Task<UserCourseDTO> AddUserCourse(UserCourseDTO userCourse)
         {
-            await _unitOfWork.UserCoursesRepository.AddUserCourse(userCourse.ToModel());
+            await _unitOfWork.UserCoursesRepository.AddUserCourse(userCourse.ToModel(_unitOfWork));
 
             return userCourse;
         }
@@ -30,16 +30,9 @@
             return result != null;
         }
 
-        public async Task<List<UserCourseDTO>> GetAllUserCourse()
+        public async Task<IEnumerable<UserCourseDTO>> GetAllUserCourse()
         {
-            List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
-
-            foreach (var userCourse in await _unitOfWork.UserCoursesRepository.GetAllUserCourse())
-            {
-                userCourses.Add(userCourse.ToDTO());
-            }
-
-            return userCourses;
+            return (await _unitOfWork.UserCoursesRepository.GetAllUserCourse()).Select(x => x.ToDTO());
         }
 
         public async Task<UserCourseDTO> GetUserCourse(int id)
@@ -47,21 +40,14 @@
             return UserCourseMapping.ToDTO(await _unitOfWork.UserCoursesRepository.GetUserCourse(id));
         }
 
-        public async Task<List<UserCourseDTO>> GetUserCourseForUser(int id)
+        public async Task<IEnumerable<UserCourseDTO>> GetUserCourseForUser(int id)
         {
-            List<UserCourseDTO> userCourses = new List<UserCourseDTO>();
-
-            foreach (var userCourse in await _unitOfWork.UserCoursesRepository.GetUserCourseForUser(id))
-            {
-                userCourses.Add(userCourse.ToDTO());
-            }
-
-            return userCourses;
+            return (await _unitOfWork.UserCoursesRepository.GetUserCourseForUser(id)).Select(x => x.ToDTO());
         }
 
         public async Task<UserCourseDTO> UpdateUserCourse(UserCourseDTO userCourse)
         {
-            await _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel());
+            await _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse.ToModel(_unitOfWork));
 
             return userCourse;
         }

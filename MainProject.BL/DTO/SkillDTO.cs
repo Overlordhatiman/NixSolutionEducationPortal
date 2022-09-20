@@ -8,7 +8,7 @@
 
         public override string? ToString()
         {
-            return Id.ToString() + "\t" + Name + "\t";
+            return Name + "\t";
         }
     }
 }

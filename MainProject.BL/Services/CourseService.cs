@@ -22,7 +22,7 @@
                 return null;
             }
 
-            await _unitOfWork.CourseRepository.AddCourse(course.ToModel());
+            await _unitOfWork.CourseRepository.AddCourse(course.ToModel(_unitOfWork));
 
             return course;
         }
@@ -34,20 +34,14 @@
             return result != null;
         }
 
-        public async Task<List<CourseDTO>> GetAllCourse()
+        public async Task<IEnumerable<CourseDTO>> GetAllCourse()
         {
-            List<CourseDTO> courses = new List<CourseDTO>();
-            foreach (var course in await _unitOfWork.CourseRepository.GetAllCourse())
-            {
-                courses.Add(course.ToDTO());
-            }
-
-            return courses;
+            return (await _unitOfWork.CourseRepository.GetAllCourse()).Select(x => x.ToDTO());
         }
 
         public async Task<CourseDTO> UpdateCourse(CourseDTO course)
         {
-            await _unitOfWork.CourseRepository.UpdateCourse(course.ToModel());
+            await _unitOfWork.CourseRepository.UpdateCourse(course.ToModel(_unitOfWork));
 
             return course;
         }

@@ -43,7 +43,10 @@
                 return;
             }
 
-            modelBuilder.Entity<Materials>().ToTable("Materials");
+            modelBuilder.Entity<Materials>().ToTable("Materials").HasDiscriminator("Discriminator", typeof(string));
+            modelBuilder.Entity<ArticleMaterial>();
+            modelBuilder.Entity<VideoMaterial>();
+            modelBuilder.Entity<BookMaterial>();
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Skill>().ToTable("Skill");

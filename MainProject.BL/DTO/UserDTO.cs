@@ -18,7 +18,7 @@
         {
             string result = string.Empty;
 
-            result += Id.ToString() + "\t" + Mail + "\t" + Password + "\n";
+            result += Mail + "\t" + Password + "\n";
 
             result += "User skills" + "\n";
             foreach (var item in UserSkills)

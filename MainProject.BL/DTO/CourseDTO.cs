@@ -8,15 +8,15 @@
 
         public string? Description { get; set; } = string.Empty;
 
-        public List<MaterialsDTO>? Materials { get; set; }
+        public IEnumerable<MaterialsDTO>? Materials { get; set; }
 
-        public List<SkillDTO>? Skills { get; set; }
+        public IEnumerable<SkillDTO>? Skills { get; set; }
 
         public override string? ToString()
         {
             string result = string.Empty;
 
-            result = Id.ToString() + "\t" + Name + "\t" + Description + "\n";
+            result = Name + "\t" + Description + "\n";
 
             result += "Materials:\n";
 

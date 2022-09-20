@@ -15,7 +15,7 @@
 
         public async Task<Skill> AddSkill(Skill skill)
         {
-            _context.Skills.Add(skill);
+            await _context.Skills.AddAsync(skill);
             await _context.SaveChangesAsync();
 
             return skill;
@@ -32,7 +32,7 @@
 
         public async Task<IEnumerable<Skill>> GetAllSkill()
         {
-            return await _context.Skills.Include(m => m.Courses).AsNoTracking().ToListAsync();
+            return await _context.Skills.Include(m => m.Courses).ToListAsync();
         }
 
         public async Task<Skill> UpdateSkill(Skill skill)
@@ -50,7 +50,7 @@
 
         public async Task<Skill> GetSkill(int id)
         {
-            return await _context.Skills.Include(m => m.Courses).AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Skills.Include(m => m.Courses).SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -8,7 +8,7 @@
 
         public Task<UserDTO> UpdateUser(UserDTO user);
 
-        public Task<List<UserDTO>> GetAllUser();
+        public Task<IEnumerable<UserDTO>> GetAllUser();
 
         public Task<bool> DeleteUser(int id);
 

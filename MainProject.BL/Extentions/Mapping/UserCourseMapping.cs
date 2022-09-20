@@ -1,6 +1,7 @@
 ﻿namespace MainProject.BL.Extentions.Mapping
 {
     using MainProject.BL.DTO;
+    using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
 
     public static class UserCourseMapping
@@ -18,11 +19,10 @@
                 IsFinished = userCourse.IsFinished,
                 Percent = userCourse.Percent,
                 Course = userCourse.Course.ToDTO(),
-                User = userCourse.User.ToDTO(),
             };
         }
 
-        public static UserCourse ToModel(this UserCourseDTO userCourse)
+        public static UserCourse ToModel(this UserCourseDTO userCourse, IUnitOfWork unitOfWork)
         {
             if (userCourse == null)
             {
@@ -34,8 +34,7 @@
                 Id = userCourse.Id,
                 IsFinished = userCourse.IsFinished,
                 Percent = userCourse.Percent,
-                Course = userCourse.Course.ToModel(),
-                User = userCourse.User.ToModel(),
+                Course = userCourse.Course.ToModel(unitOfWork),
             };
         }
     }

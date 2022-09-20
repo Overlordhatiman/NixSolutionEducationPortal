@@ -8,7 +8,7 @@
 
         public Task<SkillDTO> UpdateSkill(SkillDTO skill);
 
-        public Task<List<SkillDTO>> GetAllSkill();
+        public Task<IEnumerable<SkillDTO>> GetAllSkill();
 
         public Task<bool> DeleteSkill(int id);
 

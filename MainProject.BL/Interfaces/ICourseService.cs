@@ -8,7 +8,7 @@
 
         public Task<CourseDTO> UpdateCourse(CourseDTO course);
 
-        public Task<List<CourseDTO>> GetAllCourse();
+        public Task<IEnumerable<CourseDTO>> GetAllCourse();
 
         public Task<bool> DeleteCourse(int id);
 

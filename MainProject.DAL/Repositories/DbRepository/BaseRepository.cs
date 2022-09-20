@@ -16,7 +16,7 @@
 
         public async Task<TEntity> Add(TEntity obj)
         {
-            _dbSet.Add(obj);
+            await _dbSet.AddAsync(obj);
             await _context.SaveChangesAsync();
 
             return obj;
@@ -24,7 +24,7 @@
 
         public async Task<bool> Delete(int id)
         {
-            var entityToDelete = _dbSet.Find(id);
+            var entityToDelete = await _dbSet.FindAsync(id);
             var obj = _dbSet.Remove(entityToDelete);
             await _context.SaveChangesAsync();
 
@@ -33,13 +33,12 @@
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<TEntity> GetById(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            _context.Entry(entity).State = EntityState.Detached;
 
             return entity;
         }

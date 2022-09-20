@@ -12,7 +12,7 @@
 
         public override string? ToString()
         {
-            return Id.ToString() + "\t" + Name + "\t" + Date.ToString() + "\t" + Author + "\t" + NumberOfPages + "\t" + Format;
+            return Name + "\t" + Date.ToString() + "\t" + Author + "\t" + NumberOfPages + "\t" + Format;
         }
     }
 }

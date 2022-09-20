@@ -244,7 +244,7 @@
             Console.ReadKey();
         }
 
-        private async Task<List<MaterialsDTO>> GetAllMaterials()
+        private async Task<IEnumerable<MaterialsDTO>> GetAllMaterials()
         {
             return await _materialsService.GetAllMaterial();
         }

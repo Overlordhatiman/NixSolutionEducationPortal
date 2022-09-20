@@ -1,6 +1,7 @@
 ﻿namespace MainProject.BL.Extentions.Mapping
 {
     using MainProject.BL.DTO;
+    using MainProject.DAL.Interfaces;
     using MainProject.DAL.Models;
 
     public static class CourseMapping
@@ -52,7 +53,7 @@
             };
         }
 
-        public static Course ToModel(this CourseDTO course)
+        public static Course ToModel(this CourseDTO course, IUnitOfWork unitOfWork)
         {
             if (course == null)
             {
@@ -65,7 +66,7 @@
             {
                 if (skill != null)
                 {
-                    skills.Add(SkillMapping.ToModel(skill));
+                    skills.Add(SkillMapping.ToModel(skill, unitOfWork));
                 }
             }
 
@@ -87,6 +88,18 @@
                 {
                     materials.Add(BookMapping.ToModel(book));
                 }
+            }
+
+            if (course.Id != 0 && unitOfWork != null)
+            {
+                var courseInDB = unitOfWork.CourseRepository.GetCourse(course.Id).Result;
+                courseInDB.Id = course.Id;
+                courseInDB.Description = course.Description;
+                courseInDB.Name = course.Name;
+                courseInDB.Skills = skills;
+                courseInDB.Materials = materials;
+
+                return courseInDB;
             }
 
             return new Course

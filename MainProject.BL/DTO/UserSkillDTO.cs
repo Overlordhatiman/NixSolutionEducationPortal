@@ -12,7 +12,7 @@
 
         public override string? ToString()
         {
-            return Id.ToString() + "\t" + LevelOfSkill.ToString() + "\t";
+            return LevelOfSkill.ToString() + "\t";
         }
     }
 }

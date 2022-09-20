@@ -83,6 +83,7 @@
         public void ShowMainMenu()
         {
             Menu(_mainMenu, "Main Menu");
+            ShowMainMenu();
         }
 
         public void ShowSkillMenu()

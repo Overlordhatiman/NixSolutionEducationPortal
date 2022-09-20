@@ -7,7 +7,7 @@
 
     public static class ServiceCollectionExtentions
     {
-        public static void AddServices(this ServiceCollection services)
+        public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISkillService, SkillService>();
