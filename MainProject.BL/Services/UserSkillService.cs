@@ -17,31 +17,31 @@
 
         public async Task<UserSkillDTO> AddUserSkill(UserSkillDTO userSkill)
         {
-            await _unitOfWork.UserSkillsRepository.Add(userSkill.ToModel());
+            await _unitOfWork.UserSkillsRepository.AddUserSkill(userSkill.ToModel());
 
             return userSkill;
         }
 
         public async Task<bool> DeleteUserSkill(int id)
         {
-            var result = await _unitOfWork.UserSkillsRepository.Delete(id);
+            var result = await _unitOfWork.UserSkillsRepository.DeleteUserSkill(id);
 
             return result != null;
         }
 
         public async Task<IEnumerable<UserSkillDTO>> GetAllUserSkill()
         {
-            return (await _unitOfWork.UserSkillsRepository.GetAll()).Select(x => x.ToDTO());
+            return (await _unitOfWork.UserSkillsRepository.GetAllUserSkill()).Select(x => x.ToDTO());
         }
 
         public async Task<UserSkillDTO> GetUserSkill(int id)
         {
-            return UserSkillMapping.ToDTO(await _unitOfWork.UserSkillsRepository.GetById(id));
+            return UserSkillMapping.ToDTO(await _unitOfWork.UserSkillsRepository.GetUserSkill(id));
         }
 
         public async Task<UserSkillDTO> UpdateUserSkill(UserSkillDTO userSkill)
         {
-            await _unitOfWork.UserSkillsRepository.Update(userSkill.ToModel());
+            await _unitOfWork.UserSkillsRepository.UpdateUserSkill(userSkill.ToModel());
 
             return userSkill;
         }

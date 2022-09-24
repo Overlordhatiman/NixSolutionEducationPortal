@@ -4,11 +4,11 @@
     using MainProject.DAL.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class DbCourseRepository : ICourseRepository
+    public class DbCourseRepository : BaseRepository<Course>, ICourseRepository
     {
         private EducationPortalContext _context;
 
-        public DbCourseRepository(EducationPortalContext context)
+        public DbCourseRepository(EducationPortalContext context) : base(context)
         {
             _context = context;
         }
@@ -20,19 +20,14 @@
                 throw new NullReferenceException();
             }
 
-            await _context.Courses.AddAsync(course);
-            await _context.SaveChangesAsync();
+            await Add(course);
 
             return course;
         }
 
         public async Task<bool> DeleteCourse(int id)
         {
-            var entityToDelete = await _context.Courses.SingleOrDefaultAsync(e => e.Id == id);
-            var obj = _context.Courses.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
-
-            return obj != null;
+            return await Delete(id);
         }
 
         public async Task<IEnumerable<Course>> GetAllCourse()
@@ -50,8 +45,7 @@
                 throw new NullReferenceException();
             }
 
-            _context.Courses.Update(course);
-            await _context.SaveChangesAsync();
+            await Update(course);
 
             return course;
         }

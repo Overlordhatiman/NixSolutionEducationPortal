@@ -5,30 +5,25 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
 
-    public class DbUserSkillRepository : IUserSkillRepository
+    public class DbUserSkillRepository : BaseRepository<UserSkill>, IUserSkillRepository
     {
         private EducationPortalContext _context;
 
-        public DbUserSkillRepository(EducationPortalContext context)
+        public DbUserSkillRepository(EducationPortalContext context) : base(context)
         {
             _context = context;
         }
 
         public async Task<UserSkill> AddUserSkill(UserSkill userSkill)
         {
-            _context.UserSkills.Add(userSkill);
-            await _context.SaveChangesAsync();
+            await Add(userSkill);
 
             return userSkill;
         }
 
         public async Task<bool> DeleteUserSkill(int id)
         {
-            var entityToDelete = _context.UserSkills.SingleOrDefault(e => e.Id == id);
-            var obj = _context.UserSkills.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
-
-            return obj != null;
+            return await Delete(id);
         }
 
         public async Task<IEnumerable<UserSkill>> GetAllUserSkill()
@@ -56,8 +51,7 @@
                 throw new NullReferenceException();
             }
 
-            _context.Entry(userSkill).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await Update(userSkill);
 
             return userSkill;
         }

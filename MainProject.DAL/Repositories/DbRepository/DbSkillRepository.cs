@@ -4,30 +4,25 @@
     using MainProject.DAL.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class DbSkillRepository : ISkillRepository
+    public class DbSkillRepository : BaseRepository<Skill>, ISkillRepository
     {
         private EducationPortalContext _context;
 
-        public DbSkillRepository(EducationPortalContext context)
+        public DbSkillRepository(EducationPortalContext context) : base(context)
         {
             _context = context;
         }
 
         public async Task<Skill> AddSkill(Skill skill)
         {
-            await _context.Skills.AddAsync(skill);
-            await _context.SaveChangesAsync();
+            await Add(skill);
 
             return skill;
         }
 
         public async Task<bool> DeleteSkill(int id)
         {
-            var entityToDelete = _context.Skills.SingleOrDefault(e => e.Id == id);
-            var obj = _context.Skills.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
-
-            return obj != null;
+            return await Delete(id);
         }
 
         public async Task<IEnumerable<Skill>> GetAllSkill()
@@ -42,8 +37,7 @@
                 throw new NullReferenceException();
             }
 
-            _context.Skills.Update(skill);
-            await _context.SaveChangesAsync();
+            await Update(skill);
 
             return skill;
         }

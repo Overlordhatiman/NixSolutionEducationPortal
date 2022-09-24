@@ -4,11 +4,11 @@
     using MainProject.DAL.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class DbUserRepository : IUserRepository
+    public class DbUserRepository : BaseRepository<User>, IUserRepository
     {
         private EducationPortalContext _context;
 
-        public DbUserRepository(EducationPortalContext context)
+        public DbUserRepository(EducationPortalContext context) : base(context)
         {
             _context = context;
         }
@@ -20,34 +20,14 @@
                 throw new NullReferenceException();
             }
 
-            user.Materials = user.Materials
-                .Select(material => _context.Materials
-                .FirstOrDefault(m => m.Id == material.Id) ?? material)
-                .ToList();
-
-            user.UserSkills = user.UserSkills
-                .Select(userSkill => _context.UserSkills
-                .FirstOrDefault(m => m.Id == userSkill.Id) ?? userSkill)
-                .ToList();
-
-            user.UserCourses = user.UserCourses
-                .Select(userCourse => _context.UserCourses
-                .FirstOrDefault(m => m.Id == userCourse.Id) ?? userCourse)
-                .ToList();
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await Add(user);
 
             return user;
         }
 
         public async Task<bool> DeleteUser(int id)
         {
-            var entityToDelete = _context.Users.SingleOrDefault(e => e.Id == id);
-            var obj = _context.Users.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
-
-            return obj != null;
+            return await Delete(id);
         }
 
         public async Task<IEnumerable<User>> GetAllUser()
@@ -74,23 +54,7 @@
                 throw new NullReferenceException();
             }
 
-            user.Materials = user.Materials
-                .Select(material => _context.Materials
-                .FirstOrDefault(m => m.Id == material.Id) ?? material)
-                .ToList();
-
-            user.UserSkills = user.UserSkills
-                .Select(userSkill => _context.UserSkills
-                .FirstOrDefault(m => m.Id == userSkill.Id) ?? userSkill)
-                .ToList();
-
-            user.UserCourses = user.UserCourses
-                .Select(userCourse => _context.UserCourses
-                .FirstOrDefault(m => m.Id == userCourse.Id) ?? userCourse)
-                .ToList();
-
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            await Update(user);
 
             return user;
         }

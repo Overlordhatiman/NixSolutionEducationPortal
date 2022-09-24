@@ -22,6 +22,21 @@
                 return null;
             }
 
+            List<MaterialsDTO> materials = new List<MaterialsDTO>();
+            List<SkillDTO> skills = new List<SkillDTO>();
+            for (int i = 0; i < course.MaterialsId.Length; i++)
+            {
+                materials.Add((await _unitOfWork.MaterialsRepository.GetMaterials(course.MaterialsId[i])).ToDTO());
+            }
+
+            for (int i = 0; i < course.SkillsId.Length; i++)
+            {
+                skills.Add((await _unitOfWork.SkillRepository.GetSkill(course.SkillsId[i])).ToDTO());
+            }
+
+            course.Skills = skills;
+            course.Materials = materials;
+
             await _unitOfWork.CourseRepository.AddCourse(course.ToModel(_unitOfWork));
 
             return course;

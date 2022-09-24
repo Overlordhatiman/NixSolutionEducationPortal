@@ -51,10 +51,10 @@ namespace MainProject.UI.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var materials = await materialsService.GetAllMaterial();
-            ViewData["Materials"] = new SelectList(materials, "Id", "Name");
+            ViewBag.MaterialsId = new SelectList(materials, "Id", "Name");
 
             var skills = await skillService.GetAllSkill();
-            ViewData["Skills"] = new SelectList(skills, "Id", "Name");
+            ViewBag.SkillsId = new SelectList(skills, "Id", "Name");
 
             return View();
         }
@@ -62,13 +62,22 @@ namespace MainProject.UI.Web.Controllers
         // POST: CourseDTOes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Materials,Skills")] CourseDTO courseDTO)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,MaterialsId,SkillsId")] CourseDTO courseDTO)
         {
             if (ModelState.IsValid)
             {
-                courseService.AddCourse(courseDTO);
+                await courseService.AddCourse(courseDTO);
                 return RedirectToAction(nameof(Index));
             }
+
+            if (courseDTO != null)
+            {
+                var skills = await skillService.GetAllSkill();
+                var materials = await materialsService.GetAllMaterial();
+                ViewBag.MaterialsId = new SelectList(materials, "Id", "Name", courseDTO.MaterialsId);
+                ViewBag.SkillsId = new SelectList(skills, "Id", "Name", courseDTO.SkillsId);
+            }
+
             return View(courseDTO);
         }
 

@@ -16,33 +16,33 @@
 
         public async Task<SkillDTO> AddSkill(SkillDTO skill)
         {
-            await _unitOfWork.SkillRepository.Add(skill.ToModel(_unitOfWork));
+            await _unitOfWork.SkillRepository.AddSkill(skill.ToModel(_unitOfWork));
 
             return skill;
         }
 
         public async Task<bool> DeleteSkill(int id)
         {
-            var result = await _unitOfWork.SkillRepository.Delete(id);
+            var result = await _unitOfWork.SkillRepository.DeleteSkill(id);
 
             return result;
         }
 
         public async Task<IEnumerable<SkillDTO>> GetAllSkill()
         {
-            return (await _unitOfWork.SkillRepository.GetAll()).Select(x => x.ToDTO());
+            return (await _unitOfWork.SkillRepository.GetAllSkill()).Select(x => x.ToDTO());
         }
 
         public async Task<SkillDTO> UpdateSkill(SkillDTO skill)
         {
-            await _unitOfWork.SkillRepository.Update(skill.ToModel(_unitOfWork));
+            await _unitOfWork.SkillRepository.UpdateSkill(skill.ToModel(_unitOfWork));
 
             return skill;
         }
 
         public async Task<SkillDTO> GetSkill(int id)
         {
-            return SkillMapping.ToDTO(await _unitOfWork.SkillRepository.GetById(id));
+            return SkillMapping.ToDTO(await _unitOfWork.SkillRepository.GetSkill(id));
         }
     }
 }

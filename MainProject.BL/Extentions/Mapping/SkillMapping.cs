@@ -33,7 +33,7 @@
 
             if (skill.Id != 0 && unitOfWork != null)
             {
-                skillModel = unitOfWork.SkillRepository.GetById(skill.Id).Result;
+                skillModel = unitOfWork.SkillRepository.GetSkill(skill.Id).Result;
                 skillModel.Id = skill.Id;
                 skillModel.Name = skill.Name;
             }

@@ -8,6 +8,10 @@
 
         public string? Description { get; set; } = string.Empty;
 
+        public int[] MaterialsId { get; set; }
+
+        public int[] SkillsId { get; set; }
+
         public IEnumerable<MaterialsDTO>? Materials { get; set; }
 
         public IEnumerable<SkillDTO>? Skills { get; set; }

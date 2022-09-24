@@ -9,13 +9,13 @@
 
         private DbCourseRepository? _courseRepository;
 
-        private BaseRepository<Skill>? _skillRepository;
+        private DbSkillRepository? _skillRepository;
 
         private DbUserRepository? _userRepository;
 
         private DbMaterialsRepository? _materialsRepository;
 
-        private BaseRepository<UserSkill> _userSkillRepository;
+        private DbUserSkillRepository _userSkillRepository;
 
         private DbUserCourseRepository _userCourseRepository;
 
@@ -26,13 +26,13 @@
 
         public ICourseRepository CourseRepository => _courseRepository ??= new DbCourseRepository(_context);
 
-        public IGenericInterface<Skill> SkillRepository => _skillRepository ??= new BaseRepository<Skill>(_context);
+        public ISkillRepository SkillRepository => _skillRepository ??= new DbSkillRepository(_context);
 
         public IUserRepository UserRepository => _userRepository ??= new DbUserRepository(_context);
 
         public IMaterialsRepository MaterialsRepository => _materialsRepository ??= new DbMaterialsRepository(_context);
 
-        public IGenericInterface<UserSkill> UserSkillsRepository => _userSkillRepository ??= new BaseRepository<UserSkill>(_context);
+        public IUserSkillRepository UserSkillsRepository => _userSkillRepository ??= new DbUserSkillRepository(_context);
 
         public IUserCourseRepository UserCoursesRepository => _userCourseRepository ??= new DbUserCourseRepository(_context);
     }

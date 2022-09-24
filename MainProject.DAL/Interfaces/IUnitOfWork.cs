@@ -6,13 +6,13 @@
     {
         public ICourseRepository CourseRepository { get; }
 
-        public IGenericInterface<Skill> SkillRepository { get; }
+        public ISkillRepository SkillRepository { get; }
 
         public IUserRepository UserRepository { get; }
 
         public IMaterialsRepository MaterialsRepository { get; }
 
-        public IGenericInterface<UserSkill> UserSkillsRepository { get; }
+        public IUserSkillRepository UserSkillsRepository { get; }
 
         public IUserCourseRepository UserCoursesRepository { get; }
     }

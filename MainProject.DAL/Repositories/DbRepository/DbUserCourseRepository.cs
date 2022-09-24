@@ -5,11 +5,11 @@
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
 
-    public class DbUserCourseRepository : IUserCourseRepository
+    public class DbUserCourseRepository : BaseRepository<UserCourse>, IUserCourseRepository
     {
         private EducationPortalContext _context;
 
-        public DbUserCourseRepository(EducationPortalContext context)
+        public DbUserCourseRepository(EducationPortalContext context) : base(context)
         {
             _context = context;
         }
@@ -21,22 +21,14 @@
                 throw new NullReferenceException();
             }
 
-            userCourse.Course = _context.Courses.FirstOrDefault(course => course.Id == userCourse.Course.Id);
-            userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
-
-            _context.UserCourses.Add(userCourse);
-            await _context.SaveChangesAsync();
+            await Add(userCourse);
 
             return userCourse;
         }
 
         public async Task<bool> DeleteUserCourse(int id)
         {
-            var entityToDelete = _context.UserCourses.SingleOrDefault(e => e.Id == id);
-            var obj = _context.UserCourses.Remove(entityToDelete);
-            await _context.SaveChangesAsync();
-
-            return obj != null;
+            return await Delete(id);
         }
 
         public async Task<IEnumerable<UserCourse>> GetAllUserCourse()
@@ -51,7 +43,6 @@
         public async Task<UserCourse> GetUserCourse(int id)
         {
             return await _context.UserCourses
-                .AsNoTracking()
                 .Include(user => user.User)
                 .Include(course => course.Course)
                 .SingleOrDefaultAsync(x => x.Id == id);
@@ -60,7 +51,6 @@
         public async Task<IEnumerable<UserCourse>> GetUserCourseForUser(int id)
         {
             return await _context.UserCourses
-                .AsNoTracking()
                 .Include(user => user.User)
                 .Include(course => course.Course)
                 .Where(x => x.User.Id == id)
@@ -74,11 +64,7 @@
                 throw new NullReferenceException();
             }
 
-            userCourse.Course = _context.Courses.FirstOrDefault(course => course.Id == userCourse.Course.Id);
-            userCourse.User = _context.Users.FirstOrDefault(user => user.Id == userCourse.User.Id);
-
-            _context.UserCourses.Update(userCourse);
-            await _context.SaveChangesAsync();
+            await Update(userCourse);
 
             return userCourse;
         }

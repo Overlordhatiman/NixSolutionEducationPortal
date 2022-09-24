@@ -15,7 +15,7 @@
 
         public async Task<Materials> AddMaterial(Materials material)
         {
-            Add(material);
+            await Add(material);
 
             return material;
         }
@@ -59,7 +59,7 @@
 
         public async Task<Materials> GetMaterials(int id)
         {
-            return await _context.Materials.Include(m => m.Courses).SingleOrDefaultAsync(x => x.Id == id);
+            return await GetById(id);
         }
     }
 }
