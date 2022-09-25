@@ -15,5 +15,7 @@
         public Task<UserCourseDTO> GetUserCourse(int id);
 
         public Task<IEnumerable<UserCourseDTO>> GetUserCourseForUser(int id);
+
+        public Task<IEnumerable<CourseDTO>> GetUserCourseForUser(UserDTO userDTO);
     }
 }

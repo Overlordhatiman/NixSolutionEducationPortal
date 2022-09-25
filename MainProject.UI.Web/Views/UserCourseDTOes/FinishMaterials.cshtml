@@ -1,0 +1,49 @@
+﻿@model MainProject.BL.DTO.CourseDTO
+@{
+    ViewData["Title"] = "Finish materials";
+    var c = ViewBag.CourseMaterial;
+}
+<dl class="row">
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    @for (int i = 0; i < Model.Materials.Count(); i++)
+    {            
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Materials)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Materials.ToList()[i].Name
+        </dd>
+        @if (c[i] != null)
+        {
+            <dd>
+                <p>Finished!</p>
+            </dd>
+        }
+        else
+        {
+            <form asp-controller="UserCourseDTOes" asp-action="PassMaterial" asp-route-id="@Model.Id">
+                <input type="submit" value="Pass material" />
+            </form>
+        }
+    }
+    @foreach (var skill in Model.Skills)
+    {
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Skills)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => skill.Name)
+        </dd>
+    }
+</dl>

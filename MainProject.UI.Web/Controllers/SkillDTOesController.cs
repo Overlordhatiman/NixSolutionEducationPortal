@@ -50,7 +50,7 @@ namespace MainProject.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                skillService.AddSkill(skillDTO);
+                await skillService.AddSkill(skillDTO);
                 return RedirectToAction(nameof(Index));
             }
             return View(skillDTO);
@@ -91,7 +91,7 @@ namespace MainProject.UI.Web.Controllers
             {
                 try
                 {
-                    skillService.UpdateSkill(skillDTO);
+                    await skillService.UpdateSkill(skillDTO);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,7 +131,7 @@ namespace MainProject.UI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            skillService.DeleteSkill(id);
+            await skillService.DeleteSkill(id);
                         
             return RedirectToAction(nameof(Index));
         }

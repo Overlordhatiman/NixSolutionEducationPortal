@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MainProject.BL.DTO;
-using MainProject.UI.Web.Data;
 using MainProject.BL.Interfaces;
 
 namespace MainProject.UI.Web.Controllers

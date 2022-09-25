@@ -50,7 +50,7 @@ namespace MainProject.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                materialsService.AddMaterial(articleDTO);
+                await materialsService.AddMaterial(articleDTO);
                 return RedirectToAction(nameof(Index));
             }
             return View(articleDTO);
@@ -91,7 +91,7 @@ namespace MainProject.UI.Web.Controllers
             {
                 try
                 {
-                    materialsService.UpdateMaterial(articleDTO);
+                    await materialsService.UpdateMaterial(articleDTO);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,7 +131,7 @@ namespace MainProject.UI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            materialsService.DeleteMaterial(id);
+            await materialsService.DeleteMaterial(id);
             
             return RedirectToAction(nameof(Index));
         }

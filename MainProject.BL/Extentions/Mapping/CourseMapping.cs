@@ -60,6 +60,18 @@
                 return new Course();
             }
 
+            if (course.Id != 0 && unitOfWork != null)
+            {
+                var courseInDB = unitOfWork.CourseRepository.GetCourse(course.Id).Result;
+                courseInDB.Id = course.Id;
+                courseInDB.Description = course.Description;
+                courseInDB.Name = course.Name;
+                courseInDB.Skills = course.Skills.Select(x => x.ToModel(unitOfWork)).ToList();
+                courseInDB.Materials = course.Materials.Select(x => x.ToModel(unitOfWork)).ToList();
+
+                return courseInDB;
+            }
+
             List<Skill> skills = new List<Skill>();
 
             foreach (var skill in course.Skills)
@@ -74,32 +86,23 @@
 
             foreach (var material in course.Materials)
             {
-                if (material is ArticleDTO article)
+                if (material != null)
                 {
-                    materials.Add(ArticleMapping.ToModel(article));
+                    if (material is ArticleDTO article)
+                    {
+                        materials.Add(ArticleMapping.ToModel(article));
+                    }
+
+                    if (material is VideoDTO video)
+                    {
+                        materials.Add(VideoMapping.ToModel(video));
+                    }
+
+                    if (material is BookDTO book)
+                    {
+                        materials.Add(BookMapping.ToModel(book));
+                    }
                 }
-
-                if (material is VideoDTO video)
-                {
-                    materials.Add(VideoMapping.ToModel(video));
-                }
-
-                if (material is BookDTO book)
-                {
-                    materials.Add(BookMapping.ToModel(book));
-                }
-            }
-
-            if (course.Id != 0 && unitOfWork != null)
-            {
-                var courseInDB = unitOfWork.CourseRepository.GetCourse(course.Id).Result;
-                courseInDB.Id = course.Id;
-                courseInDB.Description = course.Description;
-                courseInDB.Name = course.Name;
-                courseInDB.Skills = skills;
-                courseInDB.Materials = materials;
-
-                return courseInDB;
             }
 
             return new Course

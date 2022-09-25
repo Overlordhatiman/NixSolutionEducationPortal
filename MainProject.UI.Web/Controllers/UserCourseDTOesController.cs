@@ -6,35 +6,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MainProject.BL.DTO;
-using MainProject.UI.Web.Data;
+using MainProject.BL.Interfaces;
 
 namespace MainProject.UI.Web.Controllers
 {
     public class UserCourseDTOesController : Controller
     {
-        private readonly MainProjectUIWebContext _context;
+        private readonly IUserCourse userCourseService;
+        private readonly IUserService userService;
+        private readonly ICourseService courseService;
 
-        public UserCourseDTOesController(MainProjectUIWebContext context)
+        public UserCourseDTOesController(IUserCourse service, IUserService userService, ICourseService courseService)
         {
-            _context = context;
+            userCourseService = service;
+            this.userService = userService;
+            this.courseService = courseService;
         }
 
         // GET: UserCourseDTOes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.UserCourseDTO.ToListAsync());
+            var user = await userService.GetUser(User.Identity.Name);
+            return View(await userCourseService.GetUserCourseForUser(user));
         }
 
         // GET: UserCourseDTOes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.UserCourseDTO == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var userCourseDTO = await _context.UserCourseDTO
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userCourseDTO = await userCourseService.GetUserCourse((int)id);
             if (userCourseDTO == null)
             {
                 return NotFound();
@@ -44,123 +48,77 @@ namespace MainProject.UI.Web.Controllers
         }
 
         // GET: UserCourseDTOes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
-            return View();
+            UserCourseDTO userCourseDTO = new UserCourseDTO
+            {
+                Course = await courseService.GetCourse(id),
+                User = await userService.GetUser(User.Identity.Name)
+            };
+            await userCourseService.AddUserCourse(userCourseDTO);
+
+            return RedirectToAction(nameof(StartedCourses));
         }
 
-        // POST: UserCourseDTOes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IsFinished,Percent")] UserCourseDTO userCourseDTO)
+        // GET: UserCourseDTOes/StartedCourses
+        public async Task<IActionResult> StartedCourses()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(userCourseDTO);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userCourseDTO);
-        }
+            var user = await userService.GetUser(User.Identity.Name);
+            var coursesInDb = await courseService.GetAllCourse();
+            var startedCourses = await userCourseService.GetUserCourseForUser(user.Id);
 
-        // GET: UserCourseDTOes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.UserCourseDTO == null)
+            List<CourseDTO> courses = new List<CourseDTO>();
+            foreach (var course in startedCourses)
             {
-                return NotFound();
-            }
-
-            var userCourseDTO = await _context.UserCourseDTO.FindAsync(id);
-            if (userCourseDTO == null)
-            {
-                return NotFound();
-            }
-            return View(userCourseDTO);
-        }
-
-        // POST: UserCourseDTOes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IsFinished,Percent")] UserCourseDTO userCourseDTO)
-        {
-            if (userCourseDTO == null)
-            {
-                return NotFound();
-            }
-
-            if (id != userCourseDTO.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var item = coursesInDb.FirstOrDefault(x => x.Id == course.Course.Id);
+                if (item != null)
                 {
-                    _context.Update(userCourseDTO);
-                    await _context.SaveChangesAsync();
+                    courses.Add(item);
                 }
-                catch (DbUpdateConcurrencyException)
+            }
+
+            return View(courses);
+        }
+
+        public async Task<IActionResult> FinishMaterials(int? id)
+        {
+            CourseDTO course;
+            if (id != null)
+            {
+                course = await courseService.GetCourse((int)id);
+                List<MaterialsDTO> materials = new List<MaterialsDTO>();
+                var user = await userService.GetUser(User.Identity.Name);
+
+                foreach (var material in course.Materials)
                 {
-                    if (!UserCourseDTOExists(userCourseDTO.Id))
+                    if (user.Materials.FirstOrDefault(x => x.Id == material.Id) == null)
                     {
-                        return NotFound();
+                        materials.Add(null);
                     }
                     else
                     {
-                        throw;
+                        materials.Add(material);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                ViewBag.CourseMaterial = materials;
+                return View(course);
             }
-            return View(userCourseDTO);
+
+            return NotFound();
         }
 
-        // GET: UserCourseDTOes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: UserCourseDTOes/PasMaterial/5
+        public async Task<IActionResult> PassMaterial(int? id)
         {
-            if (id == null || _context.UserCourseDTO == null)
+            if (id == null)
             {
                 return NotFound();
             }
+            var user = await userService.GetUser(User.Identity.Name);
+            await userService.FinishMaterial((int)id, user);
 
-            var userCourseDTO = await _context.UserCourseDTO
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userCourseDTO == null)
-            {
-                return NotFound();
-            }
-
-            return View(userCourseDTO);
-        }
-
-        // POST: UserCourseDTOes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.UserCourseDTO == null)
-            {
-                return Problem("Entity set 'MainProjectUIWebContext.UserCourseDTO'  is null.");
-            }
-            var userCourseDTO = await _context.UserCourseDTO.FindAsync(id);
-            if (userCourseDTO != null)
-            {
-                _context.UserCourseDTO.Remove(userCourseDTO);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserCourseDTOExists(int id)
-        {
-          return _context.UserCourseDTO.Any(e => e.Id == id);
+            return RedirectToAction("FinishMaterials", new { id });
         }
     }
 }

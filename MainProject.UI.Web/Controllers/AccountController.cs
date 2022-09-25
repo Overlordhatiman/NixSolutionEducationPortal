@@ -47,6 +47,7 @@ namespace MainProject.UI.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -58,25 +59,17 @@ namespace MainProject.UI.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                UserDTO user = await userService.GetUser(model.Email, model.Password);
-                if (user == null)
-                {
-                    // добавляем пользователя в бд
-                    userService.AddUser(new UserDTO { Mail = model.Email, Password = model.Password });
+                userService.AddUser(new UserDTO { Mail = model.Email, Password = model.Password });
 
-                    await Authenticate(model.Email); // аутентификация
+                await Authenticate(model.Email);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
 
         private async Task Authenticate(string userName)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)

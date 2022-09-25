@@ -17,5 +17,7 @@
         public Task<User> GetUser(int id);
 
         public Task<User> GetUser(string mail, string password);
+
+        public Task<User> GetUser(string mail);
     }
 }

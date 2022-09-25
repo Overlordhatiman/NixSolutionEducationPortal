@@ -33,7 +33,6 @@
         public async Task<IEnumerable<User>> GetAllUser()
         {
            return await _context.Users
-                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
@@ -42,7 +41,7 @@
 
         public async Task<bool> IsValidUser(string mail, string password)
         {
-            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
 
             return user != null;
         }
@@ -62,7 +61,6 @@
         public async Task<User> GetUser(int id)
         {
             return await _context.Users
-                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
@@ -72,11 +70,19 @@
         public async Task<User> GetUser(string mail, string password)
         {
             return await _context.Users
-                .AsNoTracking()
                 .Include(materials => materials.Materials)
                 .Include(userSkill => userSkill.UserSkills)
                 .Include(userCourse => userCourse.UserCourses)
                 .FirstOrDefaultAsync(x => x.Mail == mail && x.Password == password);
+        }
+
+        public async Task<User> GetUser(string mail)
+        {
+            return await _context.Users
+                .Include(materials => materials.Materials)
+                .Include(userSkill => userSkill.UserSkills)
+                .Include(userCourse => userCourse.UserCourses)
+                .FirstOrDefaultAsync(x => x.Mail == mail);
         }
     }
 }

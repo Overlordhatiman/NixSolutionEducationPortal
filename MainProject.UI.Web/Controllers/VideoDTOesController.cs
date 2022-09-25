@@ -6,35 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MainProject.BL.DTO;
-using MainProject.UI.Web.Data;
+using MainProject.BL.Interfaces;
 
 namespace MainProject.UI.Web.Controllers
 {
     public class VideoDTOesController : Controller
     {
-        private readonly MainProjectUIWebContext _context;
+        private readonly IMaterialsService materialsService;
 
-        public VideoDTOesController(MainProjectUIWebContext context)
+        public VideoDTOesController(IMaterialsService service)
         {
-            _context = context;
+            materialsService = service;
         }
 
         // GET: VideoDTOes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.VideoDTO.ToListAsync());
+            return View((await materialsService.GetAllVideo()));
         }
 
         // GET: VideoDTOes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.VideoDTO == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var videoDTO = await _context.VideoDTO
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var videoDTO = await materialsService.GetMaterials((int)id);
             if (videoDTO == null)
             {
                 return NotFound();
@@ -50,16 +49,13 @@ namespace MainProject.UI.Web.Controllers
         }
 
         // POST: VideoDTOes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Time,Quality,Id,Name")] VideoDTO videoDTO)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(videoDTO);
-                await _context.SaveChangesAsync();
+                await materialsService.AddMaterial(videoDTO);
                 return RedirectToAction(nameof(Index));
             }
             return View(videoDTO);
@@ -68,12 +64,12 @@ namespace MainProject.UI.Web.Controllers
         // GET: VideoDTOes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.VideoDTO == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var videoDTO = await _context.VideoDTO.FindAsync(id);
+            var videoDTO = await materialsService.GetMaterials((int)id);
             if (videoDTO == null)
             {
                 return NotFound();
@@ -82,8 +78,6 @@ namespace MainProject.UI.Web.Controllers
         }
 
         // POST: VideoDTOes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Time,Quality,Id,Name")] VideoDTO videoDTO)
@@ -102,8 +96,7 @@ namespace MainProject.UI.Web.Controllers
             {
                 try
                 {
-                    _context.Update(videoDTO);
-                    await _context.SaveChangesAsync();
+                    await materialsService.UpdateMaterial(videoDTO);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,13 +117,12 @@ namespace MainProject.UI.Web.Controllers
         // GET: VideoDTOes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.VideoDTO == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var videoDTO = await _context.VideoDTO
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var videoDTO = await materialsService.GetMaterials((int)id);
             if (videoDTO == null)
             {
                 return NotFound();
@@ -144,23 +136,13 @@ namespace MainProject.UI.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.VideoDTO == null)
-            {
-                return Problem("Entity set 'MainProjectUIWebContext.VideoDTO'  is null.");
-            }
-            var videoDTO = await _context.VideoDTO.FindAsync(id);
-            if (videoDTO != null)
-            {
-                _context.VideoDTO.Remove(videoDTO);
-            }
-            
-            await _context.SaveChangesAsync();
+            await materialsService.DeleteMaterial(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool VideoDTOExists(int id)
         {
-          return _context.VideoDTO.Any(e => e.Id == id);
+          return materialsService.GetMaterials(id) == null;
         }
     }
 }

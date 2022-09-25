@@ -29,4 +29,8 @@
     <ProjectReference Include="..\MainProject.BL\MainProject.BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

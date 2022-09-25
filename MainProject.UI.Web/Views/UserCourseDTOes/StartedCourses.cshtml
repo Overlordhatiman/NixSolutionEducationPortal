@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<MainProject.BL.DTO.CourseDTO>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Started courses";
 }
 
-<h1>Index</h1>
+<h1>Started courses</h1>
+
 
 <table class="table">
     <thead>
@@ -37,6 +38,7 @@
             @foreach (var material in item.Materials)
             {
                 @Html.DisplayFor(modelItem => material.Name)<br/>
+
             }
         </td>
         <td>
@@ -46,9 +48,7 @@
         }
         </td>
         <td>
-            <p>
-                <a asp-action="Create" asp-route-id="@item.Id">Start course</a>
-            </p>
+            <a asp-action="FinishMaterials" asp-route-id="@item.Id">Finish materials</a>
         </td>
     </tr>
 }

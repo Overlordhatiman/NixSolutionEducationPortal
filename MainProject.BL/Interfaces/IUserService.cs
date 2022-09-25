@@ -14,8 +14,12 @@
 
         public Task<bool> IsValidUser(string mail, string password);
 
+        public Task FinishMaterial(int id, UserDTO userDTO);
+
         public Task<UserDTO> GetUser(int id);
 
         public Task<UserDTO> GetUser(string mail, string password);
+
+        public Task<UserDTO> GetUser(string mail);
     }
 }

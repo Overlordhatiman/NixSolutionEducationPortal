@@ -4,6 +4,7 @@ using MainProject.DAL.Repositories.DbRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainProject.DAL.Migrations
 {
     [DbContext(typeof(EducationPortalContext))]
-    partial class EducationPortalContextModelSnapshot : ModelSnapshot
+    [Migration("20220925160536_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +88,12 @@ namespace MainProject.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Materials", (string)null);
 
@@ -183,21 +190,6 @@ namespace MainProject.DAL.Migrations
                     b.ToTable("UserSkills", (string)null);
                 });
 
-            modelBuilder.Entity("MaterialsUser", b =>
-                {
-                    b.Property<int>("MaterialsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaterialsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("MaterialsUser");
-                });
-
             modelBuilder.Entity("MainProject.DAL.Models.ArticleMaterial", b =>
                 {
                     b.HasBaseType("MainProject.DAL.Models.Materials");
@@ -274,6 +266,13 @@ namespace MainProject.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MainProject.DAL.Models.Materials", b =>
+                {
+                    b.HasOne("MainProject.DAL.Models.User", null)
+                        .WithMany("Materials")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("MainProject.DAL.Models.UserCourse", b =>
                 {
                     b.HasOne("MainProject.DAL.Models.Course", "Course")
@@ -304,21 +303,6 @@ namespace MainProject.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MaterialsUser", b =>
-                {
-                    b.HasOne("MainProject.DAL.Models.Materials", null)
-                        .WithMany()
-                        .HasForeignKey("MaterialsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MainProject.DAL.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MainProject.DAL.Models.Course", b =>
                 {
                     b.Navigation("UserCourses");
@@ -331,6 +315,8 @@ namespace MainProject.DAL.Migrations
 
             modelBuilder.Entity("MainProject.DAL.Models.User", b =>
                 {
+                    b.Navigation("Materials");
+
                     b.Navigation("UserCourses");
 
                     b.Navigation("UserSkills");

@@ -39,7 +39,6 @@
         public async Task<TEntity> GetById(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            _context.Entry(entity).State = EntityState.Detached;
 
             return entity;
         }

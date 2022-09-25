@@ -4,6 +4,7 @@
     using MainProject.BL.Extentions.Mapping;
     using MainProject.BL.Interfaces;
     using MainProject.DAL.Interfaces;
+    using MainProject.DAL.Models;
 
     public class UserService : IUserService
     {
@@ -19,6 +20,17 @@
             await _unitOfWork.UserRepository.AddUser(user.ToModel(_unitOfWork));
 
             return user;
+        }
+
+        public async Task FinishMaterial(int id, UserDTO userDTO)
+        {
+            if (userDTO != null)
+            {
+                Materials material = await _unitOfWork.MaterialsRepository.GetMaterials(id);
+                User user = await _unitOfWork.UserRepository.GetUser(userDTO.Id);
+                user.Materials.Add(material);
+                await _unitOfWork.UserRepository.UpdateUser(user);
+            }
         }
 
         public async Task<bool> DeleteUser(int id)
@@ -53,6 +65,11 @@
         public async Task<UserDTO> GetUser(string mail, string password)
         {
             return UserMapping.ToDTO(await _unitOfWork.UserRepository.GetUser(mail, password));
+        }
+
+        public async Task<UserDTO> GetUser(string mail)
+        {
+            return UserMapping.ToDTO(await _unitOfWork.UserRepository.GetUser(mail));
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MainProject.UI.Web.Data;
 using MainProject.BL.Extentions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 

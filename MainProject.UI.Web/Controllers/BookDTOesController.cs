@@ -50,7 +50,7 @@
         {
             if (ModelState.IsValid)
             {
-                materialsService.AddMaterial(bookDTO);
+                await materialsService.AddMaterial(bookDTO);
                 return RedirectToAction(nameof(Index));
             }
             return View(bookDTO);
@@ -91,7 +91,7 @@
             {
                 try
                 {
-                    materialsService.UpdateMaterial(bookDTO);
+                    await materialsService.UpdateMaterial(bookDTO);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
