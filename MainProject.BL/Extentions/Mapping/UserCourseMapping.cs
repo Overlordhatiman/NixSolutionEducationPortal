@@ -29,13 +29,25 @@
                 return new UserCourse();
             }
 
-            return new UserCourse
+            if (userCourse.Id != 0 && unitOfWork != null)
             {
-                Id = userCourse.Id,
-                IsFinished = userCourse.IsFinished,
-                Percent = userCourse.Percent,
-                Course = userCourse.Course.ToModel(unitOfWork),
-            };
+                UserCourse course = unitOfWork.UserCoursesRepository.GetUserCourse(userCourse.Id).Result;
+                course.IsFinished = userCourse.IsFinished;
+                course.Percent = userCourse.Percent;
+                course.Course = userCourse.Course.ToModel(unitOfWork);
+
+                return course;
+            }
+            else
+            {
+                return new UserCourse
+                {
+                    Id = userCourse.Id,
+                    IsFinished = userCourse.IsFinished,
+                    Percent = userCourse.Percent,
+                    Course = userCourse.Course.ToModel(unitOfWork),
+                };
+            }
         }
     }
 }

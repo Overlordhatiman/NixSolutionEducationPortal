@@ -10,6 +10,8 @@
 
         public Task<IEnumerable<UserCourseDTO>> GetAllUserCourse();
 
+        public Task FinishMaterial(int id, UserDTO userDTO);
+
         public Task<bool> DeleteUserCourse(int id);
 
         public Task<UserCourseDTO> GetUserCourse(int id);

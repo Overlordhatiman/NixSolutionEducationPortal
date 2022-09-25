@@ -1,0 +1,37 @@
+﻿@model MainProject.BL.DTO.UserDTO
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Profile</h1>
+
+<dl class="row">
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Mail)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Mail)
+    </dd>
+    <h2>Materials</h2>
+    @foreach (var material in Model.Materials)
+    {
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => material.Name)
+        </dt>        
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => material.Name)
+        </dd>
+    }
+    
+    <h2>Skills</h2>
+    @foreach (var material in Model.UserSkills)
+    {
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => material.Skill.Name)
+        </dt>        
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => material.LevelOfSkill)
+        </dd>
+    }
+</dl>

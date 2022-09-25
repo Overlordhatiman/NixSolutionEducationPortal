@@ -90,17 +90,17 @@
                 {
                     if (material is ArticleDTO article)
                     {
-                        materials.Add(ArticleMapping.ToModel(article));
+                        materials.Add(ArticleMapping.ToModel(article, unitOfWork));
                     }
 
                     if (material is VideoDTO video)
                     {
-                        materials.Add(VideoMapping.ToModel(video));
+                        materials.Add(VideoMapping.ToModel(video, unitOfWork));
                     }
 
                     if (material is BookDTO book)
                     {
-                        materials.Add(BookMapping.ToModel(book));
+                        materials.Add(BookMapping.ToModel(book, unitOfWork));
                     }
                 }
             }

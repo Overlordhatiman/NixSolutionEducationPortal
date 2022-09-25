@@ -22,17 +22,6 @@
             return user;
         }
 
-        public async Task FinishMaterial(int id, UserDTO userDTO)
-        {
-            if (userDTO != null)
-            {
-                Materials material = await _unitOfWork.MaterialsRepository.GetMaterials(id);
-                User user = await _unitOfWork.UserRepository.GetUser(userDTO.Id);
-                user.Materials.Add(material);
-                await _unitOfWork.UserRepository.UpdateUser(user);
-            }
-        }
-
         public async Task<bool> DeleteUser(int id)
         {
             var result = await _unitOfWork.UserRepository.DeleteUser(id);

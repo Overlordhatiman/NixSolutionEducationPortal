@@ -86,22 +86,22 @@ namespace MainProject.UI.Web.Controllers
             if (id != null)
             {
                 course = await courseService.GetCourse((int)id);
-                List<MaterialsDTO> materials = new List<MaterialsDTO>();
+                List<bool> materials = new List<bool>();
                 var user = await userService.GetUser(User.Identity.Name);
 
                 foreach (var material in course.Materials)
                 {
-                    if (user.Materials.FirstOrDefault(x => x.Id == material.Id) == null)
+                    if (user.Materials.Where(m => m.Id == material.Id).Count() == 0)
                     {
-                        materials.Add(null);
+                        materials.Add(false);
                     }
                     else
                     {
-                        materials.Add(material);
+                        materials.Add(true);
                     }
                 }
 
-                ViewBag.CourseMaterial = materials;
+                ViewBag.Materials = materials;
                 return View(course);
             }
 
@@ -116,9 +116,9 @@ namespace MainProject.UI.Web.Controllers
                 return NotFound();
             }
             var user = await userService.GetUser(User.Identity.Name);
-            await userService.FinishMaterial((int)id, user);
+            await userCourseService.FinishMaterial((int)id, user);
 
-            return RedirectToAction("FinishMaterials", new { id });
+            return RedirectToAction("StartedCourses");
         }
     }
 }

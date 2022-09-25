@@ -59,7 +59,7 @@ namespace MainProject.UI.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                userService.AddUser(new UserDTO { Mail = model.Email, Password = model.Password });
+                await userService.AddUser(new UserDTO { Mail = model.Email, Password = model.Password });
 
                 await Authenticate(model.Email);
 
@@ -78,6 +78,13 @@ namespace MainProject.UI.Web.Controllers
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        public async Task<IActionResult> Profile()
+        {
+            var user = await userService.GetUser(User.Identity.Name);
+
+            return View(user);
         }
 
         public async Task<IActionResult> Logout()

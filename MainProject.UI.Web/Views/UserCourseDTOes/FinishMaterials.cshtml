@@ -24,7 +24,7 @@
         <dd class="col-sm-10">
             @Model.Materials.ToList()[i].Name
         </dd>
-        @if (c[i] != null)
+        @if (ViewBag.Materials[i])
         {
             <dd>
                 <p>Finished!</p>
@@ -32,7 +32,7 @@
         }
         else
         {
-            <form asp-controller="UserCourseDTOes" asp-action="PassMaterial" asp-route-id="@Model.Id">
+            <form asp-controller="UserCourseDTOes" asp-action="PassMaterial" asp-route-id="@Model.Materials.ToList()[i].Id">
                 <input type="submit" value="Pass material" />
             </form>
         }
