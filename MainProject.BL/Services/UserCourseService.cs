@@ -118,26 +118,25 @@
             var course = await _unitOfWork.CourseRepository.GetCourse(courseId);
             foreach (var skill in course.Skills)
             {
-                UserSkill userSkill;
-                if (userSkills.Where(userSkill => userSkill.Skill.Id == skill.Id).Count() == 0)
+                var userSkill = user.UserSkills.FirstOrDefault(x => x.Skill.Id == skill.Id);
+                if (userSkill != null)
                 {
-                    userSkill = new UserSkill
-                    {
-                        LevelOfSkill = 0,
-                        Skill = skill
-                    };
-                    user.UserSkills.Add(userSkill);
-                }
-
-                if (userSkills.Where(userSkill => userSkill.Skill.Id == skill.Id).Count() == 1)
-                {
-                    userSkill = userSkills.FirstOrDefault(userSkill => userSkill.Skill.Id == skill.Id);
                     userSkill.LevelOfSkill++;
-                    user.UserSkills.Add(userSkill);
                 }
-            }
+                else
+                {
+                    var userAddedSkill = new UserSkill
+                    {
+                        User = user,
+                        Skill = skill,
+                        LevelOfSkill = 0
+                    };
 
-            await _unitOfWork.UserRepository.UpdateUser(user);
+                    user.UserSkills.Add(userAddedSkill);
+                }
+
+                await _unitOfWork.UserRepository.UpdateUser(user);
+            }
         }
 
         private async Task UpdateUserCourses(int userId)
@@ -149,7 +148,6 @@
                 int percent = await GetPercent(userCourse.Course.Id, user.Id);
                 userCourse.Percent = percent;
                 userCourse.IsFinished = percent == 100;
-                //await _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse);
 
                 if (percent == 100)
                 {
