@@ -19,5 +19,7 @@
         public Task<IEnumerable<UserCourseDTO>> GetUserCourseForUser(int id);
 
         public Task<IEnumerable<CourseDTO>> GetUserCourseForUser(UserDTO userDTO);
+
+        public Task CheckSkills(int courseId, int userId);
     }
 }

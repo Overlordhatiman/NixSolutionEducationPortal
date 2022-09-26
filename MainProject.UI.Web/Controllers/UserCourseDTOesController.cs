@@ -56,6 +56,7 @@ namespace MainProject.UI.Web.Controllers
                 User = await userService.GetUser(User.Identity.Name)
             };
             await userCourseService.AddUserCourse(userCourseDTO);
+            await userCourseService.CheckSkills(userCourseDTO.Course.Id, userCourseDTO.User.Id);
 
             return RedirectToAction(nameof(StartedCourses));
         }

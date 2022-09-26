@@ -111,6 +111,15 @@
             return userCourse;
         }
 
+        public async Task CheckSkills(int courseId, int userId)
+        {
+            int percent = await GetPercent(courseId, userId);
+            if (percent == 100)
+            {
+                await UpdateSkills(userId, courseId);
+            }
+        }
+
         private async Task UpdateSkills(int userId, int courseId)
         {
             var userSkills = (await _unitOfWork.UserSkillsRepository.GetAllUserSkill()).Where(user => user.User.Id == userId);
