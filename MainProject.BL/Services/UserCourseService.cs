@@ -119,21 +119,22 @@
             foreach (var skill in course.Skills)
             {
                 UserSkill userSkill;
-                if (userSkills.FirstOrDefault(userSkill => userSkill.Skill.Id == skill.Id) == null)
+                if (userSkills.Where(userSkill => userSkill.Skill.Id == skill.Id).Count() == 0)
                 {
                     userSkill = new UserSkill
                     {
                         LevelOfSkill = 0,
                         Skill = skill
                     };
+                    user.UserSkills.Add(userSkill);
                 }
-                else
+
+                if (userSkills.Where(userSkill => userSkill.Skill.Id == skill.Id).Count() == 1)
                 {
                     userSkill = userSkills.FirstOrDefault(userSkill => userSkill.Skill.Id == skill.Id);
                     userSkill.LevelOfSkill++;
+                    user.UserSkills.Add(userSkill);
                 }
-
-                user.UserSkills.Add(userSkill);
             }
 
             await _unitOfWork.UserRepository.UpdateUser(user);

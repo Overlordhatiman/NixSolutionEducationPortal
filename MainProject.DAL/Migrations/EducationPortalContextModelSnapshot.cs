@@ -154,7 +154,7 @@ namespace MainProject.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserCourses", (string)null);
+                    b.ToTable("UserCourse", (string)null);
                 });
 
             modelBuilder.Entity("MainProject.DAL.Models.UserSkill", b =>
