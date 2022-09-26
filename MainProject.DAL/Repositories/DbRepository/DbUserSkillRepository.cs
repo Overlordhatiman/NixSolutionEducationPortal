@@ -31,7 +31,6 @@
             return await _context.UserSkills
                             .Include(user => user.User)
                             .Include(skill => skill.Skill)
-                            .AsNoTracking()
                             .ToListAsync();
         }
 
@@ -40,7 +39,6 @@
             return await _context.UserSkills
                             .Include(user => user.User)
                             .Include(skill => skill.Skill)
-                            .AsNoTracking()
                             .SingleOrDefaultAsync(x => x.Id == id);
         }
 

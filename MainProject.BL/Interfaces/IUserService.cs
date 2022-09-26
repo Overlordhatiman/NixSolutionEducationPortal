@@ -10,6 +10,8 @@
 
         public Task<IEnumerable<UserDTO>> GetAllUser();
 
+        public Task<IEnumerable<UserSkillDTO>> GetSkills(int id);
+
         public Task<bool> DeleteUser(int id);
 
         public Task<bool> IsValidUser(string mail, string password);

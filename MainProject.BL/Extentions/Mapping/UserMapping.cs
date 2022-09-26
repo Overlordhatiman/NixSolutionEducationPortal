@@ -56,7 +56,7 @@
 
             foreach (var userSkill in user.UserSkills)
             {
-                userSkills.Add(userSkill.ToModel());
+                userSkills.Add(userSkill.ToModel(unitOfWork));
             }
 
             foreach (var material in user.Materials)

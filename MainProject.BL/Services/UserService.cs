@@ -60,5 +60,10 @@
         {
             return UserMapping.ToDTO(await _unitOfWork.UserRepository.GetUser(mail));
         }
+
+        public async Task<IEnumerable<UserSkillDTO>> GetSkills(int id)
+        {
+            return (await _unitOfWork.UserSkillsRepository.GetAllUserSkill()).Where(x => x.User.Id == id).Select(x => x.ToDTO());
+        }
     }
 }

@@ -25,13 +25,16 @@
     }
     
     <h2>Skills</h2>
-    @foreach (var material in Model.UserSkills)
+    @foreach (var skill in ViewBag.Skills)
     {
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => material.Skill.Name)
-        </dt>        
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => material.LevelOfSkill)
+            @Html.Raw("Skill Name")
+        </dt>   
+        <dt class = "col-sm-2">
+            @Html.Raw(skill.Item2)
+        </dt>      
+        <dd class = "col-sm-2">
+            @Html.Raw(skill.Item1)
         </dd>
     }
 </dl>

@@ -17,7 +17,7 @@
 
         public async Task<UserSkillDTO> AddUserSkill(UserSkillDTO userSkill)
         {
-            await _unitOfWork.UserSkillsRepository.AddUserSkill(userSkill.ToModel());
+            await _unitOfWork.UserSkillsRepository.AddUserSkill(userSkill.ToModel(_unitOfWork));
 
             return userSkill;
         }
@@ -41,7 +41,7 @@
 
         public async Task<UserSkillDTO> UpdateUserSkill(UserSkillDTO userSkill)
         {
-            await _unitOfWork.UserSkillsRepository.UpdateUserSkill(userSkill.ToModel());
+            await _unitOfWork.UserSkillsRepository.UpdateUserSkill(userSkill.ToModel(_unitOfWork));
 
             return userSkill;
         }

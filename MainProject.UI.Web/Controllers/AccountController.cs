@@ -83,6 +83,13 @@ namespace MainProject.UI.Web.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await userService.GetUser(User.Identity.Name);
+            var userSkills = await userService.GetSkills(user.Id);
+            List<Tuple<int, string>> values = new List<Tuple<int, string>>();
+            foreach (var item in userSkills)
+            {
+                values.Add(new Tuple<int, string>(item.LevelOfSkill, item.Skill.Name));
+            }
+            ViewBag.Skills = values;
 
             return View(user);
         }

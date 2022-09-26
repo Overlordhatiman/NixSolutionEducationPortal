@@ -49,7 +49,7 @@
                 return userCourse;
             }
 
-            int percent = GetPercent(userCourse.Course, userCourse.User);
+            int percent = await GetPercent(userCourse.Course.Id, userCourse.User.Id);
 
             User user = await _unitOfWork.UserRepository.GetUser(userCourse.User.Id);
             UserCourse course = new UserCourse
@@ -78,7 +78,7 @@
                 User user = await _unitOfWork.UserRepository.GetUser(userDTO.Id);
                 user.Materials.Add(material);
                 await _unitOfWork.UserRepository.UpdateUser(user);
-                await UpdateUserCourses(user);
+                await UpdateUserCourses(user.Id);
             }
         }
 
@@ -111,9 +111,11 @@
             return userCourse;
         }
 
-        private async Task UpdateSkills(User user, Course course)
+        private async Task UpdateSkills(int userId, int courseId)
         {
-            var userSkills = (await _unitOfWork.UserSkillsRepository.GetAllUserSkill()).Where(user => user.User.Id == user.Id);
+            var userSkills = (await _unitOfWork.UserSkillsRepository.GetAllUserSkill()).Where(user => user.User.Id == userId);
+            var user = await _unitOfWork.UserRepository.GetUser(userId);
+            var course = await _unitOfWork.CourseRepository.GetCourse(courseId);
             foreach (var skill in course.Skills)
             {
                 UserSkill userSkill;
@@ -134,63 +136,61 @@
                 user.UserSkills.Add(userSkill);
             }
 
-            if (user != null)
-            {
-                await _unitOfWork.UserRepository.UpdateUser(user);
-            }
+            await _unitOfWork.UserRepository.UpdateUser(user);
         }
 
-        private async Task UpdateUserCourses(User user)
+        private async Task UpdateUserCourses(int userId)
         {
-            var allCourses = (await _unitOfWork.UserCoursesRepository.GetAllUserCourse()).Where(user => user.User.Id == user.Id);
+            var user = (await _unitOfWork.UserRepository.GetUser(userId));
+            var allCourses = (await _unitOfWork.UserCoursesRepository.GetAllUserCourse()).Where(user => user.User.Id == userId);
             foreach (var userCourse in allCourses)
             {
-                var course = (await _unitOfWork.CourseRepository.GetCourse(userCourse.Course.Id)).ToDTO();
-                int percent = GetPercent(course, user.ToDTO());
+                int percent = await GetPercent(userCourse.Course.Id, user.Id);
                 userCourse.Percent = percent;
                 userCourse.IsFinished = percent == 100;
-                await UpdateUserCourse(userCourse.ToDTO());
+                //await _unitOfWork.UserCoursesRepository.UpdateUserCourse(userCourse);
 
-                if (userCourse.IsFinished)
+                if (percent == 100)
                 {
-                    var newCourse = (await _unitOfWork.CourseRepository.GetCourse(userCourse.Course.Id));
-                    var newUser = (await _unitOfWork.UserRepository.GetUser(user.Id));
-                    await UpdateSkills(newUser, newCourse);
+                    await UpdateSkills(user.Id, userCourse.Course.Id);
                 }
             }
         }
 
-        private int GetPercent(CourseDTO courseDTO, UserDTO user)
+        private async Task<int> GetPercent(int courseId, int userId)
         {
             int result = 0;
-            if (courseDTO == null || user == null)
+            if (courseId == null || userId == null)
             {
                 return result;
             }
 
+            var courses = await _unitOfWork.CourseRepository.GetCourse(courseId);
+            var users = await _unitOfWork.UserRepository.GetUser(userId);
+
             int def = 1;
-            double percentForOneMaterial;
-            if (courseDTO.Materials.Count() == 0)
+            int percentForOneMaterial;
+            if (courses.Materials.Count() == 0)
             {
-                percentForOneMaterial = (double)100 / def;
+                percentForOneMaterial = (int)Math.Ceiling((decimal)100 / def);
             }
             else
             {
-                percentForOneMaterial = (double)100 / courseDTO.Materials.Count();
+                percentForOneMaterial = (int)Math.Ceiling((decimal)100 / courses.Materials.Count());
             }
 
-            foreach (var course in courseDTO.Materials)
+            foreach (var course in courses.Materials)
             {
-                foreach (var material in user.Materials)
+                foreach (var material in users.Materials)
                 {
                     if (course.Id == material.Id)
                     {
-                        result += (int)percentForOneMaterial;
+                        result += percentForOneMaterial;
                     }
                 }
             }
 
-            return result;
+            return result > 100 ? 100 : result;
         }
     }
 }

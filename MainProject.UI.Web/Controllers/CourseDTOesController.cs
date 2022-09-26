@@ -88,6 +88,12 @@ namespace MainProject.UI.Web.Controllers
                 return NotFound();
             }
 
+            var materials = await materialsService.GetAllMaterial();
+            ViewBag.MaterialsId = new SelectList(materials, "Id", "Name");
+
+            var skills = await skillService.GetAllSkill();
+            ViewBag.SkillsId = new SelectList(skills, "Id", "Name");
+
             var courseDTO = await courseService.GetCourse((int)id);
             if (courseDTO == null)
             {
@@ -99,7 +105,7 @@ namespace MainProject.UI.Web.Controllers
         // POST: CourseDTOes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] CourseDTO courseDTO)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,MaterialsId,SkillsId")] CourseDTO courseDTO)
         {
             if (courseDTO == null)
             {
@@ -115,7 +121,7 @@ namespace MainProject.UI.Web.Controllers
             {
                 try
                 {
-                    courseService.UpdateCourse(courseDTO);
+                   await courseService.UpdateCourse(courseDTO);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
