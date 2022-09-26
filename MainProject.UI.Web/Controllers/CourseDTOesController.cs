@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MainProject.BL.DTO;
-using MainProject.BL.Interfaces;
-
-namespace MainProject.UI.Web.Controllers
+﻿namespace MainProject.UI.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using MainProject.BL.DTO;
+    using MainProject.BL.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+
+    [Authorize]
     public class CourseDTOesController : Controller
     {
         private readonly ICourseService courseService;

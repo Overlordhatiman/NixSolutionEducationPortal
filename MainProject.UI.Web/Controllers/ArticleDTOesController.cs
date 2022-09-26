@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using MainProject.BL.DTO;
 using MainProject.BL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainProject.UI.Web.Controllers
 {
+    [Authorize]
     public class ArticleDTOesController : Controller
     {
         private readonly IMaterialsService materialsService;

@@ -4,7 +4,9 @@
     using Microsoft.EntityFrameworkCore;
     using MainProject.BL.DTO;
     using MainProject.BL.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     public class BookDTOesController : Controller
     {
         private readonly IMaterialsService materialsService;

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MainProject.BL.DTO;
-using MainProject.BL.Interfaces;
-
-namespace MainProject.UI.Web.Controllers
+﻿namespace MainProject.UI.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using MainProject.BL.DTO;
+    using MainProject.BL.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+
+    [Authorize]
     public class SkillDTOesController : Controller
     {
         private readonly ISkillService skillService;
