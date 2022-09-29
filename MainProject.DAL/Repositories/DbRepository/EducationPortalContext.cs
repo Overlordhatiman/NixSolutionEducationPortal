@@ -3,9 +3,14 @@
     using MainProject.DAL.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
+    using System.Reflection;
 
     public class EducationPortalContext : DbContext
     {
+        public EducationPortalContext(DbContextOptions<EducationPortalContext> options) : base(options)
+        {
+        }
+
         public DbSet<Materials>? Materials { get; set; }
 
         public DbSet<Skill>? Skills { get; set; }
@@ -18,23 +23,23 @@
 
         public DbSet<UserCourse>? UserCourses { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (optionsBuilder == null)
-            {
-                return;
-            }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (optionsBuilder == null)
+        //    {
+        //        return;
+        //    }
 
-            if (!optionsBuilder.IsConfigured)
-            {
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: false);
-                IConfiguration config = builder.Build();
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        var builder = new ConfigurationBuilder()
+        //            .SetBasePath(Directory.GetCurrentDirectory())
+        //            .AddJsonFile("appsettings.json", optional: false);
+        //        IConfiguration config = builder.Build();
 
-                optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        //        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +47,8 @@
             {
                 return;
             }
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.Entity<Materials>().ToTable("Materials").HasDiscriminator("Discriminator", typeof(string));
             modelBuilder.Entity<ArticleMaterial>();

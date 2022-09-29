@@ -2,6 +2,8 @@
 {
     using MainProject.BL.Interfaces;
     using MainProject.BL.Services;
+    using MainProject.DAL.Interfaces;
+    using MainProject.DAL.Repositories.DbRepository;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +18,8 @@
             services.AddScoped<IUserCourse, UserCourseService>();
             services.AddScoped<IUserSkill, UserSkillService>();
 
-            MainProject.DAL.Repositories.Registrator.Register(services);
+            //services.AddDbContext<EducationPortalContext>();
+            services.AddScoped<IUnitOfWork, DbUnitOfWork>();
         }
     }
 }

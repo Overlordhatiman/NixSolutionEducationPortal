@@ -2,11 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using MainProject.BL.Extentions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MainProject.DAL.Repositories.DbRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<EducationPortalContext>(options => options.UseSqlServer(connection));
 builder.Services.AddServices();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
