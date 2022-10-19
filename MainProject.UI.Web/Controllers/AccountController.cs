@@ -3,6 +3,7 @@ using MainProject.BL.Interfaces;
 using MainProject.UI.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -80,6 +81,7 @@ namespace MainProject.UI.Web.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
+        [Authorize]
         public async Task<IActionResult> Profile()
         {
             var user = await userService.GetUser(User.Identity.Name);

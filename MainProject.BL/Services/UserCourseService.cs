@@ -151,7 +151,7 @@
         private async Task UpdateUserCourses(int userId)
         {
             var user = (await _unitOfWork.UserRepository.GetUser(userId));
-            var allCourses = (await _unitOfWork.UserCoursesRepository.GetAllUserCourse()).Where(user => user.User.Id == userId);
+            var allCourses = (await _unitOfWork.UserCoursesRepository.GetAllUserCourse()).Where(user => user.User.Id == userId && user.Percent != 100);
             foreach (var userCourse in allCourses)
             {
                 int percent = await GetPercent(userCourse.Course.Id, user.Id);

@@ -23,24 +23,6 @@
 
         public DbSet<UserCourse>? UserCourses { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (optionsBuilder == null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        var builder = new ConfigurationBuilder()
-        //            .SetBasePath(Directory.GetCurrentDirectory())
-        //            .AddJsonFile("appsettings.json", optional: false);
-        //        IConfiguration config = builder.Build();
-
-        //        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-        //    }
-        //}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder == null)
